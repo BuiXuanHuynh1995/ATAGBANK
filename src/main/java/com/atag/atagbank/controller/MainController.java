@@ -10,8 +10,8 @@ public class MainController {
         return "index";
     }
 
-    @GetMapping("/personal")
-    public String getPersonalIndex(){
-        return "personal/index";
+    @GetMapping("/personal-profile")
+    public String getPersonalProfile(){
+        return "personal/confirmOTP";
     }
 }

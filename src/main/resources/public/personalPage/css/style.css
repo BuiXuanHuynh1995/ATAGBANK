@@ -8189,13 +8189,14 @@ h1, h2, h3, h4, h5,
   background-position: center center; }
 
 .navbar {
-  padding: 15px 10px;
-  background: #fff;
+  /*padding: 15px 10px;*/
+  background: #fdd49a;
   border: none;
   border-radius: 0;
   margin-bottom: 40px;
   -webkit-box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
-  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1); }
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);}
+
 
 .navbar-btn {
   -webkit-box-shadow: none;
@@ -8213,7 +8214,7 @@ h1, h2, h3, h4, h5,
   width: 100%; }
 
 #sidebar {
-  min-width: 400px;
+  min-width: 300px;
   max-width: 400px;
   background: black;
   color: #fff;

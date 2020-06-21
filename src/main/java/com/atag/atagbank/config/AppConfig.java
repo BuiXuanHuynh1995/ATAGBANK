@@ -32,5 +32,7 @@ public class AppConfig extends WebMvcConfigurerAdapter implements ApplicationCon
         registry.addResourceHandler("/personal/js/**").addResourceLocations("classpath:/public/personalPage/js/");
         registry.addResourceHandler("/personal/images/**").addResourceLocations("classpath:/public/personalPage/images/");
         registry.addResourceHandler("/personal/scss/**").addResourceLocations("classpath:/public/personalPage/scss/");
+        registry.addResourceHandler("/login/css/**").addResourceLocations("classpath:/public/login/css/");
+        registry.addResourceHandler("/login/js/**").addResourceLocations("classpath:/public/login/js/");
     }
 }
