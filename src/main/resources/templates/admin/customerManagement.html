@@ -11,9 +11,7 @@
     <link rel="stylesheet" th:href="@{personal/css/style.css}">
 </head>
 <body>
-
 <div class="wrapper d-flex align-items-stretch">
-    <div th:fragment="managementHeadNav">
         <nav id="sidebar" style="background: black; border-top: 2px black solid">
             <div class="p-4 pt-5">
                 <a href="#" class="img logo rounded-0 mb-5"
@@ -47,11 +45,9 @@
 
             </div>
         </nav>
-    </div>
 
     <!-- Page Content  -->
     <div id="content" class="p-4 p-md-5">
-        <div th:fragment="managementBodyNav">
             <nav class="navbar navbar-expand-lg navbar-light bg-light"
                  style="position: absolute; top: 10px; width: 1300px; border: rgba(0,0,0,0.2) 1px solid;">
                 <div class="container-fluid">
@@ -77,7 +73,7 @@
                     </div>
                 </div>
             </nav>
-        </div>
+
         <div id="profile" style="padding-top: 50px;">
             <h2 class="mb-4 color-black-opacity-5">Customer List</h2>
             <div>
@@ -104,11 +100,10 @@
                         <td><input style="border: 1px lightgray solid" type="text"></td>
                         <td><input style="border: 1px lightgray solid" type="text"></td>
                         <td><input style="border: 1px lightgray solid" type="text"></td>
-                        <td><a href="" id="customerStatus">Activated</a></td>
+                        <td><a href="" id="customerStatus">Activated</a></td><!-- ấn vào trạng thái, json setHTML của status lại sang deactivated -->
                         <td><a href=""><i class="fa fa-edit" style="font-size: 20px; color: #1c7430"></i></a></td>
                         <td><a href=""><i class="fa fa-cut" style="font-size: 20px; color: red"></i></a></td>
                         <td><a href=""><i class="fa fa-file-text" style="font-size: 20px; color: darkblue"></i></a></td>
-                        <!-- ấn vào trạng thái, json setHTML của status lại sang deactivated -->
                     </tr>
                 </table>
             </form>
@@ -116,11 +111,9 @@
     </div>
 </div>
 
-<div th:fragment="managementFooterJqueryImport">
     <script th:src="@{personal/js/jquery.min.js}"></script>
     <script th:src="@{personal/js/popper.js}"></script>
     <script th:src="@{personal/js/bootstrap.min.js}"></script>
     <script th:src="@{personal/js/main.js}"></script>
-</div>
 </body>
 </html>
