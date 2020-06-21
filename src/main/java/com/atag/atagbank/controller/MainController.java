@@ -12,6 +12,6 @@ public class MainController {
 
     @GetMapping("/personal-profile")
     public String getPersonalProfile(){
-        return "admin/editCustomer";
+        return "admin/createCustomer";
     }
 }
