@@ -2,28 +2,29 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>ATAGBANK</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <div th:fragment="header">
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
-    <link rel="stylesheet" th:href="@{fonts/icomoon/style.css}">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
+        <link rel="stylesheet" th:href="@{fonts/icomoon/style.css}">
 
-    <link rel="stylesheet" th:href="@{css/bootstrap.min.css}">
-    <link rel="stylesheet" th:href="@{css/jquery-ui.css}">
-    <link rel="stylesheet" th:href="@{css/owl.carousel.min.css}">
-    <link rel="stylesheet" th:href="@{css/owl.theme.default.min.css}">
-    <link rel="stylesheet" th:href="@{css/owl.theme.default.min.css}">
+        <link rel="stylesheet" th:href="@{css/bootstrap.min.css}">
+        <link rel="stylesheet" th:href="@{css/jquery-ui.css}">
+        <link rel="stylesheet" th:href="@{css/owl.carousel.min.css}">
+        <link rel="stylesheet" th:href="@{css/owl.theme.default.min.css}">
+        <link rel="stylesheet" th:href="@{css/owl.theme.default.min.css}">
 
-    <link rel="stylesheet" th:href="@{css/jquery.fancybox.min.css}">
+        <link rel="stylesheet" th:href="@{css/jquery.fancybox.min.css}">
 
-    <link rel="stylesheet" th:href="@{css/bootstrap-datepicker.css}">
+        <link rel="stylesheet" th:href="@{css/bootstrap-datepicker.css}">
 
-    <link rel="stylesheet" th:href="@{fonts/flaticon/font/flaticon.css}">
+        <link rel="stylesheet" th:href="@{fonts/flaticon/font/flaticon.css}">
 
-    <link rel="stylesheet" th:href="@{css/aos.css}">
+        <link rel="stylesheet" th:href="@{css/aos.css}">
 
-    <link rel="stylesheet" th:href="@{css/style.css}">
-
+        <link rel="stylesheet" th:href="@{css/style.css}">
+    </div>
 </head>
 <body data-spy="scroll" data-target=".site-navbar-target" data-offset="300">
 
@@ -47,7 +48,7 @@
         <div class="site-mobile-menu-body"></div>
     </div>
 
-
+    <div th:fragment="header-nav">
     <header class="site-navbar js-sticky-header site-navbar-target" role="banner">
 
         <div class="container">
@@ -72,14 +73,6 @@
                                     <li><a href="#gallery-section" class="nav-link">Gallery</a></li>
                                     <li><a href="#services-section" class="nav-link">Services</a></li>
                                     <li><a href="#testimonials-section" class="nav-link">Testimonials</a></li>
-                                    <li class="has-children">
-                                        <a href="#">More Links</a>
-                                        <ul class="dropdown">
-                                            <li><a href="#">Menu One</a></li>
-                                            <li><a href="#">Menu Two</a></li>
-                                            <li><a href="#">Menu Three</a></li>
-                                        </ul>
-                                    </li>
                                 </ul>
                             </li>
 
@@ -103,8 +96,8 @@
 
             </div>
         </div>
-
     </header>
+    </div>
 
 
     <div class="site-blocks-cover overlay" style="background-image: url(images/hero_2.jpg);" data-aos="fade"
@@ -157,13 +150,14 @@
             <br>
             <br>
             <br>
-            <h2 style="text-align:  center" class="section-title mb-3" data-aos="fade-up" data-aos-delay="">Our Services</h2>
+            <h2 style="text-align:  center" class="section-title mb-3" data-aos="fade-up" data-aos-delay="">Our
+                Services</h2>
             <br>
             <div class="row mb-5">
                 <div class="col-md-4 text-center" data-aos="fade-up" data-aos-delay="">
-                    <a th:href="@{/}"><img src="images/flaticon-svg/svg/001-wallet.png"
+                    <a th:href="@{/personal}"><img src="images/flaticon-svg/svg/001-wallet.png"
                                            alt="Free Website Template by Free-Template.co" class="img-fluid w-25 mb-4"></a>
-                    <a th:href="@{/}"><h3 class="card-title">Personals</h3></a>
+                    <a th:href="@{/personal}"><h3 class="card-title">Personals</h3></a>
                 </div>
                 <div class="col-md-4 text-center" data-aos="fade-up" data-aos-delay="200">
                     <a th:href="@{/}"><img src="images/flaticon-svg/svg/002-rich.png"
@@ -379,24 +373,22 @@
             </div>
         </div>
     </footer>
-
 </div> <!-- .site-wrap -->
 
-<script th:src="@{js/jquery-3.3.1.min.js}"></script>
-<script th:src="@{js/jquery-ui.js}"></script>
-<script th:src="@{js/popper.min.js}"></script>
-<script th:src="@{js/bootstrap.min.js}"></script>
-<script th:src="@{js/owl.carousel.min.js}"></script>
-<script th:src="@{js/jquery.countdown.min.js}"></script>
-<script th:src="@{js/jquery.easing.1.3.js}"></script>
-<script th:src="@{js/aos.js}"></script>
-<script th:src="@{js/jquery.fancybox.min.js}"></script>
-<script th:src="@{js/jquery.sticky.js}"></script>
-<script th:src="@{js/isotope.pkgd.min.js}"></script>
-
-
-<script th:src="@{js/main.js}"></script>
-
+<div th:fragment="jquery-js">
+    <script th:src="@{js/jquery-3.3.1.min.js}"></script>
+    <script th:src="@{js/jquery-ui.js}"></script>
+    <script th:src="@{js/popper.min.js}"></script>
+    <script th:src="@{js/bootstrap.min.js}"></script>
+    <script th:src="@{js/owl.carousel.min.js}"></script>
+    <script th:src="@{js/jquery.countdown.min.js}"></script>
+    <script th:src="@{js/jquery.easing.1.3.js}"></script>
+    <script th:src="@{js/aos.js}"></script>
+    <script th:src="@{js/jquery.fancybox.min.js}"></script>
+    <script th:src="@{js/jquery.sticky.js}"></script>
+    <script th:src="@{js/isotope.pkgd.min.js}"></script>
+    <script th:src="@{js/main.js}"></script>
+</div>
 
 </body>
 </html>
