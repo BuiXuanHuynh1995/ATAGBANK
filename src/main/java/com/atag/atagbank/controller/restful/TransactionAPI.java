@@ -19,8 +19,10 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/transaction")
 public class TransactionAPI {
+
     @Autowired
     ITransactionService iTransactionService;
+
     @RequestMapping(value = "/listing",method = RequestMethod.GET)
     ResponseEntity<List<Transaction>> getAllTransaction(Pageable pageable){
         List<Transaction> transactions = iTransactionService.findAll(pageable).getContent();

@@ -13,8 +13,10 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @RequestMapping("/transaction")
 public class TransactionController {
+
     @Autowired
     ITransactionService iTransactionService;
+
     @GetMapping("/listing")
     ModelAndView getAllTransaction(Pageable pageable){
         ModelAndView modelAndView = new ModelAndView("/transaction/listing");

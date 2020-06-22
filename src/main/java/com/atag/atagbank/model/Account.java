@@ -7,7 +7,8 @@ import java.util.List;
 @Table(name = "accounts")
 public class Account {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+//    @GeneratedValue(strategy = GenerationType.AUTO)
+//    không để auto sinh ra, id lấy bằng số tài khoản luôn, số tk có 6 chữ số
     private Long id;
 
     @Column(name = "balance")

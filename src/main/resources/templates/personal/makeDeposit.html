@@ -4,11 +4,12 @@
     <title>ATAGBANK</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" th:href="@{personal/css/style.css}">
+    <script th:src="@{personal/js/jquery-3.5.1.js}"></script>
 </head>
 <body>
 <div class="wrapper d-flex align-items-stretch">
@@ -90,7 +91,8 @@
         <!--        MAKE DEPOSIT-->
         <div id="profile" style="padding-top: 50px;">
             <h2 class="mb-4 color-black-opacity-5">Make a Deposit</h2>
-            <form action="">
+            <p id="result"></p>
+            <form id="makeDeposit">
                 <table class="table table-hover">
                     <tr>
                         <th style="width: 250px">Current Account Number</th>
@@ -99,8 +101,7 @@
                     </tr>
                     <tr>
                         <th>Charge Amount (VND)</th>
-                        <td colspan="4" style="width: 750px"><input style="width: 750px; border: 1px lightgray solid"
-                                                                    type="number"></td>
+                        <td colspan="4" style="width: 750px"><input style="width: 750px; border: 1px lightgray solid" type="number" id="amount" name="amount"></td>
                     </tr>
                     <tr>
                         <th><input type="submit" value="Confirm"></th>
@@ -115,5 +116,24 @@
 <script th:src="@{personal/js/popper.js}"></script>
 <script th:src="@{personal/js/bootstrap.min.js}"></script>
 <script th:src="@{personal/js/main.js}"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#makeDeposit').submit(function (event) {
+            let amount = $("#amount").val();
+            $.ajax({
+                $header:{
+                    "Accept" : "application/json",
+                    "Content-Type" : "application/json"
+                },
+                type: "POST",
+                url : "/api/user/makeDeposit?amount="+amount,
+                success:function () {
+                    $("#result").html("Successfully!")
+                }
+            })
+        })
+    })
+</script>
 </body>
 </html>

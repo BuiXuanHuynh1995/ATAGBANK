@@ -134,9 +134,6 @@ public class MyUser {
     @OneToOne
     private Account account;
 
-    @OneToMany(targetEntity = Transaction.class)
-    private List<Transaction> transactions;
-
     public MyUser() {
     }
 
