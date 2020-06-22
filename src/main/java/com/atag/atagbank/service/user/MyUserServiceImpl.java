@@ -22,11 +22,11 @@ public class MyUserServiceImpl implements MyUserService {
     @Override
     public void save(MyUser user) {
         myUserRepository.save(user);
-
     }
 
     @Override
-    public Optional<MyUser> findById(Long id) {
-        return myUserRepository.findById(id);
+    public MyUser findById(Long id) {
+        return myUserRepository.findById(id).get();
     }
+
 }
