@@ -7,11 +7,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
-import java.util.Optional;
 
 @RestController
 public class MyUserController {
@@ -28,7 +25,7 @@ public class MyUserController {
     }
 
     @PostMapping("/admin/create-user")
-    public ResponseEntity<MyUser> createUser(MyUser user) {
+    public ResponseEntity<MyUser> createUser(@RequestBody MyUser user) {
         myUserService.save(user);
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
