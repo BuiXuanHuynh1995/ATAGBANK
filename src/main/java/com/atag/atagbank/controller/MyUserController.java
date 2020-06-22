@@ -11,10 +11,19 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Controller
+@SessionAttributes("currentUser")
 public class MyUserController {
     @Autowired
     MyUserService myUserService;
+
+    @ModelAttribute("currentUser")
+    MyUser recentUser(){
+        return new MyUser();
+    }
 
     @GetMapping("/admin/list-user")
     public ResponseEntity<Page<MyUser>> showUsers(Pageable pageable) {
@@ -31,6 +40,11 @@ public class MyUserController {
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
+    @GetMapping("/user/makeDeposit")
+    public ModelAndView showMakeDepositForm(@ModelAttribute("currentUser") MyUser currentUser){
+        return new ModelAndView("personal/makeDeposit","currentUser",currentUser);
+    }
+
     @PutMapping("admin/update-user/{id}")
     public ResponseEntity<MyUser> updateUser(@PathVariable Long id, @RequestBody MyUser user) {
         MyUser currentUser = myUserService.findById(id);
@@ -41,5 +55,4 @@ public class MyUserController {
         myUserService.save(user);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
 }
