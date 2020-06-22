@@ -25,11 +25,17 @@ public class AccountService implements IAccountService{
     }
 
     @Override
+    public void save(Account account) {
+        accountRepository.save(account);
+    }
+
+    @Override
     public void addMoneyToAccount(Float amount, Long id) {
-        Optional<Account> currentAccountOptional = findById(id);
+        Optional<Account> currentAccountOptional = this.findById(id);
         if (currentAccountOptional.isPresent()){
             Account currentAccount = currentAccountOptional.get();
             currentAccount.setBalance(currentAccount.getBalance()+amount);
+            save(currentAccount);
         }
     }
 }

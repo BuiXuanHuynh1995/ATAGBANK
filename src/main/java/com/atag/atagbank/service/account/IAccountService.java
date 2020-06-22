@@ -13,4 +13,5 @@ public interface IAccountService {
     Iterable<Account> findAll();
     Optional<Account> findById(Long id);
     void addMoneyToAccount(Float amount, Long id);
+    void save(Account account);
 }

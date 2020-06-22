@@ -5,25 +5,28 @@ import com.atag.atagbank.service.account.AccountService;
 import com.atag.atagbank.service.account.IAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @SessionAttributes("currentUser")
-@RequestMapping("/api/user")
+@RequestMapping("/user/api/")
 public class UserAPI {
 
     @Autowired
     IAccountService accountService;
 
     @ModelAttribute("currentUser")
-    MyUser recentUser(){
+    MyUser recentUser() {
         return new MyUser();
     }
 
-    @PostMapping("/makeDeposit")
-    ResponseEntity<Void> makeDeposit(@SessionAttribute("currentUser") MyUser user, @RequestParam String amount){
-        accountService.addMoneyToAccount(Float.parseFloat(amount), user.getId());
+    @GetMapping(value = "makeDeposit", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public ResponseEntity<Void> makeDeposit(@RequestParam("amount") String amount) {
+        accountService.addMoneyToAccount(Float.parseFloat(amount), 999999L);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }
