@@ -9,15 +9,17 @@ public class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @OneToMany (targetEntity = MyUser.class)
-    private List<MyUser> sender;
-    @OneToMany (targetEntity = MyUser.class)
-    private List<MyUser> receiver;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private MyUser sender;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private MyUser receiver;
     private float amount;
     private	boolean type;
     private Timestamp time;
 
-    public Transaction(Long id, List<MyUser> sender, List<MyUser> receiver, float amount, boolean type, Timestamp time) {
+    public Transaction(Long id, MyUser sender, MyUser receiver, float amount, boolean type, Timestamp time) {
         this.id = id;
         this.sender = sender;
         this.receiver = receiver;
@@ -37,19 +39,19 @@ public class Transaction {
         this.id = id;
     }
 
-    public List<MyUser> getSender() {
+    public MyUser getSender() {
         return sender;
     }
 
-    public void setSender(List<MyUser> sender) {
+    public void setSender(MyUser sender) {
         this.sender = sender;
     }
 
-    public List<MyUser> getReceiver() {
+    public MyUser getReceiver() {
         return receiver;
     }
 
-    public void setReceiver(List<MyUser> receiver) {
+    public void setReceiver(MyUser receiver) {
         this.receiver = receiver;
     }
 

@@ -2,6 +2,7 @@ package com.atag.atagbank.model;
 
 import javax.persistence.*;
 import javax.persistence.criteria.Root;
+import java.util.List;
 
 @Entity
 @Table (name = "users")
@@ -14,6 +15,9 @@ public class MyUser {
     private String password;
     private int status;
     private String name;
+
+    @OneToMany(targetEntity = Transaction.class)
+    private List<Transaction> transactions;
 
     @ManyToOne
     @JoinColumn(name = "role_id")
