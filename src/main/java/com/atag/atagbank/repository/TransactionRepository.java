@@ -1,4 +1,7 @@
 package com.atag.atagbank.repository;
 
-public class TransactionRepository {
+import com.atag.atagbank.model.Transaction;
+import org.springframework.data.repository.PagingAndSortingRepository;
+
+public interface TransactionRepository extends PagingAndSortingRepository <Transaction,Long>{
 }
