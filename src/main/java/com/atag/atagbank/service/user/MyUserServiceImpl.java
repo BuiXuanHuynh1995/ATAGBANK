@@ -26,7 +26,7 @@ public class MyUserServiceImpl implements MyUserService {
     }
 
     @Override
-    public Optional<MyUser> findById(Long id) {
-        return myUserRepository.findById(id);
+    public MyUser findById(Long id) {
+        return myUserRepository.findById(id).get();
     }
 }
