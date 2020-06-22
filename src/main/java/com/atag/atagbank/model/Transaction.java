@@ -10,10 +10,10 @@ public class Transaction {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "sender_id")
     private MyUser sender;
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "receiver_id")
     private MyUser receiver;
     private float amount;
     private	boolean type;
