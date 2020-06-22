@@ -1,4 +1,4 @@
-package com.atag.atagbank.repositoty;
+package com.atag.atagbank.repository;
 
 import com.atag.atagbank.model.MyUser;
 import org.springframework.data.repository.PagingAndSortingRepository;
