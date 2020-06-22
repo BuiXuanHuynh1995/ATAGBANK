@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>ATAGBANK</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" th:href="@{personal/css/style.css}">
+</head>
+<body>
+<div class="wrapper d-flex align-items-stretch">
+    <nav id="sidebar" style="background: black; border-top: 2px black solid">
+        <div class="p-4 pt-5">
+            <a href="#" class="img logo rounded-0 mb-5"
+               th:style="'background-image:url(' + @{/personal/images/logo.jpg} + ');  width:180px; height:180px'"></a>
+            <ul class="list-unstyled components mb-5">
+                <li>
+                    <a href="#" id="">Profile</a>
+                </li>
+                <li>
+                    <a href="#">Check Account Balance</a>
+                </li>
+                <li class="active">
+                    <a href="#">Transfer within AtagBank</a>
+                </li>
+                <li>
+                    <a href="#">Make a Deposit</a>
+                </li>
+                <li>
+                    <a href="#">Contact</a>
+                </li>
+            </ul>
+
+            <div class="footer">
+                <p>
+                    Copyright &copy;<script>document.write(new Date().getFullYear());</script>
+                    All rights reserved | This template is made with <i class="icon-heart" aria-hidden="true"></i> by <a
+                        href="https://atag.com" target="_blank">atag-copr.com.vn</a>
+                </p>
+            </div>
+
+        </div>
+    </nav>
+
+    <!-- Page Content  -->
+    <div id="content" class="p-4 p-md-5">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light"
+             style="position: absolute; top: 10px; width: 1300px; border: rgba(0,0,0,0.2) 1px solid;">
+            <div class="container-fluid">
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item active">
+                            <a class="nav-link" href="#">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Corporate</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Online Shopping</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">News & Events</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Investors</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Careers</a>
+                        </li>
+                        <li class="nav-item">
+                            <span class="nav-link">|</span>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#"><b>User : XXX</b></a>
+                        </li>
+                        <li class="nav-item">
+                            <span class="nav-link">|</span>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#"><b>Logout</b></a>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <!--        SHOW PROFILE-->
+        <div id="otp" style="padding-top: 50px;">
+            <h2 class="mb-4 color-black-opacity-5">OTP Confirm</h2>
+            <p>You are in a transaction on ATAGBANK system, Please input OTP sent to registered phone number</p>
+            <form action="" id="otpConfirm">
+                <table class="table table-hover">
+                    <tr>
+                        <th style="width: 150px;">OTP</th>
+                        <td style="width: 550px"><input style="width: 750px; border: 1px lightgray solid"
+                                                        type="password"></td>
+                    </tr>
+                    <tr>
+                        <th><input type="submit" value="Confirm"></th>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script th:src="@{personal/js/jquery.min.js}"></script>
+<script th:src="@{personal/js/popper.js}"></script>
+<script th:src="@{personal/js/bootstrap.min.js}"></script>
+<script th:src="@{personal/js/main.js}"></script>
+</body>
+</html>
