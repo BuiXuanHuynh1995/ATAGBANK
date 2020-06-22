@@ -1,10 +1,29 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>$Title$</title>
+    <title>Transaction Listing</title>
 </head>
 <body>
-$END$
+<table>
+    <thead>
+        <th>id</th>
+        <th>amount</th>
+        <th>time</th>
+        <th>type</th>
+        <th>receiver_id</th>
+        <th>sender_id</th>
+    </thead>
+    <tbody>
+        <tr th:each="transation:${transactions}">
+            <td th:text="${transation.id}"></td>
+            <td th:text="${transation.amount}"></td>
+            <td th:text="${transation.time}"></td>
+            <td th:text="${transation.type}"></td>
+            <td th:text="${transation.receiver_id}"></td>
+            <td th:text="${transation.sender}"></td>
+        </tr>
+    </tbody>
+</table>
 </body>
 </html>
