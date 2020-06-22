@@ -22,8 +22,6 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests().antMatchers("/").permitAll()
                 .and()
-                .authorizeRequests().antMatchers("**/css/**").permitAll()
-                .and()
                 .authorizeRequests().antMatchers("/user**").hasRole("USER")
                 .and()
                 .authorizeRequests().antMatchers("/admin**").hasRole("ADMIN")
@@ -31,11 +29,6 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin()
                 .and()
                 .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"));
-    }
-
-    @Override
-    public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("**/assets/**").anyRequest();
     }
 }
 
