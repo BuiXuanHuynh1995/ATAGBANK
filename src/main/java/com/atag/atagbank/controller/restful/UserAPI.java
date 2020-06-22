@@ -25,8 +25,8 @@ public class UserAPI {
 
     @GetMapping(value = "makeDeposit", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public ResponseEntity<Void> makeDeposit(@RequestParam("amount") String amount) {
-        accountService.addMoneyToAccount(Float.parseFloat(amount), 999999L);
+    public ResponseEntity<Void> makeDeposit(@RequestParam("amount") String amount, @SessionAttribute MyUser currentUser) {
+        accountService.addMoneyToAccount(Float.parseFloat(amount), currentUser.getAccount().getId());
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }
