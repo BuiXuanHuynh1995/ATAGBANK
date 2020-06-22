@@ -12,5 +12,5 @@ public interface MyUserService {
 
     void save(MyUser user);
 
-    Optional<MyUser> findById(Long id);
+    MyUser findById(Long id);
 }
