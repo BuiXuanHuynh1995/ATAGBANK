@@ -17,7 +17,7 @@ public class TransactionController {
     ITransactionService iTransactionService;
     @GetMapping("/listing")
     ModelAndView getAllTransaction(Pageable pageable){
-        ModelAndView modelAndView = new ModelAndView("/transaction/listing");
+        ModelAndView modelAndView = new ModelAndView("transaction/listing");
         Page<Transaction> transactions = iTransactionService.findAll(pageable);
         modelAndView.addObject("transactions",transactions);
         return modelAndView;

@@ -11,8 +11,7 @@
         <th>amount</th>
         <th>time</th>
         <th>type</th>
-        <th>receiver_id</th>
-        <th>sender_id</th>
+        <th>acount_id</th>
     </thead>
     <tbody>
         <tr th:each="transation:${transactions}">
@@ -20,8 +19,7 @@
             <td th:text="${transation.amount}"></td>
             <td th:text="${transation.time}"></td>
             <td th:text="${transation.type}"></td>
-            <td th:text="${transation.receiver_id}"></td>
-            <td th:text="${transation.sender}"></td>
+            <td th:text="${transation.account.id}"></td>
         </tr>
     </tbody>
 </table>

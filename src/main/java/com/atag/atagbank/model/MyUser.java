@@ -39,9 +39,6 @@ public class MyUser {
     @Column(name = "name")
     private String name;
 
-    @OneToMany(targetEntity = Transaction.class)
-    private List<Transaction> transactions;
-
     @ManyToOne
     @JoinColumn(name = "role_id")
     private Role role;
