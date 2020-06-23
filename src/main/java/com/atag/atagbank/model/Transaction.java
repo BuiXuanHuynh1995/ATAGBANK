@@ -2,7 +2,6 @@ package com.atag.atagbank.model;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
-import java.util.List;
 @Entity
 @Table(name="transactions")
 public class Transaction {
