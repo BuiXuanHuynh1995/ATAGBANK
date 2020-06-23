@@ -32,12 +32,16 @@ public class MainController {
     @PostMapping("/login-form")
     public ModelAndView login(@ModelAttribute MyUser currentUser, HttpSession session) {
         MyUser loginUser = myUserService.findByUserName(currentUser.getUsername());
-        if (loginUser != null) {
-            session.setAttribute("currentUser", loginUser);
-            session.setAttribute("currentUserName", loginUser.getName());
-            return new ModelAndView("index");
+        if (loginUser != null && currentUser.getPassword().equals(loginUser.getPassword())) {
+            if (loginUser.isEnabled()) {
+                session.setAttribute("currentUser", loginUser);
+                session.setAttribute("currentUserName", loginUser.getName());
+                return new ModelAndView("index");
+            } else {
+                return new ModelAndView("login", "deactivated", "Account is deactivated. Please contact Admin to active!");
+            }
         }
-        return new ModelAndView("login","notFound","Wrong username or password!");
+        return new ModelAndView("login", "notFound", "Wrong username or password!");
     }
 
     @GetMapping("/personal-profile")
