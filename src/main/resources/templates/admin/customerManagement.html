@@ -105,9 +105,9 @@
                             <a th:if="${user.enabled}==true" href="" class="customerStatus" th:text="Activated"></a>
                             <a th:if="${user.enabled}==false" href="" class="customerStatus" th:text="Deactivated"></a>
                         </td><!-- ấn vào trạng thái, json setHTML của status lại sang deactivated -->
-                        <td><a href=""><i class="fa fa-edit" style="font-size: 20px; color: #1c7430"></i></a></td>
-                        <td><a href=""><i class="fa fa-cut" style="font-size: 20px; color: red"></i></a></td>
-                        <td><a href=""><i class="fa fa-file-text" style="font-size: 20px; color: darkblue"></i></a></td>
+                        <td><a th:href=""><i class="fa fa-edit" style="font-size: 20px; color: #1c7430"></i></a></td>
+                        <td><a th:href=""><i class="fa fa-cut" style="font-size: 20px; color: red"></i></a></td>
+                        <td><a th:href=""><i class="fa fa-file-text" style="font-size: 20px; color: darkblue"></i></a></td>
                     </tr>
                     </th:block>
                 </table>

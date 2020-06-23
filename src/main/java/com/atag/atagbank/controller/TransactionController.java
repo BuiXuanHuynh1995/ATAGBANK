@@ -25,6 +25,9 @@ public class TransactionController {
     @Autowired
     IAccountService iAccountService;
 
+    @Autowired
+    IAccountService iAccountService;
+
     @GetMapping("/listing")
     ModelAndView getAllTransaction(Pageable pageable) {
         ModelAndView modelAndView = new ModelAndView("transaction/listing");

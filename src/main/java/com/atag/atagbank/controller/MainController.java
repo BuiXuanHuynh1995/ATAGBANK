@@ -29,7 +29,7 @@ public class MainController {
 
     @GetMapping("/login-form")
     public ModelAndView getLoginForm(@ModelAttribute MyUser currentUser) {
-        ModelAndView modelAndView = new ModelAndView("index");
+        ModelAndView modelAndView = new ModelAndView("login");
         modelAndView.addObject("currentUser", currentUser);
         return modelAndView;
     }
@@ -49,10 +49,7 @@ public class MainController {
         return new ModelAndView("login", "notFound", "Wrong username or password!");
     }
 
-    @GetMapping("/personal-profile")
-    public ModelAndView showProfile() {
-        return new ModelAndView("personal/profile");
-    }
+
 
     @PostMapping("/personal-profile")
     public ModelAndView editProfile(@ModelAttribute MyUser customer) {
