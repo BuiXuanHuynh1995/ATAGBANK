@@ -6,4 +6,5 @@ import org.springframework.data.domain.Pageable;
 
 public interface ITransactionService {
     Page<Transaction> findAll(Pageable pageable);
+    void save(Transaction transaction);
 }

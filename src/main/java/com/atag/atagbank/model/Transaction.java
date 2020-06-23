@@ -2,7 +2,6 @@ package com.atag.atagbank.model;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
-import java.util.List;
 @Entity
 @Table(name="transactions")
 public class Transaction {
@@ -10,19 +9,15 @@ public class Transaction {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @ManyToOne
-    @JoinColumn(name = "sender_id")
-    private MyUser sender;
-    @ManyToOne
-    @JoinColumn(name = "receiver_id")
-    private MyUser receiver;
+    @JoinColumn(name = "account_id")
+    private Account account;
     private float amount;
     private	boolean type;
     private Timestamp time;
 
-    public Transaction(Long id, MyUser sender, MyUser receiver, float amount, boolean type, Timestamp time) {
+    public Transaction(Long id, Account account, float amount, boolean type, Timestamp time) {
         this.id = id;
-        this.sender = sender;
-        this.receiver = receiver;
+        this.account = account;
         this.amount = amount;
         this.type = type;
         this.time = time;
@@ -39,20 +34,12 @@ public class Transaction {
         this.id = id;
     }
 
-    public MyUser getSender() {
-        return sender;
+    public Account getAccount() {
+        return account;
     }
 
-    public void setSender(MyUser sender) {
-        this.sender = sender;
-    }
-
-    public MyUser getReceiver() {
-        return receiver;
-    }
-
-    public void setReceiver(MyUser receiver) {
-        this.receiver = receiver;
+    public void setAccount(Account account) {
+        this.account = account;
     }
 
     public float getAmount() {
@@ -77,17 +64,5 @@ public class Transaction {
 
     public void setTime(Timestamp time) {
         this.time = time;
-    }
-
-    @Override
-    public String toString() {
-        return "Transaction{" +
-                "id=" + id +
-                ", sender=" + sender +
-                ", receiver=" + receiver +
-                ", amount=" + amount +
-                ", type=" + type +
-                ", time=" + time +
-                '}';
     }
 }

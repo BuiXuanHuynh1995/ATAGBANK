@@ -18,4 +18,9 @@ public class TransactionServiceImpl implements ITransactionService {
     public Page<Transaction> findAll(Pageable pageable) {
         return transactionRepository.findAll(pageable);
     }
+
+    @Override
+    public void save(Transaction transaction) {
+        transactionRepository.save(transaction);
+    }
 }
