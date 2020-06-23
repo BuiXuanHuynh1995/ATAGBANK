@@ -12,10 +12,10 @@ public class Transaction {
     @JoinColumn(name = "account_id")
     private Account account;
     private float amount;
-    private	boolean type;
+    private String type;
     private Timestamp time;
 
-    public Transaction(Long id, Account account, float amount, boolean type, Timestamp time) {
+    public Transaction(Long id, Account account, float amount, String type, Timestamp time) {
         this.id = id;
         this.account = account;
         this.amount = amount;
@@ -50,11 +50,11 @@ public class Transaction {
         this.amount = amount;
     }
 
-    public boolean isType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(boolean type) {
+    public void setType(String type) {
         this.type = type;
     }
 

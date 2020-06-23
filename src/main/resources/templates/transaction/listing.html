@@ -10,13 +10,12 @@
 
         <div id="profile" style="padding-top: 50px;">
             <h2 class="mb-4 color-black-opacity-5">Transaction Listing</h2>
-            <table>
+            <table class="table table-hover">
                 <thead>
                 <th>id</th>
                 <th>amount</th>
                 <th>time</th>
                 <th>type</th>
-                <th>acount_id</th>
                 </thead>
                 <tbody>
                 <tr th:each="transaction:${transactions}">
@@ -24,7 +23,6 @@
                     <td th:text="${transaction.amount}"></td>
                     <td th:text="${transaction.time}"></td>
                     <td th:text="${transaction.type}"></td>
-                    <td th:text="${transaction.account.id}"></td>
                 </tr>
                 </tbody>
             </table>
