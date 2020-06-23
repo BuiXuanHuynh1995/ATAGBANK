@@ -29,12 +29,12 @@ public class MainController {
 
     @GetMapping("/login-form")
     public ModelAndView getLoginForm(@ModelAttribute MyUser currentUser) {
-        ModelAndView modelAndView = new ModelAndView("login");
+        ModelAndView modelAndView = new ModelAndView("index");
         modelAndView.addObject("currentUser", currentUser);
         return modelAndView;
     }
 
-    @PostMapping("/login-form")
+   @PostMapping("/login-form")
     public ModelAndView login(@ModelAttribute MyUser currentUser, HttpSession session) {
         MyUser loginUser = myUserService.findByUserName(currentUser.getUsername());
         if (loginUser != null && currentUser.getPassword().equals(loginUser.getPassword())) {
@@ -47,5 +47,19 @@ public class MainController {
             }
         }
         return new ModelAndView("login", "notFound", "Wrong username or password!");
+    }
+
+    @GetMapping("/personal-profile")
+    public ModelAndView showProfile() {
+        return new ModelAndView("personal/profile");
+    }
+
+    @PostMapping("/personal-profile")
+    public ModelAndView editProfile(@ModelAttribute MyUser customer) {
+        myUserService.save(customer);
+        ModelAndView modelAndView = new ModelAndView("personal/profile");
+        modelAndView.addObject("currentUser", customer);
+        modelAndView.addObject("message", "The information was updated!");
+        return modelAndView;
     }
 }

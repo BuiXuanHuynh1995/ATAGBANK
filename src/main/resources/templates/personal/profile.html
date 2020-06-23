@@ -24,7 +24,7 @@
                     <a href="#">Check Account Balance</a>
                 </li>
                 <li>
-                    <a href="#">Transfer within AtagBank</a>
+                    <a th:href="@{/transaction/create}">Transfer within AtagBank</a>
                 </li>
                 <li>
                     <a th:href="@{/user/makeDeposit}">Make a Deposit</a>
@@ -91,46 +91,45 @@
         <!--        SHOW PROFILE-->
         <div id="profile" style="padding-top: 50px;">
             <h2 class="mb-4 color-black-opacity-5">Profile</h2>
-            <form action="">
+            <form method="post" th:object="${currentUser}" th:action="@{/personal-profile}">
                 <table class="table table-hover">
                     <tr>
                         <th style="width: 250px">Account Name</th>
-                        <td style="width: 750px"><input style="width: 750px; border: 1px lightgray solid" type="text"
-                                                        disabled></td>
+                        <td style="width: 750px"><input style="width: 750px; border: 1px lightgray solid" type="text" th:field="*{username}"></td>
                     </tr>
                     <tr>
                         <th>Password</th>
                         <td style="width: 750px"><input style="width: 750px; border: 1px lightgray solid"
-                                                        type="password"></td>
+                                                        type="password" th:field="*{password}"></td>
                     </tr>
                     <tr>
                         <th>Confirm Password</th>
                         <td style="width: 750px"><input style="width: 750px; border: 1px lightgray solid"
-                                                        type="password"></td>
+                                                        type="password" th:field="*{confirmPassword}"></td>
                     </tr>
                     <tr>
                         <th>Full Name</th>
-                        <td style="width: 750px"><input style="width: 750px; border: 1px lightgray solid" type="text">
+                        <td style="width: 750px"><input style="width: 750px; border: 1px lightgray solid" type="text" th:field="*{name}">
                         </td>
                     </tr>
                     <tr>
                         <th>Address</th>
-                        <td style="width: 750px"><input style="width: 750px; border: 1px lightgray solid" type="text">
+                        <td style="width: 750px"><input style="width: 750px; border: 1px lightgray solid" type="text" th:field="*{address}">
                         </td>
                     </tr>
                     <tr>
                         <th>Phone Number</th>
-                        <td style="width: 750px"><input style="width: 750px; border: 1px lightgray solid" type="text">
+                        <td style="width: 750px"><input style="width: 750px; border: 1px lightgray solid" type="text" >
                         </td>
                     </tr>
                     <tr>
                         <th>Email</th>
-                        <td style="width: 750px"><input style="width: 750px; border: 1px lightgray solid" type="text">
+                        <td style="width: 750px"><input style="width: 750px; border: 1px lightgray solid" type="text" th:field="*{email}">
                         </td>
                     </tr>
                     <tr>
                         <th>Date Of Birth</th>
-                        <td style="width: 750px"><input style="width: 750px; border: 1px lightgray solid" type="text">
+                        <td style="width: 750px"><input style="width: 750px; border: 1px lightgray solid" type="text" th:field="*{dateOfBirth}">
                         </td>
                     </tr>
                     <tr>

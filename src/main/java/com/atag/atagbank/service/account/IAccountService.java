@@ -14,4 +14,5 @@ public interface IAccountService {
     Optional<Account> findById(Long id);
     void addMoneyToAccount(Float amount, Long id);
     void save(Account account);
+    void minusMoneyFromAccount(Float amount,Long id);
 }
