@@ -44,6 +44,10 @@ public class AppConfig implements ApplicationContextAware, WebMvcConfigurer {
         registry.addResourceHandler("/user/personal/js/**").addResourceLocations("classpath:/public/personalPage/js/");
         registry.addResourceHandler("/user/personal/images/**").addResourceLocations("classpath:/public/personalPage/images/");
         registry.addResourceHandler("/user/personal/scss/**").addResourceLocations("classpath:/public/personalPage/scss/");
+        registry.addResourceHandler("/admin/personal/css/**").addResourceLocations("classpath:/public/personalPage/css/");
+        registry.addResourceHandler("/admin/personal/js/**").addResourceLocations("classpath:/public/personalPage/js/");
+        registry.addResourceHandler("/admin/personal/images/**").addResourceLocations("classpath:/public/personalPage/images/");
+        registry.addResourceHandler("/admin/personal/scss/**").addResourceLocations("classpath:/public/personalPage/scss/");
         registry.addResourceHandler("/login/css/**").addResourceLocations("classpath:/public/login/css/");
         registry.addResourceHandler("/login/js/**").addResourceLocations("classpath:/public/login/js/");
         registry.addResourceHandler("/transaction/personal/css/**").addResourceLocations("classpath:/public/personalPage/css/");

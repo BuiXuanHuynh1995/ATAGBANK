@@ -52,7 +52,7 @@
              style="position: absolute; top: 10px; width: 1300px; border: rgba(0,0,0,0.2) 1px solid;">
             <div class="container-fluid">
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <div th:replace="profile::homeNav"></div>
+                    <div th:replace="personal/profile::homeNav"></div>
                 </div>
             </div>
         </nav>
@@ -61,11 +61,12 @@
         <div id="profile" style="padding-top: 50px;">
             <h2 class="mb-4 color-black-opacity-5">Make a Deposit</h2>
             <p style="color: blue" id="result"></p>
-            <form id="makeDeposit">
+            <form id="makeDeposit" th:object="${currentUser}">
+                <input type="hidden" th:field="*{id}">
                 <table class="table table-hover">
                     <tr>
                         <th style="width: 250px">Current Account Number</th>
-                        <td colspan="4" style="width: 750px"><input style="width: 750px; border: 1px lightgray solid"
+                        <td colspan="4" th:field="*{account}" style="width: 750px"><input style="width: 750px; border: 1px lightgray solid"
                                                                     type="text" disabled></td>
                     </tr>
                     <tr>

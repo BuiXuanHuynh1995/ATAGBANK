@@ -15,6 +15,7 @@
         <img id="profile-img" class="profile-img-card" src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" />
         <p id="profile-name" class="profile-name-card"></p>
         <p style="color:red;" th:if="${notFound != ''}" th:text="${notFound}"></p>
+        <p style="color:red;" th:if="${deactivated != ''}" th:text="${deactivated}"></p>
         <form class="form-signin" th:object="${currentUser}" method="post" th:action="@{/login-form}">
             <span id="reauth-email" class="reauth-email"></span>
             <input type="text" id="username" th:field="*{username}" class="form-control" placeholder="Username" required autofocus>

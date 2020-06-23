@@ -23,15 +23,6 @@ public class TransactionController {
     @Autowired
     ITransactionService iTransactionService;
 
-    @Autowired
-    IAccountService iAccountService;
-
-    @Autowired
-    @ModelAttribute("accounts")
-    Iterable<Account> accounts() {
-        return iAccountService.findAll();
-    }
-
     @GetMapping("/listing")
     ModelAndView getAllTransaction(Pageable pageable) {
         ModelAndView modelAndView = new ModelAndView("transaction/listing");

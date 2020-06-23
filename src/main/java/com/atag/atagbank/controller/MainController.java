@@ -23,23 +23,30 @@ public class MainController {
     MyUserService myUserService;
 
     @GetMapping("/")
+    public ModelAndView getHomePage() {
+        return new ModelAndView("index");
+    }
+
+    @GetMapping("/login-form")
     public ModelAndView getLoginForm(@ModelAttribute MyUser currentUser) {
         ModelAndView modelAndView = new ModelAndView("index");
         modelAndView.addObject("currentUser", currentUser);
         return modelAndView;
     }
 
-    @PostMapping("/login-form")
+   @PostMapping("/login-form")
     public ModelAndView login(@ModelAttribute MyUser currentUser, HttpSession session) {
         MyUser loginUser = myUserService.findByUserName(currentUser.getUsername());
-        if (loginUser != null) {
-            session.setAttribute("currentUser", loginUser);
-            session.setAttribute("currentUserName", loginUser.getName());
-            ModelAndView modelAndView = new ModelAndView("index");
-            modelAndView.addObject("currentUser", loginUser);
-            return modelAndView;
+        if (loginUser != null && currentUser.getPassword().equals(loginUser.getPassword())) {
+            if (loginUser.isEnabled()) {
+                session.setAttribute("currentUser", loginUser);
+                session.setAttribute("currentUserName", loginUser.getName());
+                return new ModelAndView("index");
+            } else {
+                return new ModelAndView("login", "deactivated", "Account is deactivated. Please contact Admin to active!");
+            }
         }
-        return new ModelAndView("login","notFound","Wrong username or password!");
+        return new ModelAndView("login", "notFound", "Wrong username or password!");
     }
 
     @GetMapping("/personal-profile")
