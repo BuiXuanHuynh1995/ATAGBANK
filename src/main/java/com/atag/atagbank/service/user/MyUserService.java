@@ -12,4 +12,6 @@ public interface MyUserService {
     void save(MyUser user);
 
     MyUser findById(Long id);
+
+    MyUser findByUserName(String username);
 }

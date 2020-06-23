@@ -52,38 +52,7 @@
              style="position: absolute; top: 10px; width: 1300px; border: rgba(0,0,0,0.2) 1px solid;">
             <div class="container-fluid">
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="nav navbar-nav ml-auto">
-                        <li class="nav-item active">
-                            <a class="nav-link" href="#">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Corporate</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Online Shopping</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">News & Events</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Investors</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Careers</a>
-                        </li>
-                        <li class="nav-item">
-                            <span class="nav-link">|</span>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#"><b>User : XXX</b></a>
-                        </li>
-                        <li class="nav-item">
-                            <span class="nav-link">|</span>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#"><b>Logout</b></a>
-                        </li>
-                    </ul>
+                    <div th:replace="profile::homeNav"></div>
                 </div>
             </div>
         </nav>
