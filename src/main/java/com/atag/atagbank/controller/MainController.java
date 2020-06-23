@@ -35,13 +35,24 @@ public class MainController {
         if (loginUser != null) {
             session.setAttribute("currentUser", loginUser);
             session.setAttribute("currentUserName", loginUser.getName());
-            return new ModelAndView("index");
+            ModelAndView modelAndView = new ModelAndView("index");
+            modelAndView.addObject("currentUser", loginUser);
+            return modelAndView;
         }
         return new ModelAndView("login","notFound","Wrong username or password!");
     }
 
     @GetMapping("/personal-profile")
-    public String getPersonalProfile() {
-        return "personal/profile";
+    public ModelAndView showProfile() {
+        return new ModelAndView("personal/profile");
+    }
+
+    @PostMapping("/personal-profile")
+    public ModelAndView editProfile(@ModelAttribute MyUser customer) {
+        myUserService.save(customer);
+        ModelAndView modelAndView = new ModelAndView("personal/profile");
+        modelAndView.addObject("currentUser", customer);
+        modelAndView.addObject("message", "The information was updated!");
+        return modelAndView;
     }
 }
