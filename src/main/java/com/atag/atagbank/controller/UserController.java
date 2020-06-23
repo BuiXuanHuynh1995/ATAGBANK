@@ -2,10 +2,13 @@ package com.atag.atagbank.controller;
 
 import com.atag.atagbank.model.MyUser;
 import com.atag.atagbank.service.account.IAccountService;
+import com.atag.atagbank.service.user.MyUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/user")
@@ -14,14 +17,18 @@ public class UserController {
     @Autowired
     IAccountService accountService;
 
+    @Autowired
+    MyUserService myUserService;
+
     @GetMapping("/makeDeposit")
     public ModelAndView showMakeDepositForm(@SessionAttribute("currentUser") MyUser currentUser){
         return new ModelAndView("personal/makeDeposit","currentUser",currentUser);
     }
 
-
     @GetMapping("/profile")
-    public String getPersonalProfile() {
-        return "personal/profile";
+    public ModelAndView getPersonalProfile(HttpSession session) {
+        String name = (String) session.getAttribute("currentUserName");
+        MyUser currentUser = myUserService.findByName(name);
+        return new ModelAndView("personal/profile","currentUser",currentUser);
     }
 }

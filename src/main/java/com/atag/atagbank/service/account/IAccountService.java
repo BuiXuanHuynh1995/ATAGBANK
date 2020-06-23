@@ -7,8 +7,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
-@Service
-@Component
 public interface IAccountService {
     Iterable<Account> findAll();
     Optional<Account> findById(Long id);
