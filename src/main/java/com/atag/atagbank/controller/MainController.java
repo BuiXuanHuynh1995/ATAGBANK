@@ -35,13 +35,15 @@ public class MainController {
         if (loginUser != null) {
             session.setAttribute("currentUser", loginUser);
             session.setAttribute("currentUserName", loginUser.getName());
-            return new ModelAndView("index");
+            ModelAndView modelAndView = new ModelAndView("index");
+            modelAndView.addObject("currentUser", loginUser);
+            return modelAndView;
         }
         return new ModelAndView("login","notFound","Wrong username or password!");
     }
 
-    @GetMapping("/personal-profile")
-    public String getPersonalProfile() {
-        return "personal/profile";
+    @GetMapping("personal-profile")
+    public ModelAndView showProfile() {
+        return new ModelAndView("personal/profile");
     }
 }
