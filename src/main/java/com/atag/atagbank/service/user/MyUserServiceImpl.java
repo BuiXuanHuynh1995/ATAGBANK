@@ -29,4 +29,8 @@ public class MyUserServiceImpl implements MyUserService {
         return myUserRepository.findById(id).get();
     }
 
+    @Override
+    public MyUser findByUserName(String username) {
+        return myUserRepository.findByUsername(username);
+    }
 }
