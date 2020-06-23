@@ -1,6 +1,7 @@
 package com.atag.atagbank.config;
 
 import com.atag.atagbank.formatter.AccountFormatter;
+import com.atag.atagbank.service.account.AccountService;
 import com.atag.atagbank.service.account.IAccountService;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
@@ -49,6 +50,6 @@ public class AppConfig implements ApplicationContextAware, WebMvcConfigurer {
 
     @Override
     public void addFormatters(FormatterRegistry registry) {
-        registry.addFormatter(new AccountFormatter(appContext.getBean(IAccountService.class)));
+        registry.addFormatter(new AccountFormatter(appContext.getBean(AccountService.class)));
     }
 }
