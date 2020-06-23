@@ -42,8 +42,17 @@ public class MainController {
         return new ModelAndView("login","notFound","Wrong username or password!");
     }
 
-    @GetMapping("personal-profile")
+    @GetMapping("/personal-profile")
     public ModelAndView showProfile() {
         return new ModelAndView("personal/profile");
+    }
+
+    @PostMapping("/personal-profile")
+    public ModelAndView editProfile(@ModelAttribute MyUser customer) {
+        myUserService.save(customer);
+        ModelAndView modelAndView = new ModelAndView("personal/profile");
+        modelAndView.addObject("currentUser", customer);
+        modelAndView.addObject("message", "The information was updated!");
+        return modelAndView;
     }
 }
