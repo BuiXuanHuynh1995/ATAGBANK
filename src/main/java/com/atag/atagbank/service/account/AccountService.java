@@ -38,4 +38,14 @@ public class AccountService implements IAccountService{
             save(currentAccount);
         }
     }
+
+    @Override
+    public void minusMoneyFromAccount(Float amount, Long id) {
+        Optional<Account> currentAccountOptional = this.findById(id);
+        if (currentAccountOptional.isPresent()){
+            Account currentAccount = currentAccountOptional.get();
+            currentAccount.setBalance(currentAccount.getBalance()-amount);
+            save(currentAccount);
+        }
+    }
 }

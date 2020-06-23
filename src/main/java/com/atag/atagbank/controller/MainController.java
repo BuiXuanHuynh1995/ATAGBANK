@@ -24,7 +24,7 @@ public class MainController {
 
     @GetMapping("/")
     public ModelAndView getLoginForm(@ModelAttribute MyUser currentUser) {
-        ModelAndView modelAndView = new ModelAndView("login");
+        ModelAndView modelAndView = new ModelAndView("index");
         modelAndView.addObject("currentUser", currentUser);
         return modelAndView;
     }
