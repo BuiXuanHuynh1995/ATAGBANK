@@ -1,5 +1,6 @@
 <!doctype html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <title>ATAGBANK</title>
     <div th:fragment="header">
@@ -85,7 +86,17 @@
                                     class="icon-twitter"></span></a></li>
                             <li class="social"><a href="#contact-section" class="nav-link"><span
                                     class="icon-linkedin"></span></a></li>
-                            <li><a href="#home-section" class="nav-link">Admin Login</a></li>
+                            <li><a class="nav-link">|</a></li>
+                            <li>
+                                <a th:if="${#session.getAttribute('currentUserName')==null}" th:href="@{#}" class="nav-link">Register</a>
+                                <a th:if="${#session.getAttribute('currentUserName')!=null}" class="nav-link" th:text="${#session.getAttribute('currentUserName')}"></a>
+                            </li>
+                            <li><a th:if="${#session.getAttribute('currentUserName')==null}" th:href="@{login-form}" class="nav-link">Login</a>
+                                <a th:if="${#session.getAttribute('currentUserName')!=null}" th:href="@{#}" class="nav-link">Logout</a></li>
+                            <li><a class="nav-link">|</a></li>
+                            <li>
+                                <a th:href="@{admin/customerManagement}" class="nav-link">Admin</a></li>
+
                         </ul>
                     </nav>
                 </div>
@@ -155,9 +166,9 @@
             <br>
             <div class="row mb-5">
                 <div class="col-md-4 text-center" data-aos="fade-up" data-aos-delay="">
-                    <a th:href="@{/personal-profile}"><img src="images/flaticon-svg/svg/001-wallet.png"
+                    <a th:href="@{/user/profile}"><img src="images/flaticon-svg/svg/001-wallet.png"
                                            alt="Free Website Template by Free-Template.co" class="img-fluid w-25 mb-4"></a>
-                    <a th:href="@{/personal-profile}"><h3 class="card-title">Personals</h3></a>
+                    <a th:href="@{/user/profile}"><h3 class="card-title">Personals</h3></a>
                 </div>
                 <div class="col-md-4 text-center" data-aos="fade-up" data-aos-delay="200">
                     <a th:href="@{/}"><img src="images/flaticon-svg/svg/002-rich.png"

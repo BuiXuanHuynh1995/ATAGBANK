@@ -23,6 +23,11 @@ public class MainController {
     MyUserService myUserService;
 
     @GetMapping("/")
+    public ModelAndView getHomePage() {
+        return new ModelAndView("index");
+    }
+
+    @GetMapping("/login-form")
     public ModelAndView getLoginForm(@ModelAttribute MyUser currentUser) {
         ModelAndView modelAndView = new ModelAndView("login");
         modelAndView.addObject("currentUser", currentUser);
@@ -42,10 +47,5 @@ public class MainController {
             }
         }
         return new ModelAndView("login", "notFound", "Wrong username or password!");
-    }
-
-    @GetMapping("/personal-profile")
-    public String getPersonalProfile() {
-        return "personal/profile";
     }
 }
