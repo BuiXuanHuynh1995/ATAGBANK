@@ -33,7 +33,7 @@ public class MyUser {
     @Size(min = 6, message = "password length must be at least 6 characters")
     private String confirmPassword;
 
-    @Column(name = "status", nullable = false, columnDefinition = "TINYINT(1)")
+    @Column(name = "status", nullable = false)
     private boolean enabled;
 
     @Column(name = "name")
@@ -167,5 +167,13 @@ public class MyUser {
 
     public void setAccount(Account account) {
         this.account = account;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 }
