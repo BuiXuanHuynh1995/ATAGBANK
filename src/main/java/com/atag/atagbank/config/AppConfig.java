@@ -1,10 +1,13 @@
 package com.atag.atagbank.config;
 
+import com.atag.atagbank.formatter.AccountFormatter;
+import com.atag.atagbank.service.account.IAccountService;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.format.FormatterRegistry;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
@@ -34,5 +37,10 @@ public class AppConfig extends WebMvcConfigurerAdapter implements ApplicationCon
         registry.addResourceHandler("/personal/scss/**").addResourceLocations("classpath:/public/personalPage/scss/");
         registry.addResourceHandler("/login/css/**").addResourceLocations("classpath:/public/login/css/");
         registry.addResourceHandler("/login/js/**").addResourceLocations("classpath:/public/login/js/");
+    }
+
+    @Override
+    public void addFormatters(FormatterRegistry registry) {
+        registry.addFormatter(new AccountFormatter(appContext.getBean(IAccountService.class)));
     }
 }

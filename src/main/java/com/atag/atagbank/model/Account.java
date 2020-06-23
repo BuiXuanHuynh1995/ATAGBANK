@@ -13,6 +13,9 @@ public class Account {
     @Column(name = "balance")
     private Float balance;
 
+    @OneToMany(targetEntity = Transaction.class)
+    private List<Transaction> transactions;
+
     public Account() {
     }
 
