@@ -87,7 +87,7 @@
 
                             <li><a class="nav-link">|</a></li>
                             <li>
-                                <a th:if="${#session.getAttribute('currentUserName')==null}" th:href="@{#}" class="nav-link">Register</a>
+                                <a th:if="${#session.getAttribute('currentUserName')==null}" th:href="@{/registration}" class="nav-link">Register</a>
                                 <a th:if="${#session.getAttribute('currentUserName')!=null}" class="nav-link" th:text="${#session.getAttribute('currentUserName')}"></a>
                             </li>
                             <li><a th:if="${#session.getAttribute('currentUserName')==null}" th:href="@{login-form}" class="nav-link">Login</a>
