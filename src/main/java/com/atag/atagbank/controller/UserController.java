@@ -26,7 +26,8 @@ public class UserController {
     MyUserService myUserService;
 
     @GetMapping("/makeDeposit")
-    public ModelAndView showMakeDepositForm(@SessionAttribute("currentUser") MyUser currentUser) {
+    public ModelAndView showMakeDepositForm() {
+        MyUser currentUser = getUserFromPrincipal();
         return new ModelAndView("personal/makeDeposit", "currentUser", currentUser);
     }
 
@@ -55,7 +56,7 @@ public class UserController {
     }
 
     @GetMapping("/changePassword")
-    public ModelAndView showChangePasswordForm(HttpSession session) {
+    public ModelAndView showChangePasswordForm() {
         MyUser currentUser = getUserFromPrincipal();
         return new ModelAndView("personal/changePassword", "currentUser", currentUser);
     }
