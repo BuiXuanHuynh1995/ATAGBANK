@@ -49,11 +49,11 @@ public class MyUser {
     @Column(name = "address")
     private String address;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "users_roles",
-            joinColumns = {@JoinColumn(name = "user_id")},
-            inverseJoinColumns = {@JoinColumn(name = "role_id")})
-    private Set<Role> roles = new HashSet<>();
+//    @ManyToMany(fetch = FetchType.EAGER)
+//    @JoinTable(name = "users_roles",
+//            joinColumns = {@JoinColumn(name = "user_id")},
+//            inverseJoinColumns = {@JoinColumn(name = "role_id")})
+//    private Set<Role> roles = new HashSet<>();
 
     @OneToOne
     private Account account;
@@ -77,7 +77,7 @@ public class MyUser {
         this.name = name;
         this.dateOfBirth = dateOfBirth;
         this.address = address;
-        this.roles = roles;
+//        this.roles = roles;
         this.account = account;
     }
 
@@ -153,13 +153,13 @@ public class MyUser {
         this.address = address;
     }
 
-    public Set<Role> getRoles() {
-        return roles;
-    }
+//    public Set<Role> getRoles() {
+//        return roles;
+//    }
 
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
-    }
+//    public void setRoles(Set<Role> roles) {
+//        this.roles = roles;
+//    }
 
     public Account getAccount() {
         return account;

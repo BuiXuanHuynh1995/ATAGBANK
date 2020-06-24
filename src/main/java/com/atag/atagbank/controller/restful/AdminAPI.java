@@ -24,7 +24,7 @@ public class AdminAPI {
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
-    @PostMapping("/user-create")
+    @PostMapping("/user/create")
     public ResponseEntity<MyUser> createUser(@RequestBody MyUser user) {
         myUserService.save(user);
         return new ResponseEntity<>(user, HttpStatus.OK);
