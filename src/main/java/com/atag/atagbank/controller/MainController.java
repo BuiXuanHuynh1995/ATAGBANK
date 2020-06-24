@@ -70,21 +70,6 @@ public class MainController {
         return new ModelAndView("login", "notFound", "Wrong username or password!");
     }
 
-    @GetMapping("/personal-profile")
-    public ModelAndView editProfile() {
-        return new ModelAndView("personal/profile");
-    }
-
-    @PostMapping("/personal-profile")
-    public ModelAndView updateProfile(@ModelAttribute MyUser customer) {
-        myUserService.save(customer);
-        MyUser updatedCustomer = myUserService.findById(customer.getId());
-        updatedCustomer.setEnabled(true);
-        ModelAndView modelAndView = new ModelAndView("personal/profile");
-        modelAndView.addObject("currentUser", updatedCustomer);
-        modelAndView.addObject("message", "The information has been updated!");
-        return modelAndView;
-    }
 
     @RequestMapping(value="/registration", method = RequestMethod.GET)
     public ModelAndView registration(){
