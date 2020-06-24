@@ -15,12 +15,15 @@
         <!--        SHOW PROFILE-->
         <div id="otp" style="padding-top: 50px;">
             <h2 class="mb-4 color-black-opacity-5">OTP Confirm</h2>
-            <p>You are in a transaction on ATAGBANK system, Please input OTP sent to registered phone number</p>
-            <form action="" id="otpConfirm">
+            <p>You are in a transaction on ATAGBANK system, Please input OTP sent to complete transaction</p>
+            <th:block th:if="${message}">
+                <p th:text="${message}"></p>
+            </th:block>
+            <form th:action="@{/validateOTP}" th:object="${otpCode}" id="otpConfirm" method="post">
                 <table class="table table-hover">
                     <tr>
                         <th style="width: 150px;">OTP</th>
-                        <td style="width: 550px"><input style="width: 750px; border: 1px lightgray solid"
+                        <td style="width: 550px"><input th:field="*{code}" style="width: 750px; border: 1px lightgray solid"
                                                         type="password"></td>
                     </tr>
                     <tr>
