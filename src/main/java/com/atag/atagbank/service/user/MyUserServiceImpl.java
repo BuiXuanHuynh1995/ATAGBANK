@@ -7,6 +7,12 @@ import com.atag.atagbank.repository.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,14 +20,12 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Service
-public class MyUserServiceImpl implements MyUserService{
+public class MyUserServiceImpl implements MyUserService, UserDetailsService {
+//    @Autowired
+//    MyUserRepository myUserRepository;
 
     private MyUserRepository myUserRepository;
     private RoleRepository roleRepository;
@@ -29,8 +33,8 @@ public class MyUserServiceImpl implements MyUserService{
 
     @Autowired
     public MyUserServiceImpl(MyUserRepository myUserRepository,
-                       RoleRepository roleRepository,
-                       BCryptPasswordEncoder bCryptPasswordEncoder) {
+                             RoleRepository roleRepository,
+                             BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.myUserRepository = myUserRepository;
         this.roleRepository = roleRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
@@ -100,9 +104,25 @@ public class MyUserServiceImpl implements MyUserService{
 
     @Override
       public List<MyUser> findAllList() {
+
         return (List<MyUser>) myUserRepository.findAll();
     }
 
+  //  @Override
+    //public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+   //     MyUser myUser = myUserRepository.findByUsername(username);
+   //     if (myUser == null) {
+   //         myUser = new MyUser();
+    //        myUser.setUsername(username);
+    //        myUser.setPassword("");
+   //         myUser.setRole(new Role(2L,"ROLE_USER"));
+   //     }
+  //      List<GrantedAuthority> authors = new ArrayList<>();
+   //     authors.add(new SimpleGrantedAuthority(myUser.getRole().getRole()));
+////
+   //     return new User(myUser.getUsername(), myUser.getPassword(), authors);
+//}
+  
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {

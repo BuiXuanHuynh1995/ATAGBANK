@@ -37,6 +37,10 @@ public class TransactionController {
         return iAccountService.findAll();
     }
 
+    @GetMapping("/OTPPage")
+    public String getOPTPage(){
+        return "transaction/OTPPage";
+    }
     @GetMapping("/listing")
     ModelAndView getAllTransaction(@PageableDefault(sort = "time", direction = Sort.Direction.DESC) Pageable pageable, HttpSession session) {
         Page<Transaction> transactions;
