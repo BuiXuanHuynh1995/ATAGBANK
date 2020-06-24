@@ -3,11 +3,12 @@ package com.atag.atagbank.service.user;
 import com.atag.atagbank.model.MyUser;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface MyUserService {
+public interface MyUserService extends UserDetailsService {
     Page<MyUser> findAll(Pageable pageable);
 
     List<MyUser> findAllList();

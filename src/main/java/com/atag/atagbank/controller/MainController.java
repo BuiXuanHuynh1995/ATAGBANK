@@ -53,7 +53,7 @@ public class MainController {
         return modelAndView;
     }
 
-   @PostMapping("/login-form")
+   @PostMapping("/login")
     public ModelAndView login(@ModelAttribute MyUser currentUser, HttpSession session) {
         MyUser loginUser = myUserService.findByUserName(currentUser.getUsername());
         if (loginUser != null && currentUser.getPassword().equals(loginUser.getPassword())) {
@@ -127,7 +127,7 @@ public class MainController {
             mailMessage.setSubject("Complete Registration!");
             mailMessage.setFrom("huynhxuanbui@gmail.com");
             mailMessage.setText("To confirm your account, please click here : "
-                    + "http://localhost:8080/confirm-account?token=" + confirmationToken.getConfirmationToken());
+                    + "10.30.0.78:8080/confirm-account?token=" + confirmationToken.getConfirmationToken());
 
             emailSenderService.sendEmail(mailMessage);
 
