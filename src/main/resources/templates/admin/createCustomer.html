@@ -59,52 +59,72 @@
         </nav>
         <div id="profile" style="padding-top: 50px;">
             <h2 class="mb-4 color-black-opacity-5">Create New Customer</h2>
+            <p style="color: blue" th:if="${announceSuccess!=null}" th:text="${announceSuccess}"></p>
             <div>
                 <a class="btn btn-outline-dark" th:href="@{/admin/customerManagement}" style="float: left">Back To List</a>
             </div>
-            <form action="" th:object="${user}">
+            <form th:action="@{/admin/createNewCustomer}" method="post" th:object="${user}">
+                <input type="hidden" th:field="*{id}" th:value="0">
+                <input type="hidden" th:field="*{account.id}" th:value="0">
                 <table class="table table-hover">
                     <tr>
                         <th style="width: 250px">Account Name</th>
-                        <td style="width: 750px"><input style="width: 750px; border: 1px lightgray solid" type="text" disabled></td>
+                        <td style="width: 750px"><input style="width: 750px; border: 1px lightgray solid" type="text" th:field="*{username}"></td>
+                        <td th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></td>
+                        <td th:if="${announce!=null}" th:text="${announce}"></td>
                     </tr>
                     <tr>
                         <th>Password</th>
-                        <td style="width: 750px"><input style="width: 750px; border: 1px lightgray solid"type="password"></td>
+                        <td style="width: 750px"><input style="width: 750px; border: 1px lightgray solid"type="password" th:field="*{password}"></td>
+                        <td th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></td>
                     </tr>
                     <tr>
                         <th>Confirm Password</th>
-                        <td style="width: 750px"><input style="width: 750px; border: 1px lightgray solid"type="password"></td>
+                        <td style="width: 750px"><input style="width: 750px; border: 1px lightgray solid"type="password" th:field="*{confirmPassword}"></td>
+                        <td th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}"></td>
                     </tr>
                     <tr>
                         <th>Bank Account Number</th>
-                        <td style="width: 750px"><input style="width: 750px; border: 1px lightgray solid" type="text"></td>
+                        <td style="width: 750px">Will be automaticaly genrated</td>
                     </tr>
                     <tr>
                         <th>Full Name</th>
-                        <td style="width: 750px"><input style="width: 750px; border: 1px lightgray solid" type="text"></td>
+                        <td style="width: 750px"><input style="width: 750px; border: 1px lightgray solid" type="text" th:field="*{name}"></td>
+                        <td th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></td>
                     </tr>
                     <tr>
                         <th>Address</th>
-                        <td style="width: 750px"><input style="width: 750px; border: 1px lightgray solid" type="text"></td>
+                        <td style="width: 750px"><input style="width: 750px; border: 1px lightgray solid" type="text" th:field="*{address}"></td>
+                        <td th:if="${#fields.hasErrors('address')}" th:errors="*{address}"></td>
                     </tr>
                     <tr>
                         <th>Phone Number</th>
-                        <td style="width: 750px"><input style="width: 750px; border: 1px lightgray solid" type="text"></td>
+                        <td style="width: 750px"><input style="width: 750px; border: 1px lightgray solid" type="text" th:field="*{phoneNumber}"></td>
+                        <td th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}"></td>
                     </tr>
                     <tr>
                         <th>Email</th>
-                        <td style="width: 750px"><input style="width: 750px; border: 1px lightgray solid" type="email"></td>
+                        <td style="width: 750px"><input style="width: 750px; border: 1px lightgray solid" type="email" th:field="*{email}"></td>
+                        <td th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></td>
                     </tr>
                     <tr>
                         <th>Date Of Birth</th>
-                        <td style="width: 750px"><input style="width: 750px; border: 1px lightgray solid" type="text"></td>
+                        <td style="width: 750px"><input style="width: 750px; border: 1px lightgray solid" type="text" th:field="*{dateOfBirth}"></td>
+                        <td th:if="${#fields.hasErrors('dateOfBirth')}" th:errors="*{dateOfBirth}"></td>
                     </tr>
                     <tr>
                         <th>Role</th>
-                        <td><select name="" id="customerRole">
-                            <option value="ROLE_USER">User</option>
-                            <option value="ROLE_ADMIN">Admin</option>
+                        <td><select th:field="*{role}">
+                            <option th:each="r : ${roleList}"
+                                    th:value="${r.getId()}"
+                                    th:text="${r.role}"></option>
+                        </select></td>
+                    </tr>
+                    <tr>
+                        <th>Status</th>
+                        <td><select th:field="*{enabled}">
+                            <option selected th:value="true" th:text="Activated"></option>
+                            <option th:value="false" th:text="Deactivated"></option>
                         </select></td>
                     </tr>
                     <tr>
