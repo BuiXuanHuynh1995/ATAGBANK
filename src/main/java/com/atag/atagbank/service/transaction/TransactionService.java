@@ -1,5 +1,7 @@
 package com.atag.atagbank.service.transaction;
 
+import com.atag.atagbank.model.Account;
+import com.atag.atagbank.model.MyUser;
 import com.atag.atagbank.model.Transaction;
 import com.atag.atagbank.repository.TransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,5 +23,10 @@ public class TransactionService implements ITransactionService {
     @Override
     public void save(Transaction transaction) {
         transactionRepository.save(transaction);
+    }
+
+    @Override
+    public Page<Transaction> findAllByAccount(Account account, Pageable pageable) {
+        return transactionRepository.findAllByAccount(account,pageable);
     }
 }

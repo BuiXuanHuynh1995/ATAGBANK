@@ -12,15 +12,35 @@ public class Transaction {
     @JoinColumn(name = "account_id")
     private Account account;
     private float amount;
-    private	boolean type;
+    private String type;
     private Timestamp time;
+    private String partnerAccount;
+    private String transactionMessage;
 
-    public Transaction(Long id, Account account, float amount, boolean type, Timestamp time) {
+    public Transaction(Long id, Account account, float amount, String type, Timestamp time, String partnerAccount, String transactionMessage) {
         this.id = id;
         this.account = account;
         this.amount = amount;
         this.type = type;
         this.time = time;
+        this.partnerAccount = partnerAccount;
+        this.transactionMessage = transactionMessage;
+    }
+
+    public String getPartnerAccount() {
+        return partnerAccount;
+    }
+
+    public void setPartnerAccount(String partnerAccount) {
+        this.partnerAccount = partnerAccount;
+    }
+
+    public String getTransactionMessage() {
+        return transactionMessage;
+    }
+
+    public void setTransactionMessage(String transactionMessage) {
+        this.transactionMessage = transactionMessage;
     }
 
     public Transaction() {
@@ -50,11 +70,11 @@ public class Transaction {
         this.amount = amount;
     }
 
-    public boolean isType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(boolean type) {
+    public void setType(String type) {
         this.type = type;
     }
 
