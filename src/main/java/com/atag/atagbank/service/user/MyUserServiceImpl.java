@@ -70,7 +70,7 @@ public class MyUserServiceImpl implements MyUserService{
     public MyUser saveUser(MyUser user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         user.setConfirmPassword(bCryptPasswordEncoder.encode(user.getConfirmPassword()));
-        Role userRole = roleRepository.findByRole("ROLE_ADMIN");
+        Role userRole = roleRepository.findByRole("ROLE_USER");
         user.setRole(userRole);
         return myUserRepository.save(user);
     }

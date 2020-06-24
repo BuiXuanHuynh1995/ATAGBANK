@@ -53,7 +53,7 @@ public class MainController {
         return modelAndView;
     }
 
-   @PostMapping("/login")
+   @PostMapping("/login-form")
     public ModelAndView login(@ModelAttribute MyUser currentUser, HttpSession session) {
         MyUser loginUser = myUserService.findByUserName(currentUser.getUsername());
         if (loginUser != null && currentUser.getPassword().equals(loginUser.getPassword())) {
