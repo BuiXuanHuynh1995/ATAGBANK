@@ -22,14 +22,21 @@
                         <td>Account Number</td>
                         <td>
                             <select th:field="*{account}">
-                                <option th:each="account:${accounts}" th:value="${account.id}" th:text="${account.id}"></option>
+                                <option th:each="account:${accounts}" th:value="${account.id}"
+                                        th:text="${account.id}"></option>
                             </select>
                         </td>
                     </tr>
-
-                    <td>Amount</td>
-                    <td><input type="text" th:field="*{amount}"></td>
+                    <tr>
+                        <td>Amount</td>
+                        <td><input type="text" th:field="*{amount}"></td>
                     </tr>
+
+                    <tr>
+                        <td>Message</td>
+                        <td><input type="text" th:field="*{transactionMessage}"></td>
+                    </tr>
+
                     <tr>
                         <td colspan="2"><input type="submit" value="Send"></td>
                     </tr>

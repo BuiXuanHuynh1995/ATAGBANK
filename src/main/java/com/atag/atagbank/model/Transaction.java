@@ -14,13 +14,33 @@ public class Transaction {
     private float amount;
     private String type;
     private Timestamp time;
+    private String partnerAccount;
+    private String transactionMessage;
 
-    public Transaction(Long id, Account account, float amount, String type, Timestamp time) {
+    public Transaction(Long id, Account account, float amount, String type, Timestamp time, String partnerAccount, String transactionMessage) {
         this.id = id;
         this.account = account;
         this.amount = amount;
         this.type = type;
         this.time = time;
+        this.partnerAccount = partnerAccount;
+        this.transactionMessage = transactionMessage;
+    }
+
+    public String getPartnerAccount() {
+        return partnerAccount;
+    }
+
+    public void setPartnerAccount(String partnerAccount) {
+        this.partnerAccount = partnerAccount;
+    }
+
+    public String getTransactionMessage() {
+        return transactionMessage;
+    }
+
+    public void setTransactionMessage(String transactionMessage) {
+        this.transactionMessage = transactionMessage;
     }
 
     public Transaction() {
