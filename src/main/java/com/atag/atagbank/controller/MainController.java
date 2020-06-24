@@ -97,27 +97,27 @@ public class MainController {
     }
 
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
-    public ModelAndView createNewUser(@Valid MyUser user, BindingResult bindingResult) {
-        ModelAndView modelAndView = new ModelAndView();
-        MyUser userExists = myUserService.findByUserName(user.getUsername());
-        if (userExists != null) {
-            bindingResult
-                    .rejectValue("userName", "error.user",
-                            "There is already a user registered with the user name provided");
+    public ModelAndView createNewUser(@Valid @ModelAttribute("user") MyUser user, BindingResult bindingResult) {
+        Long id = Long.valueOf(myUserService.findAllList().size() + 1);
+        user.setId(id);
+        if (myUserService.isRegister(user)) {
+            ModelAndView modelAndView = new ModelAndView("registration");
+            modelAndView.addObject("message", "Username or email is already registered");
+            return modelAndView;
         }
-
-        MyUser existingUser = myUserService.findByEmail(user.getEmail());
-        if(existingUser != null)
-        {
-            bindingResult
-                    .rejectValue("email", "error.user",
-                            "There is already a user registered with the email provided");
+        if (!myUserService.isCorrectConfirmPassword(user)) {
+            ModelAndView modelAndView = new ModelAndView("registration");
+            modelAndView.addObject("message", "Confirm Password is incorrect");
+            return modelAndView;
         }
-
         if (bindingResult.hasFieldErrors()) {
-            modelAndView.setViewName("registration");
+            ModelAndView modelAndView1 = new ModelAndView();
+            modelAndView1.setViewName("registration");
+            modelAndView1.addObject("user", user);
+            return modelAndView1;
         } else {
-            myUserService.save(user);
+            ModelAndView modelAndView = new ModelAndView("successfulRegisteration");
+            myUserService.saveUser(user);
             ConfirmationToken confirmationToken = new ConfirmationToken(user);
 
             confirmationTokenService.save(confirmationToken);
@@ -127,17 +127,14 @@ public class MainController {
             mailMessage.setSubject("Complete Registration!");
             mailMessage.setFrom("huynhxuanbui@gmail.com");
             mailMessage.setText("To confirm your account, please click here : "
-                    +"http://localhost:8080/confirm-account?token="+confirmationToken.getConfirmationToken());
+                    + "http://localhost:8080/confirm-account?token=" + confirmationToken.getConfirmationToken());
 
             emailSenderService.sendEmail(mailMessage);
 
             modelAndView.addObject("email", user.getEmail());
             modelAndView.addObject("successMessage", "User has been registered successfully");
-            modelAndView.setViewName("successfulRegisteration");
-
+            return modelAndView;
         }
-        return modelAndView;
-
     }
 
     @RequestMapping(value="/confirm-account", method= {RequestMethod.GET})
@@ -148,7 +145,7 @@ public class MainController {
         {
             MyUser user = token.getUser();
             user.setEnabled(true);
-            myUserService.saveUser(user);
+            myUserService.save(user);
             modelAndView.setViewName("accountVerified");
         }
         else

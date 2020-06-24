@@ -67,12 +67,35 @@ public class MyUserServiceImpl implements MyUserService {
     public MyUser saveUser(MyUser user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         user.setConfirmPassword(bCryptPasswordEncoder.encode(user.getConfirmPassword()));
-        Role userRole = roleRepository.findByRole("ADMIN");
+        Role userRole = roleRepository.findByRole("ROLE_ADMIN");
         user.setRole(userRole);
         return myUserRepository.save(user);
     }
 
-  @Override
+    @Override
+    public boolean isRegister(MyUser user) {
+        boolean isRegister = false;
+        Iterable<MyUser> users = myUserRepository.findAll();
+        for (MyUser currentUser : users) {
+            if (user.getUsername().equals(currentUser.getUsername()) ||
+                    user.getEmail().equals(currentUser.getEmail())) {
+                isRegister = true;
+                break;
+            }
+        }
+        return isRegister;
+    }
+
+    @Override
+    public boolean isCorrectConfirmPassword(MyUser user) {
+        boolean isCorrentConfirmPassword = false;
+        if (user.getPassword().equals(user.getConfirmPassword())) {
+            isCorrentConfirmPassword = true;
+        }
+        return isCorrentConfirmPassword;
+    }
+
+    @Override
       public List<MyUser> findAllList() {
         return (List<MyUser>) myUserRepository.findAll();
     }
