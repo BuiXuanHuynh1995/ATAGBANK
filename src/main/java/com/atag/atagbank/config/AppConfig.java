@@ -1,8 +1,10 @@
 package com.atag.atagbank.config;
 
 import com.atag.atagbank.formatter.AccountFormatter;
+import com.atag.atagbank.formatter.RoleFormatter;
 import com.atag.atagbank.service.account.AccountService;
 import com.atag.atagbank.service.account.IAccountService;
+import com.atag.atagbank.service.role.RoleService;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -39,7 +41,7 @@ public class AppConfig implements ApplicationContextAware, WebMvcConfigurer {
         registry.addResourceHandler("/personal/css/**").addResourceLocations("classpath:/public/personalPage/css/");
         registry.addResourceHandler("/personal/js/**").addResourceLocations("classpath:/public/personalPage/js/");
         registry.addResourceHandler("/personal/images/**").addResourceLocations("classpath:/public/personalPage/images/");
-        registry.addResourceHandler("/personal/scss/**").addResourceLocations("classpath:/public/personalPage/scss/");registry.addResourceHandler("/personal/css/**").addResourceLocations("classpath:/public/personalPage/css/");
+        registry.addResourceHandler("/personal/scss/**").addResourceLocations("classpath:/public/personalPage/scss/");
         registry.addResourceHandler("/user/personal/css/**").addResourceLocations("classpath:/public/personalPage/css/");
         registry.addResourceHandler("/user/personal/js/**").addResourceLocations("classpath:/public/personalPage/js/");
         registry.addResourceHandler("/user/personal/images/**").addResourceLocations("classpath:/public/personalPage/images/");
@@ -54,10 +56,16 @@ public class AppConfig implements ApplicationContextAware, WebMvcConfigurer {
         registry.addResourceHandler("/transaction/personal/js/**").addResourceLocations("classpath:/public/personalPage/js/");
         registry.addResourceHandler("/transaction/personal/images/**").addResourceLocations("classpath:/public/personalPage/images/");
         registry.addResourceHandler("/transaction/personal/scss/**").addResourceLocations("classpath:/public/personalPage/scss/");
+
+        registry.addResourceHandler("admin/user-update/personal/css/**").addResourceLocations("classpath:/public/personalPage/css/");
+        registry.addResourceHandler("admin/user-update/personal/js/**").addResourceLocations("classpath:/public/personalPage/js/");
+        registry.addResourceHandler("admin/user-update/personal/images/**").addResourceLocations("classpath:/public/personalPage/images/");
+        registry.addResourceHandler("admin/user-update/personal/scss/**").addResourceLocations("classpath:/public/personalPage/scss/");
     }
 
     @Override
     public void addFormatters(FormatterRegistry registry) {
         registry.addFormatter(new AccountFormatter(appContext.getBean(AccountService.class)));
+        registry.addFormatter(new RoleFormatter(appContext.getBean(RoleService.class)));
     }
 }

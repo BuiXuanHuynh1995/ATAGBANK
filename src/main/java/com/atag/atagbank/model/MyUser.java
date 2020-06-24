@@ -21,6 +21,11 @@ public class MyUser {
     private String username;
 
     @Column(nullable = false, unique = true)
+    @NotEmpty(message = "phone number must be fill")
+    @Size(min = 10, max = 10, message = "phone number have 10 characters")
+    private String phoneNumber;
+
+    @Column(nullable = false, unique = true)
     @NotEmpty(message = "email must be fill")
     @Email(message = "Incorrect form")
     private String email;
@@ -40,7 +45,7 @@ public class MyUser {
     private String name;
 
     @ManyToOne
-    @JoinColumn(name = "role_id")
+    @JoinColumn(name = "roles_id")
     private Role role;
 
     @Column(name = "dateOfBirth")
@@ -49,11 +54,11 @@ public class MyUser {
     @Column(name = "address")
     private String address;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "users_roles",
-            joinColumns = {@JoinColumn(name = "user_id")},
-            inverseJoinColumns = {@JoinColumn(name = "role_id")})
-    private Set<Role> roles = new HashSet<>();
+//    @ManyToMany(fetch = FetchType.EAGER)
+//    @JoinTable(name = "users_roles",
+//            joinColumns = {@JoinColumn(name = "user_id")},
+//            inverseJoinColumns = {@JoinColumn(name = "role_id")})
+//    private Set<Role> roles = new HashSet<>();
 
     @OneToOne
     private Account account;
@@ -68,7 +73,7 @@ public class MyUser {
         this.confirmPassword = confirmPassword;
     }
 
-    public MyUser(@NotEmpty(message = "username must be fill") @Size(min = 6, max = 15, message = "username length must be between 6 and 15") String username, @NotEmpty(message = "email must be fill") @Email(message = "Incorrect form") String email, @NotEmpty(message = "password must be fill") @Size(min = 6, message = "password length must be at least 6 characters") String password, @NotEmpty(message = "confirm password must be fill") @Size(min = 6, message = "password length must be at least 6 characters") String confirmPassword, boolean enabled, String name, String dateOfBirth, String address, Set<Role> roles, Account account) {
+    public MyUser(@NotEmpty(message = "username must be fill") @Size(min = 6, max = 15, message = "username length must be between 6 and 15") String username, @NotEmpty(message = "email must be fill") @Email(message = "Incorrect form") String email, @NotEmpty(message = "password must be fill") @Size(min = 6, message = "password length must be at least 6 characters") String password, @NotEmpty(message = "confirm password must be fill") @Size(min = 6, message = "password length must be at least 6 characters") String confirmPassword, boolean enabled, String name, String dateOfBirth, String address, Role role, Account account,String phoneNumber) {
         this.username = username;
         this.email = email;
         this.password = password;
@@ -77,8 +82,9 @@ public class MyUser {
         this.name = name;
         this.dateOfBirth = dateOfBirth;
         this.address = address;
-        this.roles = roles;
+        this.role = role;
         this.account = account;
+        this.phoneNumber=phoneNumber;
     }
 
     public Long getId() {
@@ -153,13 +159,13 @@ public class MyUser {
         this.address = address;
     }
 
-    public Set<Role> getRoles() {
-        return roles;
-    }
+//    public Set<Role> getRoles() {
+//        return roles;
+//    }
 
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
-    }
+//    public void setRoles(Set<Role> roles) {
+//        this.roles = roles;
+//    }
 
     public Account getAccount() {
         return account;
@@ -175,5 +181,13 @@ public class MyUser {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 }

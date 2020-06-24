@@ -16,23 +16,7 @@
         <div class="p-4 pt-5">
             <a href="#" class="img logo rounded-0 mb-5"
                th:style="'background-image:url(' + @{/personal/images/admin.jpg} + ');  width:180px; height:180px'"></a>
-            <ul class="list-unstyled components mb-5">
-                <li class="active">
-                    <a href="#" id="">Customer Management</a>
-                </li>
-                <li>
-                    <a href="#">Check Account Balance</a>
-                </li>
-                <li>
-                    <a href="#">Transfer within AtagBank</a>
-                </li>
-                <li>
-                    <a href="#">Make a Deposit</a>
-                </li>
-                <li>
-                    <a href="#">Contact</a>
-                </li>
-            </ul>
+            <ul th:replace="admin/customerManagement :: adminLeftSideBar"></ul>
 
             <div class="footer">
                 <p>
@@ -75,55 +59,71 @@
         </nav>
         <div id="profile" style="padding-top: 50px;">
             <h2 class="mb-4 color-black-opacity-5">Edit Customer</h2>
+            <p style="color: blue" th:if="${announcement!=null}" th:text="${announcement}"></p>
             <div>
-                <a class="btn btn-outline-dark" href="" style="float: left">Back To List</a>
+                <a class="btn btn-outline-dark" th:href="@{/admin/customerManagement}" style="float: left">Back To List</a>
             </div>
-            <form action="">
+            <form action="#" th:action="@{/admin/user-update}" method="post" th:object="${user}">
+                <input type="hidden" name="id" th:field="*{id}">
+                <input type="hidden" name="id" th:field="*{password}">
+                <input type="hidden" name="id" th:field="*{confirmPassword}">
+                <input type="hidden" name="id" th:field="*{account.id}">
                 <table class="table table-hover">
                     <tr>
                         <th style="width: 250px">Account Name</th>
-                        <td style="width: 750px"><input style="width: 750px; border: 1px lightgray solid" type="text" disabled></td>
-                    </tr>
-                    <tr>
-                        <th>Password</th>
-                        <td style="width: 750px"><input style="width: 750px; border: 1px lightgray solid"type="password"></td>
+                        <td style="width: 750px"><input style="width: 750px; border: 1px lightgray solid" type="text"
+                                                        th:field="*{username}"></td>
                     </tr>
                     <tr>
                         <th>Bank Account Number</th>
-                        <td style="width: 750px"><input style="width: 750px; border: 1px lightgray solid" type="text"></td>
+                        <td style="width: 750px"><input style="width: 750px; border: 1px lightgray solid" type="text"
+                                                        th:value="*{account.id}" disabled></td>
                     </tr>
                     <tr>
                         <th>Full Name</th>
-                        <td style="width: 750px"><input style="width: 750px; border: 1px lightgray solid" type="text"></td>
+                        <td style="width: 750px"><input style="width: 750px; border: 1px lightgray solid" type="text"
+                                                        th:field="*{name}"></td>
                     </tr>
                     <tr>
                         <th>Address</th>
-                        <td style="width: 750px"><input style="width: 750px; border: 1px lightgray solid" type="text"></td>
+                        <td style="width: 750px"><input style="width: 750px; border: 1px lightgray solid" type="text"
+                                                        th:field="*{address}"></td>
                     </tr>
                     <tr>
                         <th>Phone Number</th>
-                        <td style="width: 750px"><input style="width: 750px; border: 1px lightgray solid" type="text"></td>
+                        <td style="width: 750px"><input style="width: 750px; border: 1px lightgray solid" type="text"
+                                                        th:field="*{phoneNumber}"></td>
                     </tr>
                     <tr>
                         <th>Email</th>
-                        <td style="width: 750px"><input style="width: 750px; border: 1px lightgray solid" type="email"></td>
+                        <td style="width: 750px"><input style="width: 750px; border: 1px lightgray solid" type="email"
+                                                        th:field="*{email}"></td>
                     </tr>
                     <tr>
                         <th>Date Of Birth</th>
-                        <td style="width: 750px"><input style="width: 750px; border: 1px lightgray solid" type="text"></td>
+                        <td style="width: 750px"><input style="width: 750px; border: 1px lightgray solid" type="text"
+                                                        th:field="*{dateOfBirth}"></td>
                     </tr>
                     <tr>
                         <th>Role</th>
-                        <td><select name="" id="customerRole">
-                            <option value="ROLE_USER">User</option>
-                            <option value="ROLE_ADMIN">Admin</option>
+                        <td><select name="role">
+                            <option th:each="r : ${roleList}"
+                                    th:value="${r.getId()}"
+                                    th:text="${r.role}"
+                                    th:selected="(${r.getId()} == 2)"></option>
                         </select></td>
                     </tr>
                     <tr>
                         <th>Status</th>
-                        <td><select name="" id="customerStatus">
-                            <option value="activated">Activated</option>
-                            <option value="deactivated">Deactivated</option>
+                        <td><select name="enabled" id="customerStatus">
+                            <th:block th:if="${user.enabled==true}">
+                                <option selected th:value="true" th:text="Activated"></option>
+                                <option th:value="false" th:text="Deactivated"></option>
+                            </th:block>
+                            <th:block th:if="${user.enabled==false}">
+                                <option th:value="true" th:text="Activated"></option>
+                                <option selected th:value="false" th:text="Deactivated"></option>
+                            </th:block>
                         </select></td>
                     </tr>
                     <tr>
