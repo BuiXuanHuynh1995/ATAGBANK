@@ -13,6 +13,9 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -71,29 +74,75 @@ public class MyUserServiceImpl implements MyUserService, UserDetailsService {
     public MyUser saveUser(MyUser user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         user.setConfirmPassword(bCryptPasswordEncoder.encode(user.getConfirmPassword()));
-        Role userRole = roleRepository.findByRole("ADMIN");
+        Role userRole = roleRepository.findByRole("ROLE_ADMIN");
         user.setRole(userRole);
         return myUserRepository.save(user);
     }
 
     @Override
-    public List<MyUser> findAllList() {
-        return (List<MyUser>) myUserRepository.findAll();
+    public boolean isRegister(MyUser user) {
+        boolean isRegister = false;
+        Iterable<MyUser> users = myUserRepository.findAll();
+        for (MyUser currentUser : users) {
+            if (user.getUsername().equals(currentUser.getUsername()) ||
+                    user.getEmail().equals(currentUser.getEmail())) {
+                isRegister = true;
+                break;
+            }
+        }
+        return isRegister;
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        MyUser myUser = myUserRepository.findByUsername(username);
-        if (myUser == null) {
-            myUser = new MyUser();
-            myUser.setUsername(username);
-            myUser.setPassword("");
-            myUser.setRole(new Role(2L,"ROLE_USER"));
+    public boolean isCorrectConfirmPassword(MyUser user) {
+        boolean isCorrentConfirmPassword = false;
+        if (user.getPassword().equals(user.getConfirmPassword())) {
+            isCorrentConfirmPassword = true;
         }
-        List<GrantedAuthority> authors = new ArrayList<>();
-        authors.add(new SimpleGrantedAuthority(myUser.getRole().getRole()));
+        return isCorrentConfirmPassword;
+    }
 
-        return new User(myUser.getUsername(), myUser.getPassword(), authors);
+    @Override
+      public List<MyUser> findAllList() {
+
+        return (List<MyUser>) myUserRepository.findAll();
+    }
+
+  //  @Override
+    //public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+   //     MyUser myUser = myUserRepository.findByUsername(username);
+   //     if (myUser == null) {
+   //         myUser = new MyUser();
+    //        myUser.setUsername(username);
+    //        myUser.setPassword("");
+   //         myUser.setRole(new Role(2L,"ROLE_USER"));
+   //     }
+  //      List<GrantedAuthority> authors = new ArrayList<>();
+   //     authors.add(new SimpleGrantedAuthority(myUser.getRole().getRole()));
+////
+   //     return new User(myUser.getUsername(), myUser.getPassword(), authors);
+//}
+  
+    @Override
+    @Transactional
+    public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
+        MyUser user = myUserRepository.findByName(userName);
+        List<GrantedAuthority> authorities = getUserAuthority((Set<Role>) user.getRole());
+        return buildUserForAuthentication(user, authorities);
+    }
+
+    private List<GrantedAuthority> getUserAuthority(Set<Role> userRoles) {
+        Set<GrantedAuthority> roles = new HashSet<GrantedAuthority>();
+        for (Role role : userRoles) {
+            roles.add(new SimpleGrantedAuthority(role.getRole()));
+        }
+        List<GrantedAuthority> grantedAuthorities = new ArrayList<>(roles);
+        return grantedAuthorities;
+    }
+
+    private UserDetails buildUserForAuthentication(MyUser user, List<GrantedAuthority> authorities) {
+        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(),
+                user.isEnabled(), true, true, true, authorities);
     }
 
 }

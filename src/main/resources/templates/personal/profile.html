@@ -19,12 +19,12 @@
                 <span th:text="${message}" class="alert alert-info" role="alert"></span>
             </th:block>
 
-            <form method="post" th:object="${currentUser}" th:action="@{/personal-profile}">
+            <form method="post" th:object="${currentUser}" th:action="@{/user/profile}">
                 <table class="table table-hover">
                     <tr>
                         <td><input type="hidden" th:field="*{id}">
-<!--                        <td><input type="hidden" th:field="*{role}">-->
-<!--                        <td><input type="hidden" th:field="*{enabled}">-->
+                        <td><input type="hidden" th:field="*{role}">
+                        <td><input type="hidden" th:field="*{enabled}" th:value="*{enabled}">
                         </td>
                     </tr>
                     <tr>
@@ -53,7 +53,7 @@
                     </tr>
                     <tr>
                         <th>Phone Number</th>
-                        <td style="width: 750px"><input style="width: 750px; border: 1px lightgray solid" type="text" >
+                        <td style="width: 750px"><input style="width: 750px; border: 1px lightgray solid" type="text" th:field="*{phoneNumber}" >
                         </td>
                     </tr>
                     <tr>

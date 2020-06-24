@@ -29,6 +29,7 @@ dependencies {
     implementation  'org.springframework.security:spring-security-core'
 
 
+
     implementation "com.fasterxml.jackson.core:jackson-core"
     implementation "com.fasterxml.jackson.core:jackson-databind"
 
@@ -42,6 +43,10 @@ dependencies {
     testImplementation 'org.springframework.security:spring-security-test'
     annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
     annotationProcessor 'org.projectlombok:lombok'
+
+    // https://mvnrepository.com/artifact/com.google.guava/guava
+    compile group: 'com.google.guava', name: 'guava', version: '19.0'
+
 }
 
 test {
