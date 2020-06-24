@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -37,5 +38,10 @@ public class MyUserServiceImpl implements MyUserService {
     @Override
     public MyUser findByName(String name) {
         return myUserRepository.findByName(name);
+    }
+
+    @Override
+    public List<MyUser> findAllList() {
+        return (List<MyUser>) myUserRepository.findAll();
     }
 }
