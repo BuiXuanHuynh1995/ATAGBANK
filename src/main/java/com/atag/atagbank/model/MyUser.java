@@ -12,7 +12,7 @@ import java.util.Set;
 @Table(name = "users")
 public class MyUser {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @Column(nullable = false, unique = true)
@@ -73,7 +73,16 @@ public class MyUser {
         this.confirmPassword = confirmPassword;
     }
 
-    public MyUser(@NotEmpty(message = "username must be fill") @Size(min = 6, max = 15, message = "username length must be between 6 and 15") String username, @NotEmpty(message = "email must be fill") @Email(message = "Incorrect form") String email, @NotEmpty(message = "password must be fill") @Size(min = 6, message = "password length must be at least 6 characters") String password, @NotEmpty(message = "confirm password must be fill") @Size(min = 6, message = "password length must be at least 6 characters") String confirmPassword, boolean enabled, String name, String dateOfBirth, String address, Role role, Account account,String phoneNumber) {
+    public MyUser(@NotEmpty(message = "username must be fill") @Size(min = 6, max = 15, message = "username length must be between 6 and 15") String username,
+                  @NotEmpty(message = "email must be fill") @Email(message = "Incorrect form") String email,
+                  @NotEmpty(message = "password must be fill") @Size(min = 6, message = "password length must be at least 6 characters") String password,
+                  @NotEmpty(message = "confirm password must be fill") @Size(min = 6, message = "password length must be at least 6 characters") String confirmPassword,
+                  boolean enabled,
+                  String name,
+                  String dateOfBirth,
+                  String address, Role role,
+                  Account account,
+                  String phoneNumber) {
         this.username = username;
         this.email = email;
         this.password = password;

@@ -10,4 +10,6 @@ public interface IAccountService {
     void addMoneyToAccount(Float amount, Long id);
     void save(Account account);
     void minusMoneyFromAccount(Float amount,Long id);
+
+    boolean checkBalance(float amount,Account account);
 }
