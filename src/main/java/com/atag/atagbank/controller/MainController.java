@@ -1,6 +1,7 @@
 package com.atag.atagbank.controller;
 
 import com.atag.atagbank.model.MyUser;
+import com.atag.atagbank.model.Role;
 import com.atag.atagbank.service.user.MyUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -9,6 +10,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.lang.reflect.Array;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 @Controller
 @SessionAttributes("currentUser")
@@ -41,7 +46,9 @@ public class MainController {
             if (loginUser.isEnabled()) {
                 session.setAttribute("currentUser", loginUser);
                 session.setAttribute("currentUserName", loginUser.getName());
-                return new ModelAndView("index");
+                ModelAndView modelAndView = new ModelAndView("index");
+                modelAndView.addObject("currentUser", loginUser);
+                return modelAndView;
             } else {
                 return new ModelAndView("login", "deactivated", "Account is deactivated. Please contact Admin to active!");
             }
@@ -49,14 +56,20 @@ public class MainController {
         return new ModelAndView("login", "notFound", "Wrong username or password!");
     }
 
-
+    @GetMapping("/personal-profile")
+    public ModelAndView editProfile() {
+        return new ModelAndView("personal/profile");
+    }
 
     @PostMapping("/personal-profile")
-    public ModelAndView editProfile(@ModelAttribute MyUser customer) {
+    public ModelAndView updateProfile(@ModelAttribute MyUser customer) {
         myUserService.save(customer);
+        MyUser updatedCustomer = myUserService.findById(customer.getId());
+        updatedCustomer.setEnabled(true);
+
         ModelAndView modelAndView = new ModelAndView("personal/profile");
-        modelAndView.addObject("currentUser", customer);
-        modelAndView.addObject("message", "The information was updated!");
+        modelAndView.addObject("currentUser", updatedCustomer);
+        modelAndView.addObject("message", "The information has been updated!");
         return modelAndView;
     }
 }
