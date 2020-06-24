@@ -10,7 +10,7 @@ import java.util.Optional;
 
 @Service
 @Component
-public class AccountService implements IAccountService{
+public class AccountService implements IAccountService {
     @Autowired
     AccountRepository accountRepository;
 
@@ -32,9 +32,9 @@ public class AccountService implements IAccountService{
     @Override
     public void addMoneyToAccount(Float amount, Long id) {
         Optional<Account> currentAccountOptional = this.findById(id);
-        if (currentAccountOptional.isPresent()){
+        if (currentAccountOptional.isPresent()) {
             Account currentAccount = currentAccountOptional.get();
-            currentAccount.setBalance(currentAccount.getBalance()+amount);
+            currentAccount.setBalance(currentAccount.getBalance() + amount);
             save(currentAccount);
         }
     }
@@ -42,10 +42,18 @@ public class AccountService implements IAccountService{
     @Override
     public void minusMoneyFromAccount(Float amount, Long id) {
         Optional<Account> currentAccountOptional = this.findById(id);
-        if (currentAccountOptional.isPresent()){
+        if (currentAccountOptional.isPresent()) {
             Account currentAccount = currentAccountOptional.get();
-            currentAccount.setBalance(currentAccount.getBalance()-amount);
+            currentAccount.setBalance(currentAccount.getBalance() - amount);
             save(currentAccount);
         }
+    }
+
+    @Override
+    public boolean checkBalance(float amount, Account account) {
+        if (account.getBalance() <= amount) {
+            return false;
+        }
+        return true;
     }
 }

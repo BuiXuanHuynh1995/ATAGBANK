@@ -17,9 +17,9 @@
                 <p th:text="${message}"></p>
             </th:block>
             <form th:action="@{/transaction/create}" th:object="${transaction}" method="post">
-                <table>
+                <table class="table-hover">
                     <tr>
-                        <td>Account Number</td>
+                        <th>Receive Account Number</th>
                         <td>
                             <select th:field="*{account}">
                                 <option th:each="account:${accounts}" th:value="${account.id}"
@@ -28,12 +28,12 @@
                         </td>
                     </tr>
                     <tr>
-                        <td>Amount</td>
+                        <th>Amount</th>
                         <td><input type="text" th:field="*{amount}"></td>
                     </tr>
 
                     <tr>
-                        <td>Message</td>
+                        <th>Message</th>
                         <td><input type="text" th:field="*{transactionMessage}"></td>
                     </tr>
 

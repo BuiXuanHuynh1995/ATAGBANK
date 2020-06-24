@@ -57,30 +57,34 @@ public class TransactionController {
 
     @PostMapping("/create")
     ModelAndView createTransaction(@ModelAttribute("transaction") Transaction transaction, HttpSession session) {
-        String senderName = (String) session.getAttribute("currentUserName");
-        MyUser senderAccount = myUserService.findByName(senderName);
-        String receiverName = String.valueOf(transaction.getAccount().getId());
-        //Receiver scope
-        transaction.setType("CREDIT");
-        transaction.setPartnerAccount(String.valueOf(senderAccount.getAccount().getId()));
-        transaction.setTime(new Timestamp(System.currentTimeMillis()));
-        iTransactionService.save(transaction);
-        //Sender scope
-        Transaction syncTransaction = new Transaction();
-        syncTransaction.setTime(new Timestamp(System.currentTimeMillis()));
-        syncTransaction.setAmount(transaction.getAmount());
-        syncTransaction.setType("DEBIT");
-        syncTransaction.setAccount(senderAccount.getAccount());
-        syncTransaction.setTransactionMessage(transaction.getTransactionMessage());
-        syncTransaction.setPartnerAccount(receiverName);
-        iTransactionService.save(syncTransaction);
-
-        iAccountService.addMoneyToAccount(transaction.getAmount(), transaction.getAccount().getId());
-        iAccountService.minusMoneyFromAccount(transaction.getAmount(), senderAccount.getAccount().getId());
-
         ModelAndView modelAndView = new ModelAndView("transaction/create");
-        modelAndView.addObject("transaction", new Transaction());
-        modelAndView.addObject("message", "Send successfully");
+        if(iAccountService.checkBalance(transaction.getAmount(),transaction.getAccount())){
+            String senderName = (String) session.getAttribute("currentUserName");
+            MyUser senderAccount = myUserService.findByName(senderName);
+            String receiverName = String.valueOf(transaction.getAccount().getId());
+            //Receiver scope
+            transaction.setType("CREDIT");
+            transaction.setPartnerAccount(String.valueOf(senderAccount.getAccount().getId()));
+            transaction.setTime(new Timestamp(System.currentTimeMillis()));
+            iTransactionService.save(transaction);
+            //Sender scope
+            Transaction syncTransaction = new Transaction();
+            syncTransaction.setTime(new Timestamp(System.currentTimeMillis()));
+            syncTransaction.setAmount(transaction.getAmount());
+            syncTransaction.setType("DEBIT");
+            syncTransaction.setAccount(senderAccount.getAccount());
+            syncTransaction.setTransactionMessage(transaction.getTransactionMessage());
+            syncTransaction.setPartnerAccount(receiverName);
+            iTransactionService.save(syncTransaction);
+
+            iAccountService.addMoneyToAccount(transaction.getAmount(), transaction.getAccount().getId());
+            iAccountService.minusMoneyFromAccount(transaction.getAmount(), senderAccount.getAccount().getId());
+            modelAndView.addObject("transaction", new Transaction());
+            modelAndView.addObject("message", "Send successfully");
+        }else {
+            modelAndView.addObject("transaction", new Transaction());
+            modelAndView.addObject("message", "Your balance is not enough to make this transaction!");
+        }
         return modelAndView;
     }
 }
