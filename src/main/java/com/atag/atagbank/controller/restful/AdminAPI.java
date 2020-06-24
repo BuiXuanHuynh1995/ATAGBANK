@@ -29,16 +29,4 @@ public class AdminAPI {
         myUserService.save(user);
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
-
-
-    @PutMapping("user/update/{id}")
-    public ResponseEntity<MyUser> updateUser(@PathVariable Long id, @RequestBody MyUser user) {
-        MyUser currentUser = myUserService.findById(id);
-        if (currentUser == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        user.setId(id);
-        myUserService.save(user);
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
 }
