@@ -66,7 +66,6 @@ public class MainController {
         myUserService.save(customer);
         MyUser updatedCustomer = myUserService.findById(customer.getId());
         updatedCustomer.setEnabled(true);
-
         ModelAndView modelAndView = new ModelAndView("personal/profile");
         modelAndView.addObject("currentUser", updatedCustomer);
         modelAndView.addObject("message", "The information has been updated!");
