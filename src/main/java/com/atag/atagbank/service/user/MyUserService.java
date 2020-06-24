@@ -19,4 +19,8 @@ public interface MyUserService {
     MyUser findByUserName(String username);
 
     MyUser findByName(String name);
+
+    MyUser findByEmail(String email);
+
+    MyUser saveUser(MyUser user);
 }

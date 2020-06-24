@@ -7,4 +7,5 @@ import java.util.Optional;
 public interface IRoleService {
     Iterable<Role> findAll();
     Optional<Role> findById(Long id);
+    Role findByRole(String role);
 }

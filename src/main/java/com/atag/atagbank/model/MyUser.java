@@ -168,13 +168,13 @@ public class MyUser {
         this.address = address;
     }
 
-//    public Set<Role> getRoles() {
-//        return roles;
-//    }
+    public Role getRole() {
+        return role;
+    }
 
-//    public void setRoles(Set<Role> roles) {
-//        this.roles = roles;
-//    }
+    public void setRole(Role role) {
+        this.role = role;
+    }
 
     public Account getAccount() {
         return account;
@@ -184,13 +184,6 @@ public class MyUser {
         this.account = account;
     }
 
-    public Role getRole() {
-        return role;
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
-    }
 
     public String getPhoneNumber() {
         return phoneNumber;
@@ -199,4 +192,5 @@ public class MyUser {
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
+
 }
