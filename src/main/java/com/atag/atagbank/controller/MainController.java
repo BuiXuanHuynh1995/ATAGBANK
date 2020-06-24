@@ -4,24 +4,16 @@ import com.atag.atagbank.model.ConfirmationToken;
 import com.atag.atagbank.model.MyUser;
 import com.atag.atagbank.service.EmailSenderService;
 import com.atag.atagbank.service.confirmationToken.IConfirmationTokenService;
-import com.atag.atagbank.model.Role;
 import com.atag.atagbank.service.user.MyUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import java.lang.reflect.Array;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
 
 @Controller
 @SessionAttributes("currentUser")

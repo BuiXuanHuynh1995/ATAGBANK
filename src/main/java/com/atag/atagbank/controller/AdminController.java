@@ -67,13 +67,6 @@ public class AdminController {
         modelAndView.addObject("announcement","Successfully!");
         return modelAndView;
     }
-//
-//    @GetMapping("/admin/createNewCustomer")
-//    public ModelAndView showCreateForm() {
-//        ModelAndView modelAndView = new ModelAndView("admin/createCustomer");
-//        modelAndView.addObject("user",new MyUser("","","","",true,"","","",new Role(),new Account(),""));
-//        return modelAndView;
-//    }
 
     @GetMapping("/admin/createNewCustomer")
     public ModelAndView showCreateForm() {

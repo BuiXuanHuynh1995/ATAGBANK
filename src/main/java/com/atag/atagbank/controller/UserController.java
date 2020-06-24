@@ -5,7 +5,11 @@ import com.atag.atagbank.model.Role;
 import com.atag.atagbank.service.account.IAccountService;
 import com.atag.atagbank.service.user.MyUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -28,19 +32,58 @@ public class UserController {
 
     @GetMapping("/profile")
     public ModelAndView getPersonalProfile(HttpSession session) {
-        String name = (String) session.getAttribute("currentUserName");
-        MyUser currentUser = myUserService.findByName(name);
+        MyUser currentUser = getUserFromPrincipal();
+        session.setAttribute("currentUserName", currentUser.getName());
         return new ModelAndView("personal/profile", "currentUser", currentUser);
     }
 
     @PostMapping("/profile")
-    public ModelAndView updateProfile(@ModelAttribute MyUser customer) {
-        MyUser user = myUserService.findById(customer.getId());
-        Role role = user.getRole();
-        customer.setRole(role);
-        myUserService.save(customer);
+    public ModelAndView updateProfile(@Validated @ModelAttribute("currentUser") MyUser currentUser, BindingResult bindingResult) {
+        if (bindingResult.hasFieldErrors()) {
+            ModelAndView modelAndView = new ModelAndView("personal/profile");
+            return modelAndView;
+        }
+        MyUser selectedUser = myUserService.findById(currentUser.getId());
+        Role role = selectedUser.getRole();
+        currentUser.setRole(role);
+        currentUser.setAccount(selectedUser.getAccount());
+        myUserService.save(currentUser);
         ModelAndView modelAndView = new ModelAndView("personal/profile");
-        modelAndView.addObject("currentUser", customer);
+        modelAndView.addObject("currentUser", currentUser);
+        modelAndView.addObject("message", "The information has been updated!");
+        return modelAndView;
+    }
+
+    @GetMapping("/changePassword")
+    public ModelAndView showChangePasswordForm(HttpSession session) {
+        MyUser currentUser = getUserFromPrincipal();
+        return new ModelAndView("personal/changePassword", "currentUser", currentUser);
+    }
+
+    private MyUser getUserFromPrincipal() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = ((UserDetails) principal).getUsername();
+        return myUserService.findByUserName(username);
+    }
+
+    @PostMapping("/changePassword")
+    public ModelAndView changePassword(@Validated @ModelAttribute("currentUser") MyUser currentUser, BindingResult bindingResult) {
+        if (bindingResult.hasFieldErrors()) {
+            ModelAndView modelAndView = new ModelAndView("personal/changePassword");
+            return modelAndView;
+        }
+
+        if (!currentUser.getPassword().equals(currentUser.getConfirmPassword())){
+            ModelAndView modelAndView = new ModelAndView("personal/changePassword","validatedPass","Not match Password");
+            return modelAndView;
+        }
+        MyUser selectedUser = myUserService.findById(currentUser.getId());
+        Role role = selectedUser.getRole();
+        currentUser.setRole(role);
+        currentUser.setAccount(selectedUser.getAccount());
+        myUserService.save(currentUser);
+        ModelAndView modelAndView = new ModelAndView("personal/changePassword");
+        modelAndView.addObject("currentUser", currentUser);
         modelAndView.addObject("message", "The information has been updated!");
         return modelAndView;
     }

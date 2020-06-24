@@ -32,16 +32,6 @@
                         <td style="width: 750px"><input style="width: 750px; border: 1px lightgray solid" type="text" th:field="*{username}"></td>
                     </tr>
                     <tr>
-                        <th>Password</th>
-                        <td style="width: 750px"><input style="width: 750px; border: 1px lightgray solid"
-                                                        type="password" th:field="*{password}"></td>
-                    </tr>
-                    <tr>
-                        <th>Confirm Password</th>
-                        <td style="width: 750px"><input style="width: 750px; border: 1px lightgray solid"
-                                                        type="password" th:field="*{confirmPassword}"></td>
-                    </tr>
-                    <tr>
                         <th>Full Name</th>
                         <td style="width: 750px"><input style="width: 750px; border: 1px lightgray solid" type="text" th:field="*{name}">
                         </td>
@@ -69,6 +59,10 @@
                     <tr>
                         <th><input type="submit" value="Change Information"></th>
                         <th><a href="">Deactivate account</a></th>
+                    </tr>
+                    <tr>
+                        <th></th>
+                        <th><a th:href="@{/user/changePassword}">Change Password</a></th>
                     </tr>
                 </table>
             </form>
