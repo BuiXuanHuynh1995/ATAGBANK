@@ -1,18 +1,37 @@
 package com.atag.atagbank.service.user;
 
 import com.atag.atagbank.model.MyUser;
+import com.atag.atagbank.model.Role;
 import com.atag.atagbank.repository.MyUserRepository;
+import com.atag.atagbank.repository.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 
 @Service
 public class MyUserServiceImpl implements MyUserService {
+//    @Autowired
+//    MyUserRepository myUserRepository;
+
+    private MyUserRepository myUserRepository;
+    private RoleRepository roleRepository;
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+
     @Autowired
-    MyUserRepository myUserRepository;
+    public MyUserServiceImpl(MyUserRepository myUserRepository,
+                       RoleRepository roleRepository,
+                       BCryptPasswordEncoder bCryptPasswordEncoder) {
+        this.myUserRepository = myUserRepository;
+        this.roleRepository = roleRepository;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+    }
 
     @Override
     public Page<MyUser> findAll(Pageable pageable) {
@@ -37,5 +56,24 @@ public class MyUserServiceImpl implements MyUserService {
     @Override
     public MyUser findByName(String name) {
         return myUserRepository.findByName(name);
+    }
+
+    @Override
+    public MyUser findByEmail(String email) {
+        return myUserRepository.findByEmail(email);
+    }
+
+    @Override
+    public MyUser saveUser(MyUser user) {
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        user.setConfirmPassword(bCryptPasswordEncoder.encode(user.getConfirmPassword()));
+        Role userRole = roleRepository.findByRole("ADMIN");
+        user.setRole(userRole);
+        return myUserRepository.save(user);
+    }
+
+  @Override
+      public List<MyUser> findAllList() {
+        return (List<MyUser>) myUserRepository.findAll();
     }
 }
