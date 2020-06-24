@@ -23,8 +23,6 @@ public interface MyUserService extends UserDetailsService {
 
     MyUser findByEmail(String email);
 
-    MyUser saveUser(MyUser user);
-
     boolean isRegister(MyUser user);
 
     boolean isCorrectConfirmPassword(MyUser user);
