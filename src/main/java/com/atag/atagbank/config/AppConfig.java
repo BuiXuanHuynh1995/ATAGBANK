@@ -66,6 +66,16 @@ public class AppConfig implements ApplicationContextAware, WebMvcConfigurer {
         registry.addResourceHandler("admin/user-update/personal/js/**").addResourceLocations("classpath:/public/personalPage/js/");
         registry.addResourceHandler("admin/user-update/personal/images/**").addResourceLocations("classpath:/public/personalPage/images/");
         registry.addResourceHandler("admin/user-update/personal/scss/**").addResourceLocations("classpath:/public/personalPage/scss/");
+
+        registry.addResourceHandler("admin/active/personal/css/**").addResourceLocations("classpath:/public/personalPage/css/");
+        registry.addResourceHandler("admin/active/personal/js/**").addResourceLocations("classpath:/public/personalPage/js/");
+        registry.addResourceHandler("admin/active/personal/images/**").addResourceLocations("classpath:/public/personalPage/images/");
+        registry.addResourceHandler("admin/active/personal/scss/**").addResourceLocations("classpath:/public/personalPage/scss/");
+
+        registry.addResourceHandler("admin/deactive/personal/css/**").addResourceLocations("classpath:/public/personalPage/css/");
+        registry.addResourceHandler("admin/deactive/personal/js/**").addResourceLocations("classpath:/public/personalPage/js/");
+        registry.addResourceHandler("admin/deactive/personal/images/**").addResourceLocations("classpath:/public/personalPage/images/");
+        registry.addResourceHandler("admin/deactive/personal/scss/**").addResourceLocations("classpath:/public/personalPage/scss/");
     }
 
     @Override

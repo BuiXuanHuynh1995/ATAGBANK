@@ -100,8 +100,8 @@
                         <td><input style="border: 1px lightgray solid" type="text" th:value="${user.role.role}"></td>
                         <td><input style="border: 1px lightgray solid" type="text" th:value="${user.account.id}"></td>
                         <td>
-                            <a th:if="${user.enabled}==true" href="" class="customerStatus" th:text="Activated"></a>
-                            <a th:if="${user.enabled}==false" href="" class="customerStatus" th:text="Deactivated"></a>
+                            <a th:if="${user.enabled}==true" th:href="@{/admin/deactive/__${user.id}__}" class="customerStatus" th:text="Activated"></a>
+                            <a th:if="${user.enabled}==false" th:href="@{/admin/active/__${user.id}__}" class="customerStatus" th:text="Deactivated"></a>
                         </td><!-- ấn vào trạng thái, json setHTML của status lại sang deactivated -->
                         <td><a th:href="@{/admin/user-update/__${user.id}__}"><i class="fa fa-edit" style="font-size: 20px; color: #1c7430"></i></a></td>
                         <td><a href="#"><i class="fa fa-file-text" style="font-size: 20px; color: darkblue"></i></a></td>
