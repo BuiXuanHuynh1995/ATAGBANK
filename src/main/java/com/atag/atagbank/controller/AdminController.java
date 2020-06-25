@@ -113,8 +113,8 @@ public class AdminController {
 
     @GetMapping("/admin/searchUser")
     public ModelAndView searchUser(@Param("keyword")String keyword){
-        ModelAndView modelAndView =new ModelAndView("list");
-        List<MyUser> users =myUserService.findByNameOrAccountOrAndAddressLike("%"+keyword+"%");
+        ModelAndView modelAndView =new ModelAndView("/admin/customerManagement");
+        List<MyUser> users =myUserService.findByNameOrAddressLike("%"+keyword+"%");
         modelAndView.addObject("userList",users);
         return modelAndView;
     }

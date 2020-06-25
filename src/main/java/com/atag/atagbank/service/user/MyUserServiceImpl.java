@@ -18,14 +18,10 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-<<<<<<< HEAD
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import javax.transaction.Transactional;
 import java.util.*;
-
-@Service
-public class MyUserServiceImpl implements MyUserService{
-=======
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
@@ -41,8 +37,7 @@ import java.util.Set;
 
 @Service
 @SessionAttributes("username")
-public class MyUserServiceImpl implements MyUserService, UserDetailsService {
->>>>>>> 11a616a213ffd8800416e970a41f0800116bf4b9
+public class MyUserServiceImpl implements MyUserService {
 //    @Autowired
 //    MyUserRepository myUserRepository;
 
@@ -95,10 +90,9 @@ public class MyUserServiceImpl implements MyUserService, UserDetailsService {
     }
 
     @Override
-    public List<MyUser> findByNameOrAccountOrAndAddressLike(String keyword) {
-        return findByNameOrAccountOrAndAddressLike("%"+keyword+"%");
+    public List<MyUser> findByNameOrAddressLike(String keyword) {
+        return myUserRepository.findByNameOrAddressLike("%"+keyword+"%");
     }
-
 
     @Override
     public boolean isRegister(MyUser user) {
@@ -129,12 +123,10 @@ public class MyUserServiceImpl implements MyUserService, UserDetailsService {
         return (List<MyUser>) myUserRepository.findAll();
     }
 
-<<<<<<< HEAD
-=======
+
     @Autowired
     HttpSession session;
 
->>>>>>> 11a616a213ffd8800416e970a41f0800116bf4b9
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         MyUser myUser = myUserRepository.findByUsername(username);
@@ -142,9 +134,9 @@ public class MyUserServiceImpl implements MyUserService, UserDetailsService {
             myUser = new MyUser();
             myUser.setUsername(username);
             myUser.setPassword("");
-<<<<<<< HEAD
+
             myUser.setRole(new Role(2L,"ROLE_USER"));
-=======
+
             myUser.setRole(new Role(2L, "ROLE_USER"));
         }
 
@@ -163,17 +155,15 @@ public class MyUserServiceImpl implements MyUserService, UserDetailsService {
 //        List<GrantedAuthority> authorities = getUserAuthority((Set<Role>) user.getRole());
 //        return buildUserForAuthentication(user, authorities);
 //    }
-
-    private List<GrantedAuthority> getUserAuthority(Set<Role> userRoles) {
-        Set<GrantedAuthority> roles = new HashSet<GrantedAuthority>();
-        for (Role role : userRoles) {
-            roles.add(new SimpleGrantedAuthority(role.getRole()));
->>>>>>> 11a616a213ffd8800416e970a41f0800116bf4b9
-        }
-        List<GrantedAuthority> authors = new ArrayList<>();
-        authors.add(new SimpleGrantedAuthority(myUser.getRole().getRole()));
 //
-        return new User(myUser.getUsername(), myUser.getPassword(), authors);
+//    private List<GrantedAuthority> getUserAuthority(Set<Role> userRoles) {
+//        Set<GrantedAuthority> roles = new HashSet<GrantedAuthority>();
+//        for (Role role : userRoles) {
+//            roles.add(new SimpleGrantedAuthority(role.getRole()));
+//        }
+//        List<GrantedAuthority> authors = new ArrayList<>();
+//        authors.add(new SimpleGrantedAuthority(myUser.getRole().getRole()));
+//        return new User(myUser.getUsername(), myUser.getPassword(), authors);
 }
   
 //    @Override
@@ -198,4 +188,3 @@ public class MyUserServiceImpl implements MyUserService, UserDetailsService {
 //                user.isEnabled(), true, true, true, authorities);
 //    }
 
-}

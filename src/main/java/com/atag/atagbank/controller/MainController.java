@@ -1,10 +1,11 @@
 package com.atag.atagbank.controller;
 
+import com.atag.atagbank.model.Account;
 import com.atag.atagbank.model.ConfirmationToken;
 import com.atag.atagbank.model.MyUser;
 import com.atag.atagbank.service.EmailSenderService;
+import com.atag.atagbank.service.account.IAccountService;
 import com.atag.atagbank.service.confirmationToken.IConfirmationTokenService;
-<<<<<<< HEAD
 import com.atag.atagbank.model.Role;
 import com.atag.atagbank.service.role.IRoleService;
 import com.atag.atagbank.service.user.MyUserService;
@@ -14,11 +15,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-=======
-import com.atag.atagbank.service.user.MyUserService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.SimpleMailMessage;
->>>>>>> 11a616a213ffd8800416e970a41f0800116bf4b9
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -26,6 +22,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.util.Random;
 
 @Controller
 @SessionAttributes("currentUser")
@@ -41,6 +38,8 @@ public class MainController {
     @Autowired
     private IRoleService roleService;
 
+    @Autowired
+    private IAccountService accountService;
     @Autowired
     MyUserService myUserService;
 
@@ -144,6 +143,12 @@ public class MainController {
         {
             MyUser user = token.getUser();
             user.setEnabled(true);
+            Account account = new Account();
+            Random random = new Random();
+            Long accountId = Long.valueOf(100000 + random.nextInt(900000));
+            account.setId(accountId);
+            accountService.save(account);
+            user.setAccount(account);
             myUserService.save(user);
             modelAndView.setViewName("accountVerified");
         }
