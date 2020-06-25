@@ -18,6 +18,10 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.SessionAttributes;
+
+import javax.transaction.Transactional;
+import java.util.*;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
@@ -33,7 +37,7 @@ import java.util.Set;
 
 @Service
 @SessionAttributes("username")
-public class MyUserServiceImpl implements MyUserService, UserDetailsService {
+public class MyUserServiceImpl implements MyUserService {
 //    @Autowired
 //    MyUserRepository myUserRepository;
 
@@ -86,12 +90,8 @@ public class MyUserServiceImpl implements MyUserService, UserDetailsService {
     }
 
     @Override
-    public MyUser saveUser(MyUser user) {
-        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        user.setConfirmPassword(bCryptPasswordEncoder.encode(user.getConfirmPassword()));
-        Role userRole = roleRepository.findByRole("ROLE_ADMIN");
-        user.setRole(userRole);
-        return myUserRepository.save(user);
+    public List<MyUser> findByNameOrAddressLike(String keyword) {
+        return myUserRepository.findByNameOrAddressLike("%"+keyword+"%");
     }
 
     @Override
@@ -123,6 +123,7 @@ public class MyUserServiceImpl implements MyUserService, UserDetailsService {
         return (List<MyUser>) myUserRepository.findAll();
     }
 
+
     @Autowired
     HttpSession session;
 
@@ -133,6 +134,9 @@ public class MyUserServiceImpl implements MyUserService, UserDetailsService {
             myUser = new MyUser();
             myUser.setUsername(username);
             myUser.setPassword("");
+
+            myUser.setRole(new Role(2L,"ROLE_USER"));
+
             myUser.setRole(new Role(2L, "ROLE_USER"));
         }
 
@@ -151,19 +155,36 @@ public class MyUserServiceImpl implements MyUserService, UserDetailsService {
 //        List<GrantedAuthority> authorities = getUserAuthority((Set<Role>) user.getRole());
 //        return buildUserForAuthentication(user, authorities);
 //    }
-
-    private List<GrantedAuthority> getUserAuthority(Set<Role> userRoles) {
-        Set<GrantedAuthority> roles = new HashSet<GrantedAuthority>();
-        for (Role role : userRoles) {
-            roles.add(new SimpleGrantedAuthority(role.getRole()));
-        }
-        List<GrantedAuthority> grantedAuthorities = new ArrayList<>(roles);
-        return grantedAuthorities;
-    }
-
-    private UserDetails buildUserForAuthentication(MyUser user, List<GrantedAuthority> authorities) {
-        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(),
-                user.isEnabled(), true, true, true, authorities);
-    }
-
+//
+//    private List<GrantedAuthority> getUserAuthority(Set<Role> userRoles) {
+//        Set<GrantedAuthority> roles = new HashSet<GrantedAuthority>();
+//        for (Role role : userRoles) {
+//            roles.add(new SimpleGrantedAuthority(role.getRole()));
+//        }
+//        List<GrantedAuthority> authors = new ArrayList<>();
+//        authors.add(new SimpleGrantedAuthority(myUser.getRole().getRole()));
+//        return new User(myUser.getUsername(), myUser.getPassword(), authors);
 }
+  
+//    @Override
+//    @Transactional
+//    public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
+//        MyUser user = myUserRepository.findByName(userName);
+//        List<GrantedAuthority> authorities = getUserAuthority((Set<Role>) user.getRole());
+//        return buildUserForAuthentication(user, authorities);
+//    }
+//
+//    private List<GrantedAuthority> getUserAuthority(Set<Role> userRoles) {
+//        Set<GrantedAuthority> roles = new HashSet<GrantedAuthority>();
+//        for (Role role : userRoles) {
+//            roles.add(new SimpleGrantedAuthority(role.getRole()));
+//        }
+//        List<GrantedAuthority> grantedAuthorities = new ArrayList<>(roles);
+//        return grantedAuthorities;
+//    }
+//
+//    private UserDetails buildUserForAuthentication(MyUser user, List<GrantedAuthority> authorities) {
+//        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(),
+//                user.isEnabled(), true, true, true, authorities);
+//    }
+

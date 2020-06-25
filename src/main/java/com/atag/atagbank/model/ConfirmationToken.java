@@ -1,6 +1,7 @@
 package com.atag.atagbank.model;
 
 import javax.persistence.*;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.UUID;
 
@@ -17,7 +18,9 @@ public class ConfirmationToken {
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date createdDate;
-	
+
+	private Date expiryDate;
+
 	@OneToOne(targetEntity = MyUser.class, fetch = FetchType.EAGER)
     @JoinColumn(nullable = false, name = "user_id")
     private MyUser user;
@@ -29,6 +32,10 @@ public class ConfirmationToken {
 		this.user = user;
 		createdDate = new Date();
 		confirmationToken = UUID.randomUUID().toString();
+	}
+
+	public boolean isExpired() {
+		return new Date().after(this.expiryDate);
 	}
 
 	public String getConfirmationToken() {
@@ -61,5 +68,19 @@ public class ConfirmationToken {
 
 	public void setTokenid(long tokenid) {
 		this.tokenid = tokenid;
+	}
+
+	public Date getExpiryDate() {
+		return expiryDate;
+	}
+
+	public void setExpiryDate(Date expiryDate) {
+		this.expiryDate = expiryDate;
+	}
+
+	public void setExpiryDate(int minutes) {
+		Calendar now = Calendar.getInstance();
+		now.add(Calendar.MINUTE, minutes);
+		this.expiryDate = now.getTime();
 	}
 }

@@ -38,8 +38,8 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService((UserDetailsService) userService)
-//            .passwordEncoder(bCryptPasswordEncoder);
-            .passwordEncoder(NoOpPasswordEncoder.getInstance());
+            .passwordEncoder(bCryptPasswordEncoder);
+//            .passwordEncoder(NoOpPasswordEncoder.getInstance());
 
     }
 //
@@ -62,7 +62,7 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/registration").permitAll()
                 .antMatchers("/confirm").permitAll()
                 .antMatchers("/confirm-account").permitAll()
-                .antMatchers("/admin/**").access("hasRole('ADMIN')")
+//                .antMatchers("/admin/**").access("hasRole('ADMIN')")
                 .and()
                 .authorizeRequests().antMatchers("/user/**").hasRole("USER")
                 .and()

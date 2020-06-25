@@ -1,12 +1,20 @@
 package com.atag.atagbank.controller;
 
+import com.atag.atagbank.model.Account;
 import com.atag.atagbank.model.ConfirmationToken;
 import com.atag.atagbank.model.MyUser;
 import com.atag.atagbank.service.EmailSenderService;
+import com.atag.atagbank.service.account.IAccountService;
 import com.atag.atagbank.service.confirmationToken.IConfirmationTokenService;
+import com.atag.atagbank.model.Role;
+import com.atag.atagbank.service.role.IRoleService;
 import com.atag.atagbank.service.user.MyUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +22,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.util.Random;
 
 @Controller
 @SessionAttributes("currentUser")
@@ -23,7 +32,14 @@ public class MainController {
     public MyUser getCurrentUser() {
         return new MyUser();
     }
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private IRoleService roleService;
+
+    @Autowired
+    private IAccountService accountService;
     @Autowired
     MyUserService myUserService;
 
@@ -62,7 +78,6 @@ public class MainController {
         return new ModelAndView("login", "notFound", "Wrong username or password!");
     }
 
-
     @RequestMapping(value="/registration", method = RequestMethod.GET)
     public ModelAndView registration(){
         ModelAndView modelAndView = new ModelAndView();
@@ -93,7 +108,14 @@ public class MainController {
             return modelAndView1;
         } else {
             ModelAndView modelAndView = new ModelAndView("successfulRegisteration");
-            myUserService.saveUser(user);
+            Role userRole = roleService.findByRole("ROLE_USER");
+            user.setRole(userRole);
+            user.setUsername(user.getUsername());
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+            user.setConfirmPassword(passwordEncoder.encode(user.getConfirmPassword()));
+            user.setEmail(user.getEmail());
+            user.setRole(userRole);
+            myUserService.save(user);
             ConfirmationToken confirmationToken = new ConfirmationToken(user);
 
             confirmationTokenService.save(confirmationToken);
@@ -103,7 +125,7 @@ public class MainController {
             mailMessage.setSubject("Complete Registration!");
             mailMessage.setFrom("huynhxuanbui@gmail.com");
             mailMessage.setText("To confirm your account, please click here : "
-                    + "10.30.0.78:8080/confirm-account?token=" + confirmationToken.getConfirmationToken());
+                    + "http://localhost:8080/confirm-account?token=" + confirmationToken.getConfirmationToken());
 
             emailSenderService.sendEmail(mailMessage);
 
@@ -121,6 +143,12 @@ public class MainController {
         {
             MyUser user = token.getUser();
             user.setEnabled(true);
+            Account account = new Account();
+            Random random = new Random();
+            Long accountId = Long.valueOf(100000 + random.nextInt(900000));
+            account.setId(accountId);
+            accountService.save(account);
+            user.setAccount(account);
             myUserService.save(user);
             modelAndView.setViewName("accountVerified");
         }
@@ -132,5 +160,4 @@ public class MainController {
 
         return modelAndView;
     }
-
 }
