@@ -172,10 +172,11 @@ public class MainController {
         MyUser user = myUserService.findByEmail(passwordForgot.getEmail());
         if (user == null) {
             ModelAndView modelAndView = new ModelAndView("forgotPassword");
-            modelAndView.addObject("message", "your email isn't exist");
+            modelAndView.addObject("message", "Your email isn't exist");
             return modelAndView;
         }
-        ModelAndView modelAndView = new ModelAndView("newPassword");
+//        ModelAndView modelAndView = new ModelAndView("newPassword");
+        ModelAndView modelAndView = new ModelAndView("successfulRegisteration");
         modelAndView.addObject("passwordForgot", passwordForgot);
         ConfirmationToken token = new ConfirmationToken(user);
         token.setConfirmationToken(UUID.randomUUID().toString());
@@ -187,8 +188,8 @@ public class MainController {
         mailMessage.setText("To change you password, please click here : "
                 + "http://localhost:8080/newPassword/" + user.getId()
                 + "?token=" + token.getConfirmationToken());
-
         emailSenderService.sendEmail(mailMessage);
+        modelAndView.addObject("email", user.getEmail());
         return modelAndView;
     }
 
@@ -216,6 +217,9 @@ public class MainController {
     @RequestMapping(value = "/newPassword",method = {RequestMethod.GET, RequestMethod.POST})
     public ModelAndView editUser(@ModelAttribute MyUser user) {
         ModelAndView modelAndView = new ModelAndView("newPassword");
+        if (user.getPassword().length()<6){
+            modelAndView.addObject("message","Passowrd length must be between 6 and 15");
+        }
         if (!myUserService.isCorrectConfirmPassword(user)) {
             modelAndView.addObject("message", "Your confirm password is incorrect");
         } else {

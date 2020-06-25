@@ -90,8 +90,8 @@ public class MyUserServiceImpl implements MyUserService {
     }
 
     @Override
-    public List<MyUser> findByNameOrAddressLike(String keyword) {
-        return myUserRepository.findByNameOrAddressLike("%"+keyword+"%");
+    public List<MyUser> findByNameOrAddressOrRole_RoleLike(String keyword) {
+        return myUserRepository.findByNameOrAddressOrRole_RoleLike("%"+keyword+"%");
     }
 
     @Override
