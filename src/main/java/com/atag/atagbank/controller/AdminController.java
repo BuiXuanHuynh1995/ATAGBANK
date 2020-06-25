@@ -6,6 +6,8 @@ import com.atag.atagbank.model.Role;
 import com.atag.atagbank.service.account.IAccountService;
 import com.atag.atagbank.service.role.IRoleService;
 import com.atag.atagbank.service.user.MyUserService;
+import jdk.nashorn.internal.ir.Optimistic;
+import jdk.nashorn.internal.runtime.options.Option;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -26,6 +28,7 @@ import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 
 @RestController
 //@RequestMapping("/admin")
@@ -116,6 +119,28 @@ public class AdminController {
         ModelAndView modelAndView =new ModelAndView("/admin/customerManagement");
         List<MyUser> users =myUserService.findByNameOrAddressOrRole_RoleLike("%"+keyword+"%");
         modelAndView.addObject("userList",users);
+        return modelAndView;
+    }
+
+    @GetMapping("/admin/makeDeposit/{id}")
+    public ModelAndView showMakeDepositForm(@PathVariable("id") Long id){
+        ModelAndView modelAndView =new ModelAndView("/admin/makeDeposit");
+        MyUser currentUser = myUserService.findById(id);
+        Account currentAccount =currentUser.getAccount();
+        modelAndView.addObject("account",currentAccount);
+        return modelAndView;
+    }
+
+    @PostMapping("/admin/makeDeposit")
+    public ModelAndView makeDeposit(@ModelAttribute("account") Account account,@RequestParam("amount") String amount){
+        ModelAndView modelAndView =new ModelAndView("/admin/makeDeposit");
+        Float amountNeededToDeposit = Float.parseFloat(amount);
+        Account currentAccount = accountService.findById(account.getId()).get();
+        Float currentBalance = currentAccount.getBalance();
+        currentAccount.setBalance(currentBalance+amountNeededToDeposit);
+        accountService.save(currentAccount);
+        modelAndView.addObject("account",account);
+        modelAndView.addObject("message","Make deposit to admin successfully!");
         return modelAndView;
     }
 }
