@@ -14,6 +14,7 @@
         <!-- <img class="profile-img-card" src="//lh3.googleusercontent.com/-6V8xOA6M7BA/AAAAAAAAAAI/AAAAAAAAAAA/rzlHcD0KYwo/photo.jpg?sz=120" alt="" /> -->
         <img id="profile-img" class="profile-img-card" src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" />
         <p id="profile-name" class="profile-name-card"></p>
+        <a class="btn btn-outline-dark" th:href="@{/}">Back To Home Page</a>
         <p style="color:red;" th:if="${notFound != ''}" th:text="${notFound}"></p>
         <p style="color:red;" th:if="${deactivated != ''}" th:text="${deactivated}"></p>
         <form class="form-signin" th:object="${currentUser}" method="post" th:action="@{/login}">
