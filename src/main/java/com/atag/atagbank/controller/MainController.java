@@ -68,7 +68,7 @@ public class MainController {
             if (loginUser.isEnabled()) {
                 session.setAttribute("currentUser", loginUser);
                 session.setAttribute("currentUserName", loginUser.getName());
-                ModelAndView modelAndView = new ModelAndView("index");
+                ModelAndView modelAndView = new ModelAndView("/");
                 modelAndView.addObject("currentUser", loginUser);
                 return modelAndView;
             } else {

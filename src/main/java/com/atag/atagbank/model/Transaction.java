@@ -1,6 +1,10 @@
 package com.atag.atagbank.model;
 
+import org.springframework.format.annotation.NumberFormat;
+
 import javax.persistence.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 @Entity
 @Table(name="transactions")
@@ -11,6 +15,8 @@ public class Transaction {
     @ManyToOne
     @JoinColumn(name = "account_id")
     private Account account;
+    @NotNull
+    @Min(0)
     private float amount;
     private String type;
     private Timestamp time;

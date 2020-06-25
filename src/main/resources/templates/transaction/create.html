@@ -13,8 +13,12 @@
         <!--        SHOW PROFILE-->
         <div id="profile" style="padding-top: 50px;">
             <h2 class="mb-4 color-black-opacity-5">Create Transaction</h2>
+
             <th:block th:if="${message}">
-                <p th:text="${message}"></p>
+                <p th:text="${message}" style="color:green;font-style:italic"></p>
+            </th:block>
+            <th:block th:if="${errorMessage!=null}">
+                <p th:text="${errorMessage}" style="color:red;font-style:italic"></p>
             </th:block>
             <form th:action="@{/transaction/create}" th:object="${transaction}" method="post">
                 <table class="table-hover">
@@ -29,7 +33,8 @@
                     </tr>
                     <tr>
                         <th>Amount</th>
-                        <td><input type="text" th:field="*{amount}"></td>
+                        <td><input type="text" th:field="*{amount}" id="amount">
+                        <span id="validateMessage"></span></td>
                     </tr>
 
                     <tr>
