@@ -18,17 +18,10 @@
                    th:style="'background-image:url(' + @{/personal/images/admin.jpg} + ');  width:180px; height:180px'"></a>
                 <ul class="list-unstyled components mb-5" th:fragment="adminLeftSideBar">
                     <li class="active">
-                        <a href="#" id="">Customer Management</a>
+                        <a href="/admin/customerManagement" id="">Customer Management</a>
                     </li>
                     <li>
-                        <a href="#">Promotion Management</a>
-                    </li>
-                    <li>
-                        <a href="#">Advertisement</a>
-                    </li>
-                    <li>
-                    <li>
-                        <a href="#">Employee</a>
+                        <a href="/admin/transactionListing">Transaction Management</a>
                     </li>
                 </ul>
 
@@ -104,7 +97,7 @@
                             <a th:if="${user.enabled}==false" href="" class="customerStatus" th:text="Deactivated"></a>
                         </td><!-- ấn vào trạng thái, json setHTML của status lại sang deactivated -->
                         <td><a th:href="@{/admin/user-update/__${user.id}__}"><i class="fa fa-edit" style="font-size: 20px; color: #1c7430"></i></a></td>
-                        <td><a href="#"><i class="fa fa-file-text" style="font-size: 20px; color: darkblue"></i></a></td>
+                        <td><a th:href="@{/admin/makeDeposit/__${user.id}__}"><i class="fa fa-file-text" style="font-size: 20px; color: darkblue"></i></a></td>
                     </tr>
                     </th:block>
                 </table>

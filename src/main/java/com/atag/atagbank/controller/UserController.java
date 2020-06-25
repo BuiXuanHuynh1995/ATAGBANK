@@ -30,11 +30,6 @@ public class UserController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    @GetMapping("/makeDeposit")
-    public ModelAndView showMakeDepositForm() {
-        MyUser currentUser = getUserFromPrincipal();
-        return new ModelAndView("personal/makeDeposit", "currentUser", currentUser);
-    }
 
     @GetMapping("/profile")
     public ModelAndView getPersonalProfile(HttpSession session) {
