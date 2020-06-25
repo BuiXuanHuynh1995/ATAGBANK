@@ -3,12 +3,17 @@ package com.atag.atagbank.controller;
 import com.atag.atagbank.model.Account;
 import com.atag.atagbank.model.MyUser;
 import com.atag.atagbank.model.Role;
+import com.atag.atagbank.model.Transaction;
 import com.atag.atagbank.service.account.IAccountService;
 import com.atag.atagbank.service.role.IRoleService;
+import com.atag.atagbank.service.transaction.ITransactionService;
 import com.atag.atagbank.service.user.MyUserService;
+import jdk.nashorn.internal.ir.Optimistic;
+import jdk.nashorn.internal.runtime.options.Option;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
@@ -20,12 +25,14 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
+import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 
 @RestController
 //@RequestMapping("/admin")
@@ -39,6 +46,8 @@ public class AdminController {
 
     @Autowired
     IAccountService accountService;
+    @Autowired
+    ITransactionService iTransactionService;
 
     @ModelAttribute("roleList")
     Iterable<Role> roleList(){
@@ -131,13 +140,64 @@ public class AdminController {
     }
 
     @GetMapping("/admin/active/{id}")
-    public ModelAndView activeUser(@PathVariable Long id,@PageableDefault(10) Pageable pageable){
+    public ModelAndView activeUser(@PathVariable Long id,@PageableDefault(10) Pageable pageable) {
         MyUser user = myUserService.findById(id);
         user.setEnabled(true);
         myUserService.save(user);
         Page<MyUser> userList = myUserService.findAll(pageable);
         ModelAndView modelAndView = new ModelAndView("admin/customerManagement");
-        modelAndView.addObject("userList",userList);
+        modelAndView.addObject("userList", userList);
+        return modelAndView;
+    }
+
+    @GetMapping("/admin/makeDeposit/{id}")
+    public ModelAndView showMakeDepositForm(@PathVariable("id") Long id){
+        ModelAndView modelAndView =new ModelAndView("/admin/makeDeposit");
+        MyUser currentUser = myUserService.findById(id);
+        Account currentAccount =currentUser.getAccount();
+        modelAndView.addObject("account",currentAccount);
+        return modelAndView;
+    }
+
+    @PostMapping("/admin/makeDeposit")
+    public ModelAndView makeDeposit(@ModelAttribute("account") Account account,@RequestParam("amount") String amount){
+        ModelAndView modelAndView =new ModelAndView("/admin/makeDeposit");
+        Float amountNeededToDeposit = Float.parseFloat(amount);
+        Account currentAccount = accountService.findById(account.getId()).get();
+        Float currentBalance = currentAccount.getBalance();
+        currentAccount.setBalance(currentBalance+amountNeededToDeposit);
+        accountService.save(currentAccount);
+        modelAndView.addObject("account",account);
+        modelAndView.addObject("message","Make deposit to account successfully!");
+        return modelAndView;
+    }
+
+    @GetMapping("/admin/transactionListing")
+    ModelAndView getAllTransaction(@PageableDefault(sort = "time", direction = Sort.Direction.DESC) Pageable pageable) {
+        Page<Transaction> transactions;
+        ModelAndView modelAndView = new ModelAndView("/admin/transactionListing");
+        transactions = iTransactionService.findAll( pageable);
+        modelAndView.addObject("transactions", transactions);
+        return modelAndView;
+    }
+
+    @GetMapping("/admin/listingTransactionByUserID{id}")
+    ModelAndView getAllTransaction(@PageableDefault(sort = "time", direction = Sort.Direction.DESC) Pageable pageable, @PathVariable("id")Long id) {
+        Page<Transaction> transactions;
+        ModelAndView modelAndView = new ModelAndView("/admin/transactionListing");
+        MyUser currentUser = myUserService.findById(id);
+        Account currentAccount = currentUser.getAccount();
+        transactions = iTransactionService.findAllByAccount(currentAccount, pageable);
+        modelAndView.addObject("transactions", transactions);
+        return modelAndView;
+    }
+
+    @GetMapping("/admin/viewCustomerDetail{id}")
+    ModelAndView viewCustomerDetail(@PathVariable("id")Long id) {
+        MyUser myUser;
+        ModelAndView modelAndView = new ModelAndView("/admin/viewCustomerDetail");
+        MyUser currentUser = myUserService.findById(id);
+        modelAndView.addObject("customer", currentUser);
         return modelAndView;
     }
 }

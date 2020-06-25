@@ -149,13 +149,16 @@ public class MainController {
     @RequestMapping(value = "/confirm-account", method = {RequestMethod.GET})
     public ModelAndView confirmUserAccount(ModelAndView modelAndView, @RequestParam("token") String confirmationToken) {
         ConfirmationToken token = confirmationTokenService.findByConfirmationToken(confirmationToken);
-        if (token != null) {
+
+        if(token != null){
             MyUser user = token.getUser();
             user.setEnabled(true);
             Account account = new Account();
             Random random = new Random();
             Long accountId = Long.valueOf(100000 + random.nextInt(900000));
+            float balane = 50000;
             account.setId(accountId);
+            account.setBalance(balane);
             accountService.save(account);
             user.setAccount(account);
             myUserService.save(user);
