@@ -232,4 +232,9 @@ public class MainController {
         }
         return modelAndView;
     }
+
+    @GetMapping("/accessDenied")
+    public ModelAndView showAccessDeniedPage(){
+        return new ModelAndView("error","message","You don't have access to go to this page");
+    }
 }
