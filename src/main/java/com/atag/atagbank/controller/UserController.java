@@ -7,6 +7,7 @@ import com.atag.atagbank.service.user.MyUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -24,6 +25,9 @@ public class UserController {
 
     @Autowired
     MyUserService myUserService;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @GetMapping("/makeDeposit")
     public ModelAndView showMakeDepositForm() {
@@ -82,6 +86,8 @@ public class UserController {
         Role role = selectedUser.getRole();
         currentUser.setRole(role);
         currentUser.setAccount(selectedUser.getAccount());
+        currentUser.setPassword(passwordEncoder.encode(currentUser.getPassword()));
+        currentUser.setConfirmPassword(passwordEncoder.encode(currentUser.getConfirmPassword()));
         myUserService.save(currentUser);
         ModelAndView modelAndView = new ModelAndView("personal/changePassword");
         modelAndView.addObject("currentUser", currentUser);
