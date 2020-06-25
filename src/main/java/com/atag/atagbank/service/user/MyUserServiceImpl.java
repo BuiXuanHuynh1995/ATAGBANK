@@ -4,29 +4,52 @@ import com.atag.atagbank.model.MyUser;
 import com.atag.atagbank.model.Role;
 import com.atag.atagbank.repository.MyUserRepository;
 import com.atag.atagbank.repository.RoleRepository;
+import org.apache.catalina.connector.Response;
+import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.servlet.server.Session;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+<<<<<<< HEAD
 
 import javax.transaction.Transactional;
 import java.util.*;
 
 @Service
 public class MyUserServiceImpl implements MyUserService{
+=======
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.SessionAttributes;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+@Service
+@SessionAttributes("username")
+public class MyUserServiceImpl implements MyUserService, UserDetailsService {
+>>>>>>> 11a616a213ffd8800416e970a41f0800116bf4b9
 //    @Autowired
 //    MyUserRepository myUserRepository;
+
+    @ModelAttribute("username")
+    String getUsername(){
+        return "";
+    }
 
     private MyUserRepository myUserRepository;
     private RoleRepository roleRepository;
@@ -35,7 +58,7 @@ public class MyUserServiceImpl implements MyUserService{
     @Autowired
     public MyUserServiceImpl(MyUserRepository myUserRepository,
                              RoleRepository roleRepository,
-                             BCryptPasswordEncoder bCryptPasswordEncoder) {
+                             BCryptPasswordEncoder bCryptPasswordEncoder, ObjectFactory<HttpSession> httpSessionFactory) {
         this.myUserRepository = myUserRepository;
         this.roleRepository = roleRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
@@ -101,11 +124,17 @@ public class MyUserServiceImpl implements MyUserService{
     }
 
     @Override
-      public List<MyUser> findAllList() {
+    public List<MyUser> findAllList() {
 
         return (List<MyUser>) myUserRepository.findAll();
     }
 
+<<<<<<< HEAD
+=======
+    @Autowired
+    HttpSession session;
+
+>>>>>>> 11a616a213ffd8800416e970a41f0800116bf4b9
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         MyUser myUser = myUserRepository.findByUsername(username);
@@ -113,7 +142,33 @@ public class MyUserServiceImpl implements MyUserService{
             myUser = new MyUser();
             myUser.setUsername(username);
             myUser.setPassword("");
+<<<<<<< HEAD
             myUser.setRole(new Role(2L,"ROLE_USER"));
+=======
+            myUser.setRole(new Role(2L, "ROLE_USER"));
+        }
+
+        List<GrantedAuthority> authors = new ArrayList<>();
+        authors.add(new SimpleGrantedAuthority(myUser.getRole().getRole()));
+
+        return new User(myUser.getUsername(), myUser.getPassword(), authors);
+    }
+
+
+
+//    @Override
+//    @Transactional
+//    public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
+//        MyUser user = myUserRepository.findByName(userName);
+//        List<GrantedAuthority> authorities = getUserAuthority((Set<Role>) user.getRole());
+//        return buildUserForAuthentication(user, authorities);
+//    }
+
+    private List<GrantedAuthority> getUserAuthority(Set<Role> userRoles) {
+        Set<GrantedAuthority> roles = new HashSet<GrantedAuthority>();
+        for (Role role : userRoles) {
+            roles.add(new SimpleGrantedAuthority(role.getRole()));
+>>>>>>> 11a616a213ffd8800416e970a41f0800116bf4b9
         }
         List<GrantedAuthority> authors = new ArrayList<>();
         authors.add(new SimpleGrantedAuthority(myUser.getRole().getRole()));
