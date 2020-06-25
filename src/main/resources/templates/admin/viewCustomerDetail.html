@@ -16,24 +16,7 @@
         <div class="p-4 pt-5">
             <a href="#" class="img logo rounded-0 mb-5"
                th:style="'background-image:url(' + @{/personal/images/admin.jpg} + ');  width:180px; height:180px'"></a>
-            <ul class="list-unstyled components mb-5" th:replace="admin/customerManagement :: adminLeftSideBar">
-                <li class="active">
-                    <a href="#" id="">Customer Management</a>
-                </li>
-                <li>
-                    <a th:href="@{/admin/makeDeposit}">Make a Deposit</a>
-                </li>
-                <li>
-                    <a href="#">Promotion Management</a>
-                </li>
-                <li>
-                    <a href="#">Advertisement</a>
-                </li>
-                <li>
-                <li>
-                    <a href="#">Employee</a>
-                </li>
-            </ul>
+            <ul th:replace="admin/customerManagement :: adminLeftSideBar"></ul>
 
             <div class="footer">
                 <p>
@@ -74,42 +57,59 @@
                 </div>
             </div>
         </nav>
-
         <div id="profile" style="padding-top: 50px;">
-            <h2 class="mb-4 color-black-opacity-5">Transaction listing</h2>
-            <table class="table table-hover">
-                <thead>
-                <th>Id</th>
-                <th>Partner Account</th>
-                <th>Amount</th>
-                <th>Time</th>
-                <th>Type of Transaction</th>
-                <th>Message</th>
-                </thead>
-                <tbody>
-                <tr th:each="transaction:${transactions}">
-                    <td th:text="${transaction.id}"></td>
-                    <td th:text="${transaction.partnerAccount}"></td>
-                    <td th:text="${transaction.amount}"></td>
-                    <td th:text="${transaction.time}"></td>
-                    <td th:text="${transaction.type}"></td>
-                    <td th:text="${transaction.transactionMessage}"></td>
-                </tr>
-                </tbody>
-            </table>
-            <div th:fragment="pagination">
-                <a th:href="@{'/admin/transactionListing'(page=${transactions.number -1})}" th:if="${transactions.hasPrevious()}" >Previous</a>
-                <span th:text="${transactions.number +1}"></span>/<span th:text="${transactions.totalPages}"></span>
-                <a th:href="@{'/admin/transactionListing'(page=${transactions.number +1})}" th:if="${transactions.hasNext()}" >Next</a>
-            </div>
+            <h2 class="mb-4 color-black-opacity-5">Customer Detail</h2>
+                <table class="table table-hover">
+                    <tr>
+                        <th>User Name</th>
+                        <td th:text="${customer.username}"></td>
+                    </tr>
+                    <tr>
+                        <th>Name</th>
+                        <td th:text="${customer.name}"></td>
+                    </tr>
+                    <tr>
+                        <th>Address</th>
+                        <td th:text="${customer.address}"></td>
+                    </tr>
+                    <tr>
+                        <th>Email</th>
+                        <td th:text="${customer.email}"></td>
+                    </tr>
+                    <tr>
+                        <th>Phone Number</th>
+                        <td th:text="${customer.phoneNumber}"></td>
+                    </tr>
+
+                    <tr>
+                        <th>DOB</th>
+                        <td th:text="${customer.dateOfBirth}"></td>
+                    </tr>
+                    <tr>
+                        <th>Role</th>
+                        <td th:text="${customer.role.role}"></td>
+                    </tr>
+
+                    <tr>
+                        <th>Account Id</th>
+                        <td th:text="${customer.account.id}"></td>
+                    </tr>
+
+                    <tr>
+                        <th>Account Balance</th>
+                        <td th:text="${customer.account.balance}"></td>
+                    </tr>
+                </table>
+            </form>
             <a class="btn btn-outline-dark" th:href="@{/admin/customerManagement}" style="float: left">Back To Listing</a>
         </div>
     </div>
 </div>
 
-<script th:src="@{/personal/js/jquery.min.js}"></script>
-<script th:src="@{/personal/js/popper.js}"></script>
-<script th:src="@{/personal/js/bootstrap.min.js}"></script>
-<script th:src="@{/personal/js/main.js}"></script>
+
+<script th:src="@{personal/js/jquery.min.js}"></script>
+<script th:src="@{personal/js/popper.js}"></script>
+<script th:src="@{personal/js/bootstrap.min.js}"></script>
+<script th:src="@{personal/js/main.js}"></script>
 </body>
 </html>

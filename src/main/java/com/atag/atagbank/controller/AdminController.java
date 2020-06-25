@@ -146,7 +146,7 @@ public class AdminController {
         currentAccount.setBalance(currentBalance+amountNeededToDeposit);
         accountService.save(currentAccount);
         modelAndView.addObject("account",account);
-        modelAndView.addObject("message","Make deposit to admin successfully!");
+        modelAndView.addObject("message","Make deposit to account successfully!");
         return modelAndView;
     }
 
@@ -156,6 +156,26 @@ public class AdminController {
         ModelAndView modelAndView = new ModelAndView("/admin/transactionListing");
         transactions = iTransactionService.findAll( pageable);
         modelAndView.addObject("transactions", transactions);
+        return modelAndView;
+    }
+
+    @GetMapping("/admin/listingTransactionByUserID{id}")
+    ModelAndView getAllTransaction(@PageableDefault(sort = "time", direction = Sort.Direction.DESC) Pageable pageable, @PathVariable("id")Long id) {
+        Page<Transaction> transactions;
+        ModelAndView modelAndView = new ModelAndView("/admin/transactionListing");
+        MyUser currentUser = myUserService.findById(id);
+        Account currentAccount = currentUser.getAccount();
+        transactions = iTransactionService.findAllByAccount(currentAccount, pageable);
+        modelAndView.addObject("transactions", transactions);
+        return modelAndView;
+    }
+
+    @GetMapping("/admin/viewCustomerDetail{id}")
+    ModelAndView viewCustomerDetail(@PathVariable("id")Long id) {
+        MyUser myUser;
+        ModelAndView modelAndView = new ModelAndView("/admin/viewCustomerDetail");
+        MyUser currentUser = myUserService.findById(id);
+        modelAndView.addObject("customer", currentUser);
         return modelAndView;
     }
 }

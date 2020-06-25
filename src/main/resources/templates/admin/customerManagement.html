@@ -83,21 +83,25 @@
                         <th>User Name</th>
                         <th>Role</th>
                         <th>Account No.</th>
+                        <th>Account Balance</th>
                         <th>Status</th>
                         <th colspan="3">Action</th>
                     </tr>
                     <th:block th:each="user:${userList}">
                     <tr>
-                        <td><input style="border: 1px lightgray solid" type="text" th:value="${user.id}"></td>
-                        <td><input style="border: 1px lightgray solid" type="text" th:value="${user.username}"></td>
-                        <td><input style="border: 1px lightgray solid" type="text" th:value="${user.role.role}"></td>
-                        <td><input style="border: 1px lightgray solid" type="text" th:value="${user.account.id}"></td>
+                        <td th:text="${user.id}"></td>
+                        <td th:text="${user.username}"></td>
+                        <td th:text="${user.role.role}"></td>
+                        <td th:text="${user.account.id}"></td>
+                        <td th:text="${user.account.balance}"></td>
                         <td>
                             <a th:if="${user.enabled}==true" href="" class="customerStatus" th:text="Activated"></a>
                             <a th:if="${user.enabled}==false" href="" class="customerStatus" th:text="Deactivated"></a>
                         </td><!-- ấn vào trạng thái, json setHTML của status lại sang deactivated -->
                         <td><a th:href="@{/admin/user-update/__${user.id}__}"><i class="fa fa-edit" style="font-size: 20px; color: #1c7430"></i></a></td>
-                        <td><a th:href="@{/admin/makeDeposit/__${user.id}__}"><i class="fa fa-file-text" style="font-size: 20px; color: darkblue"></i></a></td>
+                        <td><a th:href="@{/admin/viewCustomerDetail__${user.id}__}">Detail</a></td>
+                        <td><a th:href="@{/admin/makeDeposit/__${user.id}__}">Deposit</a></td>
+                        <td><a th:href="@{/admin/listingTransactionByUserID__${user.id}__}">Show transactions</a></td>
                     </tr>
                     </th:block>
                 </table>
