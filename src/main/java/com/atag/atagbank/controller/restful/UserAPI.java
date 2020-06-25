@@ -18,11 +18,6 @@ public class UserAPI {
     @Autowired
     IAccountService accountService;
 
-//    @ModelAttribute("currentUser")
-//    MyUser recentUser() {
-//        return new MyUser();
-//    }
-
     @GetMapping(value = "makeDeposit", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public ResponseEntity<Void> makeDeposit(@RequestParam("amount") String amount, @SessionAttribute MyUser currentUser) {

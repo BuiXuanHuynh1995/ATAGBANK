@@ -11,6 +11,6 @@ public interface IAccountService {
     void addMoneyToAccount(Float amount, Long id);
     void save(Account account);
     void minusMoneyFromAccount(Float amount,Long id) throws TransactionException;
-    void transfer(Long senderAccountID,Long receiverAccountID, Float amount) throws TransactionException;
+    void transfer(Long senderAccountID,Long receiverAccountID, Float amount,String otp) throws TransactionException;
     boolean checkBalance(float amount,Account account);
 }
