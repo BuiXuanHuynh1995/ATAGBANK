@@ -42,6 +42,13 @@ public class UserController {
         return new ModelAndView("personal/profile", "currentUser", currentUser);
     }
 
+    @GetMapping("/checkBalance")
+    public ModelAndView getPersonalBalance(HttpSession session) {
+        MyUser currentUser = getUserFromPrincipal();
+        session.setAttribute("currentUserName", currentUser.getName());
+        return new ModelAndView("personal/accountBalance", "currentUser", currentUser);
+    }
+
     @PostMapping("/profile")
     public ModelAndView updateProfile(@Validated @ModelAttribute("currentUser") MyUser currentUser, BindingResult bindingResult) {
         if (bindingResult.hasFieldErrors()) {

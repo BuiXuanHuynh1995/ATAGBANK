@@ -17,6 +17,9 @@ public class AccountService implements IAccountService {
     @Autowired
     AccountRepository accountRepository;
 
+    @Autowired
+
+
     @Override
     public Iterable<Account> findAll() {
         return accountRepository.findAll();
@@ -65,7 +68,7 @@ public class AccountService implements IAccountService {
     }
     @Override
     @Transactional(propagation = Propagation.REQUIRES_NEW,rollbackFor = TransactionException.class)
-    public void transfer(Long senderAccountID, Long receiverAccountID,Float amount)throws TransactionException{
+    public void transfer(Long senderAccountID, Long receiverAccountID,Float amount,String otp)throws TransactionException{
         minusMoneyFromAccount(amount,senderAccountID);
         addMoneyToAccount(amount,receiverAccountID);
     }
