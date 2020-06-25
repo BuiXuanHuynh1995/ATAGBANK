@@ -94,4 +94,5 @@ public class UserController {
         modelAndView.addObject("message", "The information has been updated!");
         return modelAndView;
     }
+
 }
