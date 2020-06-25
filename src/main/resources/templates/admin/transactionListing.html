@@ -21,7 +21,17 @@
                     <a href="#" id="">Customer Management</a>
                 </li>
                 <li>
-                    <a href="/admin/transactionListing">Transaction Management</a>
+                    <a th:href="@{/admin/makeDeposit}">Make a Deposit</a>
+                </li>
+                <li>
+                    <a href="#">Promotion Management</a>
+                </li>
+                <li>
+                    <a href="#">Advertisement</a>
+                </li>
+                <li>
+                <li>
+                    <a href="#">Employee</a>
                 </li>
             </ul>
 
@@ -64,27 +74,34 @@
                 </div>
             </div>
         </nav>
+
         <div id="profile" style="padding-top: 50px;">
-            <form th:action="@{/admin/makeDeposit}" th:object="${account}" method="post">
-                <th:block th:if="${message}">
-                    <p th:text="${message}"></p>
-                </th:block>
-                <table class="table table-hover">-->
-                    <tr>
-                        <th>Current Account Number</th>
-                        <td><input th:field="*{id}" name="account.id" type="text"></td>
-                    </tr>
-                    <tr>
-                        <th>Charge Amount (VND)</th>
-                        <td><input id="amount" name="amount" type="number"></td>
-                    </tr>
-                    <tr>
-                        <th>
-                            <button type="submit">Confirm</button>
-                        </th>
-                    </tr>
-                </table>
-            </form>
+            <h2 class="mb-4 color-black-opacity-5">Transaction listing</h2>
+            <table class="table table-hover">
+                <thead>
+                <th>Id</th>
+                <th>Partner Account</th>
+                <th>Amount</th>
+                <th>Time</th>
+                <th>Type of Transaction</th>
+                <th>Message</th>
+                </thead>
+                <tbody>
+                <tr th:each="transaction:${transactions}">
+                    <td th:text="${transaction.id}"></td>
+                    <td th:text="${transaction.partnerAccount}"></td>
+                    <td th:text="${transaction.amount}"></td>
+                    <td th:text="${transaction.time}"></td>
+                    <td th:text="${transaction.type}"></td>
+                    <td th:text="${transaction.transactionMessage}"></td>
+                </tr>
+                </tbody>
+            </table>
+            <div th:fragment="pagination">
+                <a th:href="@{'/admin/transactionListing'(page=${transactions.number -1})}" th:if="${transactions.hasPrevious()}" >Previous</a>
+                <span th:text="${transactions.number +1}"></span>/<span th:text="${transactions.totalPages}"></span>
+                <a th:href="@{'/admin/transactionListing'(page=${transactions.number +1})}" th:if="${transactions.hasNext()}" >Next</a>
+            </div>
         </div>
     </div>
 </div>
