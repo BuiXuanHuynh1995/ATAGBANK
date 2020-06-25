@@ -23,6 +23,8 @@ public interface MyUserService extends UserDetailsService {
 
     MyUser findByEmail(String email);
 
+    List<MyUser> findByNameOrAccountOrAndAddressLike(String keyword);
+
     boolean isRegister(MyUser user);
 
     boolean isCorrectConfirmPassword(MyUser user);

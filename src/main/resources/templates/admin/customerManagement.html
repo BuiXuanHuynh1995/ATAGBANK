@@ -77,8 +77,8 @@
             <div>
                 <a class="btn btn-outline-dark" th:href="@{/admin/createNewCustomer}" style="float: left">New Customer</a>
                 <div style="float:right;">
-                    <form action="" id="managementSearch">
-                        <input type="text" name="content">
+                    <form th:action="@{/admin/searchUser}" id="managementSearch">
+                        <input type="text" name="keyword">
                         <input type="submit" value="Search">
                     </form>
                 </div>

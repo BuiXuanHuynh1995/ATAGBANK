@@ -24,7 +24,7 @@ import javax.transaction.Transactional;
 import java.util.*;
 
 @Service
-public class MyUserServiceImpl implements MyUserService, UserDetailsService {
+public class MyUserServiceImpl implements MyUserService{
 //    @Autowired
 //    MyUserRepository myUserRepository;
 
@@ -70,6 +70,12 @@ public class MyUserServiceImpl implements MyUserService, UserDetailsService {
     public MyUser findByEmail(String email) {
         return myUserRepository.findByEmail(email);
     }
+
+    @Override
+    public List<MyUser> findByNameOrAccountOrAndAddressLike(String keyword) {
+        return findByNameOrAccountOrAndAddressLike("%"+keyword+"%");
+    }
+
 
     @Override
     public boolean isRegister(MyUser user) {
