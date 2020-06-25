@@ -18,20 +18,10 @@
                    th:style="'background-image:url(' + @{/personal/images/admin.jpg} + ');  width:180px; height:180px'"></a>
                 <ul class="list-unstyled components mb-5" th:fragment="adminLeftSideBar">
                     <li class="active">
-                        <a href="#" id="">Customer Management</a>
+                        <a href="/admin/customerManagement" id="">Customer Management</a>
                     </li>
                     <li>
-                        <a th:href="@{/admin/makeDeposit}">Make a Deposit</a>
-                    </li>
-                    <li>
-                        <a href="#">Promotion Management</a>
-                    </li>
-                    <li>
-                        <a href="#">Advertisement</a>
-                    </li>
-                    <li>
-                    <li>
-                        <a href="#">Employee</a>
+                        <a href="/admin/transactionListing">Transaction Management</a>
                     </li>
                 </ul>
 
