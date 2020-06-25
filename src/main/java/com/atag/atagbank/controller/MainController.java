@@ -248,4 +248,14 @@ public class MainController {
     public ModelAndView showAccessDeniedPage() {
         return new ModelAndView("error", "message", "You don't have access to go to this page");
     }
+
+    @GetMapping("/reactivated")
+    public ModelAndView showReactiveForm(){
+        return new ModelAndView("reactivatedForm");
+    }
+
+//    @GetMapping("/reactivated")
+//    public ModelAndView showReactiveForm(){
+//        return new ModelAndView("reactivatedForm");
+//    }
 }

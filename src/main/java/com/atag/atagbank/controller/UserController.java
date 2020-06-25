@@ -5,6 +5,7 @@ import com.atag.atagbank.model.Role;
 import com.atag.atagbank.service.account.IAccountService;
 import com.atag.atagbank.service.user.MyUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -100,5 +101,13 @@ public class UserController {
         modelAndView.addObject("currentUser", currentUser);
         modelAndView.addObject("message", "The information has been updated!");
         return modelAndView;
+    }
+
+    @GetMapping("/deactivated/{id}")
+    public String deactivateAccount(@PathVariable Long id ){
+        MyUser user = myUserService.findById(id);
+        user.setEnabled(false);
+        myUserService.save(user);
+        return "redirect:/logout";
     }
 }

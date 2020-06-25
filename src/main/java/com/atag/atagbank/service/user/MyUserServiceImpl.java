@@ -134,10 +134,11 @@ public class MyUserServiceImpl implements MyUserService {
             myUser = new MyUser();
             myUser.setUsername(username);
             myUser.setPassword("");
-
-            myUser.setRole(new Role(2L,"ROLE_USER"));
-
             myUser.setRole(new Role(2L, "ROLE_USER"));
+        }
+
+        if (!myUser.isEnabled()){
+            return null;
         }
 
         List<GrantedAuthority> authors = new ArrayList<>();
