@@ -80,12 +80,14 @@
 <head >
 </head>
 <body>
-<form th:action="@{/admin/makeDeposit}" th:object="${user}">
-    <input type="hidden" th:field="*{id}">
+<form th:action="@{/admin/makeDeposit}" th:object="${account}" method="post">
+    <th:block th:if="${message}">
+        <p th:text="${message}"></p>
+    </th:block>
     <table class="table table-hover">-->
         <tr>
             <th>Current Account Number</th>
-            <td><input th:field="*{getAccount().id}" name="account.id" type="text"></td>
+            <td><input th:field="*{id}" name="account.id" type="text"></td>
         </tr>
         <tr>
             <th>Charge Amount (VND)</th>
