@@ -254,8 +254,14 @@ public class MainController {
         return new ModelAndView("reactivatedForm");
     }
 
-//    @GetMapping("/reactivated")
-//    public ModelAndView showReactiveForm(){
-//        return new ModelAndView("reactivatedForm");
-//    }
+    @PostMapping("/reactivated")
+    public ModelAndView reactiveForm(@RequestParam("username") String username){
+        MyUser user = myUserService.findByUserName(username);
+        if (user==null){
+            return new ModelAndView("reactivatedForm","noHaveAccount","Not Found Username");
+        }
+        user.setEnabled(true);
+        myUserService.save(user);
+        return new ModelAndView("reactivatedForm","success","Successfully!");
+    }
 }

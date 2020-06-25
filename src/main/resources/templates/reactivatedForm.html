@@ -14,6 +14,8 @@
         <!-- <img class="profile-img-card" src="//lh3.googleusercontent.com/-6V8xOA6M7BA/AAAAAAAAAAI/AAAAAAAAAAA/rzlHcD0KYwo/photo.jpg?sz=120" alt="" /> -->
         <img id="profile-img" class="profile-img-card" src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" />
         <p id="profile-name" class="profile-name-card"></p>
+        <p th:if="${noHaveAccount!=null}" th:text="${noHaveAccount}"></p>
+        <p th:if="${success!=null}" th:text="${success}"></p>
         <a class="btn btn-outline-dark" th:href="@{/}">Back To Home Page</a>
         <form class="form-signin" method="post" th:action="@{/reactivated}">
             <span id="reauth-email" class="reauth-email"></span>
