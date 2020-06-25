@@ -2,11 +2,12 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml"
   xmlns:th="http://www.thymeleaf.org"> 
 	<head>
-		<title>Registration Success</title>
+		<title>403 : FORBIDDEN</title>
 	</head>
 	<body>
 		<center>
-			<span th:text="${message}"></span>
+			<h1 th:text="${message}"></h1>
+			<h2>Please <span><a th:href="@{/}">back to Home Page</a></span> and select other one</h2>
 		</center>
 	</body>
 </html>

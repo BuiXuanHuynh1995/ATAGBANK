@@ -42,12 +42,12 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
 //            .passwordEncoder(NoOpPasswordEncoder.getInstance());
 
     }
-//
+
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-//
+
     @Bean
     public DaoAuthenticationProvider authenticationProvider(){
         DaoAuthenticationProvider auth = new DaoAuthenticationProvider();
@@ -70,7 +70,8 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .formLogin().loginPage("/login")
                 .and()
-                .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"));
+                .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+        .and().exceptionHandling().accessDeniedPage("/accessDenied");
     }
 
 }
