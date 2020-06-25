@@ -1,19 +1,13 @@
 package com.atag.atagbank.controller;
 
-import com.atag.atagbank.model.Account;
-import com.atag.atagbank.model.ConfirmationToken;
-import com.atag.atagbank.model.MyUser;
+import com.atag.atagbank.model.*;
 import com.atag.atagbank.service.EmailSenderService;
 import com.atag.atagbank.service.account.IAccountService;
 import com.atag.atagbank.service.confirmationToken.IConfirmationTokenService;
-import com.atag.atagbank.model.Role;
 import com.atag.atagbank.service.role.IRoleService;
 import com.atag.atagbank.service.user.MyUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -23,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.Random;
+import java.util.UUID;
 
 @Controller
 @SessionAttributes("currentUser")
@@ -32,6 +27,7 @@ public class MainController {
     public MyUser getCurrentUser() {
         return new MyUser();
     }
+
     @Autowired
     private PasswordEncoder passwordEncoder;
 
@@ -158,6 +154,78 @@ public class MainController {
             modelAndView.setViewName("error");
         }
 
+        return modelAndView;
+    }
+
+    @GetMapping("/forgotPassword")
+    public ModelAndView forgotPasswordForm() {
+        ModelAndView modelAndView = new ModelAndView("forgotPassword");
+        modelAndView.addObject("passwordForgot", new PasswordForgot());
+        return modelAndView;
+    }
+
+    @PostMapping("/forgotPassword")
+    public ModelAndView forgotPassword(@Valid @ModelAttribute PasswordForgot passwordForgot, BindingResult bindingResult) {
+        if (bindingResult.hasFieldErrors()) {
+            return new ModelAndView("forgotPassword");
+        }
+        MyUser user = myUserService.findByEmail(passwordForgot.getEmail());
+        if (user == null) {
+            ModelAndView modelAndView = new ModelAndView("forgotPassword");
+            modelAndView.addObject("message", "your email isn't exist");
+            return modelAndView;
+        }
+        ModelAndView modelAndView = new ModelAndView("newPassword");
+        modelAndView.addObject("passwordForgot", passwordForgot);
+        ConfirmationToken token = new ConfirmationToken(user);
+        token.setConfirmationToken(UUID.randomUUID().toString());
+        token.setExpiryDate(1);
+        confirmationTokenService.save(token);
+        SimpleMailMessage mailMessage = new SimpleMailMessage();
+        mailMessage.setTo(user.getEmail());
+        mailMessage.setSubject("You've successfully requested a new password reset!");
+        mailMessage.setText("To change you password, please click here : "
+                + "http://localhost:8080/newPassword/" + user.getId()
+                + "?token=" + token.getConfirmationToken());
+
+        emailSenderService.sendEmail(mailMessage);
+        return modelAndView;
+    }
+
+    @GetMapping("/newPassword/{id}")
+    public ModelAndView showEditForm(@PathVariable Long id, @RequestParam("token") String confirmationToken) {
+        ConfirmationToken token = confirmationTokenService.findByConfirmationToken(confirmationToken);
+        if (token != null) {
+            boolean isExpired = token.isExpired();
+            if (!isExpired) {
+                MyUser user = myUserService.findById(id);
+                if (user != null) {
+                    ModelAndView modelAndView = new ModelAndView("newPassword");
+                    modelAndView.addObject("user", user);
+                    return modelAndView;
+                }
+            }
+        } else {
+            ModelAndView modelAndView = new ModelAndView("error");
+            modelAndView.addObject("message", "The link is invalid or broken!");
+            return modelAndView;
+        }
+        return new ModelAndView("error");
+    }
+
+    @RequestMapping(value = "/newPassword",method = {RequestMethod.GET, RequestMethod.POST})
+    public ModelAndView editUser(@ModelAttribute MyUser user) {
+        ModelAndView modelAndView = new ModelAndView("newPassword");
+        if (!myUserService.isCorrectConfirmPassword(user)) {
+            modelAndView.addObject("message", "Your confirm password is incorrect");
+        } else {
+            String newPassword = passwordEncoder.encode(user.getPassword());
+            user = myUserService.findById(user.getId());
+            user.setPassword(newPassword);
+            myUserService.save(user);
+            modelAndView.addObject("user", user);
+            modelAndView.addObject("message", "Your password is changed");
+        }
         return modelAndView;
     }
 }
