@@ -4,6 +4,7 @@ import com.atag.atagbank.model.Account;
 import com.atag.atagbank.model.MyUser;
 import com.atag.atagbank.model.Transaction;
 import com.atag.atagbank.service.account.IAccountService;
+import com.atag.atagbank.service.exception.TransactionException;
 import com.atag.atagbank.service.transaction.ITransactionService;
 import com.atag.atagbank.service.user.MyUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,10 +13,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
+import javax.transaction.TransactionalException;
+import javax.validation.Valid;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
@@ -38,9 +42,10 @@ public class TransactionController {
     }
 
     @GetMapping("/OTPPage")
-    public String getOPTPage(){
+    public String getOPTPage() {
         return "transaction/OTPPage";
     }
+
     @GetMapping("/listing")
     ModelAndView getAllTransaction(@PageableDefault(sort = "time", direction = Sort.Direction.DESC) Pageable pageable, HttpSession session) {
         Page<Transaction> transactions;
@@ -60,9 +65,12 @@ public class TransactionController {
     }
 
     @PostMapping("/create")
-    ModelAndView createTransaction(@ModelAttribute("transaction") Transaction transaction, HttpSession session) {
+    ModelAndView createTransaction(@Valid @ModelAttribute("transaction") Transaction transaction,BindingResult bindingResult,  HttpSession session) {
         ModelAndView modelAndView = new ModelAndView("transaction/create");
-        if(iAccountService.checkBalance(transaction.getAmount(),transaction.getAccount())){
+        if (bindingResult.hasFieldErrors()) {
+            modelAndView.addObject("errorMessage", "Amount must be positive number!");
+            return modelAndView;
+        } else {
             String senderName = (String) session.getAttribute("currentUserName");
             MyUser senderAccount = myUserService.findByName(senderName);
             String receiverName = String.valueOf(transaction.getAccount().getId());
@@ -70,25 +78,31 @@ public class TransactionController {
             transaction.setType("CREDIT");
             transaction.setPartnerAccount(String.valueOf(senderAccount.getAccount().getId()));
             transaction.setTime(new Timestamp(System.currentTimeMillis()));
-            iTransactionService.save(transaction);
             //Sender scope
-            Transaction syncTransaction = new Transaction();
-            syncTransaction.setTime(new Timestamp(System.currentTimeMillis()));
-            syncTransaction.setAmount(transaction.getAmount());
-            syncTransaction.setType("DEBIT");
-            syncTransaction.setAccount(senderAccount.getAccount());
-            syncTransaction.setTransactionMessage(transaction.getTransactionMessage());
-            syncTransaction.setPartnerAccount(receiverName);
+            Transaction syncTransaction = getSyncTransaction(transaction, senderAccount, receiverName);
+            try {
+                iAccountService.transfer(senderAccount.getAccount().getId(), transaction.getAccount().getId(), transaction.getAmount());
+            } catch (TransactionException transactionException) {
+                modelAndView.addObject("errorMessage", transactionException.getMessage());
+                return modelAndView;
+            }
             iTransactionService.save(syncTransaction);
-
-            iAccountService.addMoneyToAccount(transaction.getAmount(), transaction.getAccount().getId());
-            iAccountService.minusMoneyFromAccount(transaction.getAmount(), senderAccount.getAccount().getId());
+            iTransactionService.save(transaction);
             modelAndView.addObject("transaction", new Transaction());
             modelAndView.addObject("message", "Send successfully");
-        }else {
-            modelAndView.addObject("transaction", new Transaction());
-            modelAndView.addObject("message", "Your balance is not enough to make this transaction!");
+            return modelAndView;
         }
-        return modelAndView;
+
+    }
+
+    private Transaction getSyncTransaction(@ModelAttribute("transaction") @Valid Transaction transaction, MyUser senderAccount, String receiverName) {
+        Transaction syncTransaction = new Transaction();
+        syncTransaction.setTime(new Timestamp(System.currentTimeMillis()));
+        syncTransaction.setAmount(transaction.getAmount());
+        syncTransaction.setType("DEBIT");
+        syncTransaction.setAccount(senderAccount.getAccount());
+        syncTransaction.setTransactionMessage(transaction.getTransactionMessage());
+        syncTransaction.setPartnerAccount(receiverName);
+        return syncTransaction;
     }
 }
