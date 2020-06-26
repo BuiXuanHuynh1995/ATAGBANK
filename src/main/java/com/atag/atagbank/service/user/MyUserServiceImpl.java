@@ -90,8 +90,8 @@ public class MyUserServiceImpl implements MyUserService {
     }
 
     @Override
-    public List<MyUser> findByNameOrAddressOrRole_RoleLike(String keyword) {
-        return myUserRepository.findByNameOrAddressOrRole_RoleLike("%"+keyword+"%");
+    public List<MyUser> findByNameOrUsernameOrAddressOrRole_RoleLike(String keyword) {
+        return myUserRepository.findByNameOrUsernameOrAddressOrRole_RoleLike("%"+keyword+"%");
     }
 
     @Override
@@ -134,10 +134,11 @@ public class MyUserServiceImpl implements MyUserService {
             myUser = new MyUser();
             myUser.setUsername(username);
             myUser.setPassword("");
-
-            myUser.setRole(new Role(2L,"ROLE_USER"));
-
             myUser.setRole(new Role(2L, "ROLE_USER"));
+        }
+
+        if (!myUser.isEnabled()){
+            return null;
         }
 
         List<GrantedAuthority> authors = new ArrayList<>();

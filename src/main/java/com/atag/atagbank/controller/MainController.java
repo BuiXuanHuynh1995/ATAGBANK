@@ -8,6 +8,8 @@ import com.atag.atagbank.service.role.IRoleService;
 import com.atag.atagbank.service.user.MyUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -46,8 +48,21 @@ public class MainController {
     private IConfirmationTokenService confirmationTokenService;
 
     @GetMapping("/")
-    public ModelAndView getHomePage() {
+    public ModelAndView getHomePage(HttpSession session) {
+        MyUser currentUser = getUserFromPrincipal();
+        if (currentUser != null) {
+            session.setAttribute("currentUserName", currentUser.getName() + "-" + currentUser.getRole().getRole());
+        }
         return new ModelAndView("index");
+    }
+
+    private MyUser getUserFromPrincipal() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal != "anonymousUser") {
+            String username = ((UserDetails) principal).getUsername();
+            return myUserService.findByUserName(username);
+        }
+        return null;
     }
 
     @GetMapping("/login")
@@ -57,7 +72,7 @@ public class MainController {
         return modelAndView;
     }
 
-   @PostMapping("/login")
+    @PostMapping("/login")
     public ModelAndView login(@ModelAttribute MyUser currentUser, HttpSession session) {
         MyUser loginUser = myUserService.findByUserName(currentUser.getUsername());
         if (loginUser != null && currentUser.getPassword().equals(loginUser.getPassword())) {
@@ -74,8 +89,8 @@ public class MainController {
         return new ModelAndView("login", "notFound", "Wrong username or password!");
     }
 
-    @RequestMapping(value="/registration", method = RequestMethod.GET)
-    public ModelAndView registration(){
+    @RequestMapping(value = "/registration", method = RequestMethod.GET)
+    public ModelAndView registration() {
         ModelAndView modelAndView = new ModelAndView();
         MyUser user = new MyUser();
         modelAndView.addObject("user", user);
@@ -131,26 +146,25 @@ public class MainController {
         }
     }
 
-    @RequestMapping(value="/confirm-account", method= {RequestMethod.GET})
-    public ModelAndView confirmUserAccount(ModelAndView modelAndView, @RequestParam("token")String confirmationToken)
-    {
+    @RequestMapping(value = "/confirm-account", method = {RequestMethod.GET})
+    public ModelAndView confirmUserAccount(ModelAndView modelAndView, @RequestParam("token") String confirmationToken) {
         ConfirmationToken token = confirmationTokenService.findByConfirmationToken(confirmationToken);
-        if(token != null)
-        {
+
+        if(token != null){
             MyUser user = token.getUser();
             user.setEnabled(true);
             Account account = new Account();
             Random random = new Random();
             Long accountId = Long.valueOf(100000 + random.nextInt(900000));
+            float balane = 50000;
             account.setId(accountId);
+            account.setBalance(balane);
             accountService.save(account);
             user.setAccount(account);
             myUserService.save(user);
             modelAndView.setViewName("accountVerified");
-        }
-        else
-        {
-            modelAndView.addObject("message","The link is invalid or broken!");
+        } else {
+            modelAndView.addObject("message", "The link is invalid or broken!");
             modelAndView.setViewName("error");
         }
 
@@ -234,5 +248,26 @@ public class MainController {
             modelAndView.addObject("message", "Your password is changed");
         }
         return modelAndView;
+    }
+
+    @GetMapping("/accessDenied")
+    public ModelAndView showAccessDeniedPage() {
+        return new ModelAndView("error", "message", "You don't have access to go to this page");
+    }
+
+    @GetMapping("/reactivated")
+    public ModelAndView showReactiveForm(){
+        return new ModelAndView("reactivatedForm");
+    }
+
+    @PostMapping("/reactivated")
+    public ModelAndView reactiveForm(@RequestParam("username") String username){
+        MyUser user = myUserService.findByUserName(username);
+        if (user==null){
+            return new ModelAndView("reactivatedForm","noHaveAccount","Not Found Username");
+        }
+        user.setEnabled(true);
+        myUserService.save(user);
+        return new ModelAndView("reactivatedForm","success","Successfully!");
     }
 }

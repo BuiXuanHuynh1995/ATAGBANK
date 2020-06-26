@@ -21,23 +21,16 @@
                     <table class="table table-hover">
                         <tr>
                             <th style="width: 250px">Account Number</th>
-                            <td colspan="4" style="width: 750px"><input style="width: 750px; border: 1px lightgray solid" type="text" disabled></td>
+                            <td colspan="4" style="width: 750px" th:text="${currentUser.getAccount().getId()}"></td>
                         </tr>
                         <tr>
-                            <th>Available balance</th>
-                            <td colspan="4" style="width: 750px"><input style="width: 750px; border: 1px lightgray solid" type="password"></td>
+                            <th>Available balance (USD)</th>
+                            <td colspan="4" style="width: 750px" th:text="${currentUser.getAccount().getBalance()}"></td>
                         </tr>
                         <tr>
                             <th></th>
                         </tr>
-                        <tr>
-                            <th><i>Transaction History</i></th>
-                            <th>From &nbsp;&nbsp;<input type="date"></th>
-                            <th>To &nbsp;&nbsp;<input type="date"></th>
-                            <td><input type="submit" value="View"></td>
-                        </tr>
                     </table>
-                    <div id="transactionHistoryResult">ket qua</div>
                 </form>
             </div>
         </div>

@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>ATAGBANK-Admin</title>
+    <title>ATAGBANK</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -16,10 +16,9 @@
         <div class="p-4 pt-5">
             <a href="#" class="img logo rounded-0 mb-5"
                th:style="'background-image:url(' + @{/personal/images/admin.jpg} + ');  width:180px; height:180px'"></a>
-            <ul class="list-unstyled components mb-5" th:fragment="adminLeftSideBar">
+            <ul class="list-unstyled components mb-5" th:replace="admin/customerManagement :: adminLeftSideBar">
                 <li class="active">
-
-                    <a href="/admin/customerManagement" id="">Customer Management</a>
+                    <a href="#" id="">Customer Management</a>
                 </li>
                 <li>
                     <a href="/admin/transactionListing">Transaction Management</a>
@@ -46,7 +45,6 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="nav navbar-nav ml-auto">
                         <li class="nav-item active">
-
                             <a class="nav-link" th:href="@{/}">Home</a>
                         </li>
 
@@ -60,59 +58,34 @@
                             <span class="nav-link">|</span>
                         </li>
                         <li class="nav-item">
-
                             <a class="nav-link" th:href="@{/logout}"><b>Logout</b></a>
                         </li>
                     </ul>
                 </div>
             </div>
         </nav>
-
         <div id="profile" style="padding-top: 50px;">
-            <h2 class="mb-4 color-black-opacity-5">Customer List</h2>
-            <div>
-                <a class="btn btn-outline-dark" th:href="@{/admin/createNewCustomer}" style="float: left">New
-                    Customer</a>
-
-                <div style="float:right;">
-                    <form th:action="@{/admin/searchUser}" id="managementSearch">
-                        <input type="text" name="keyword">
-                        <input type="submit" value="Search">
-                        <br>
-                        <p th:if="${message!=null}" th:text="${message}"></p>
-                    </form>
-                </div>
-            </div>
-            <form th:object="${userList}">
+            <form th:action="@{/admin/makeDeposit}" th:object="${account}" method="post">
+                <th:block th:if="${message}">
+                    <p th:text="${message}"></p>
+                </th:block>
                 <table class="table table-hover">
                     <tr>
-                        <th>ID</th>
-                        <th>User Name</th>
-                        <th>Role</th>
-                        <th>Account No.</th>
-                        <th>Account Balance</th>
-                        <th>Status</th>
-                        <th colspan="3">Action</th>
+                        <th>Current Account Number</th>
+                        <td><input th:field="*{id}" name="account.id" type="text"></td>
                     </tr>
-                    <th:block th:each="user:${userList}">
-                        <tr>
-                            <td th:text="${user.id}"></td>
-                            <td th:text="${user.username}"></td>
-                            <td th:text="${user.role.role}"></td>
-                            <td th:text="${user.account.id}"></td>
-                            <td th:text="${user.account.balance}"></td>
-                            <td>
-                                <a th:if="${user.enabled}==true" th:href="@{/admin/deactive/__${user.id}__}" class="customerStatus" th:text="Activated"></a>
-                                <a th:if="${user.enabled}==false" th:href="@{/admin/active/__${user.id}__}" class="customerStatus" th:text="Deactivated"></a>
-                            </td><!-- ấn vào trạng thái, json setHTML của status lại sang deactivated -->
-                            <td><a th:href="@{/admin/user-update/__${user.id}__}"><i class="fa fa-edit" style="font-size: 20px; color: #1c7430"></i></a></td>
-                            <td><a th:href="@{/admin/viewCustomerDetail__${user.id}__}"><i class="fa fa-book" style="font-size: 20px; color: orange"></i></a></td>
-                            <td><a th:href="@{/admin/makeDeposit/__${user.id}__}"><i class="fa fa-money" style="font-size: 20px; color: red"></i></a></td>
-                            <td><a th:href="@{/admin/listingTransactionByUserID__${user.id}__}"><i class="fa fa-bar-chart" style="font-size: 20px; color: brown"></i></a></td>
-                        </tr>
-                    </th:block>
+                    <tr>
+                        <th>Charge Amount (VND)</th>
+                        <td><input id="amount" name="amount" type="number"></td>
+                    </tr>
+                    <tr>
+                        <th>
+                            <button type="submit">Confirm</button>
+                        </th>
+                    </tr>
                 </table>
             </form>
+            <a class="btn btn-outline-dark" th:href="@{/admin/customerManagement}" style="float: left">Back To Listing</a>
         </div>
     </div>
 </div>
