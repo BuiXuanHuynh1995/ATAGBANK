@@ -46,9 +46,9 @@ public class MyUserServiceImpl implements MyUserService {
         return "";
     }
 
-    private MyUserRepository myUserRepository;
-    private RoleRepository roleRepository;
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
+    MyUserRepository myUserRepository;
+    RoleRepository roleRepository;
+    BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
     public MyUserServiceImpl(MyUserRepository myUserRepository,

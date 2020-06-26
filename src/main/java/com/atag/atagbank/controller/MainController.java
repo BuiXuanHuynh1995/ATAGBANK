@@ -31,7 +31,7 @@ public class MainController {
     }
 
     @Autowired
-    private PasswordEncoder passwordEncoder;
+    PasswordEncoder passwordEncoder;
 
     @Autowired
     private IRoleService roleService;

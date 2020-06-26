@@ -28,7 +28,7 @@ public class UserController {
     MyUserService myUserService;
 
     @Autowired
-    private PasswordEncoder passwordEncoder;
+    PasswordEncoder passwordEncoder;
 
 
     @GetMapping("/profile")
