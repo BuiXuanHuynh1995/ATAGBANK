@@ -63,7 +63,7 @@
             <div>
                 <a class="btn btn-outline-dark" th:href="@{/admin/customerManagement}" style="float: left">Back To List</a>
             </div>
-            <form action="#" th:action="@{/admin/user-update}" method="post" th:object="${user}">
+            <form action="#" th:action="@{/admin/user-update}" method="post" th:object="${user}" id="editForm">
                 <input type="hidden" name="id" th:field="*{id}">
                 <input type="hidden" name="id" th:field="*{password}">
                 <input type="hidden" name="id" th:field="*{confirmPassword}">

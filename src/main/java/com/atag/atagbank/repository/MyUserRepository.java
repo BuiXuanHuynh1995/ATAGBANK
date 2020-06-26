@@ -13,6 +13,7 @@ public interface MyUserRepository extends PagingAndSortingRepository<MyUser, Lon
     MyUser findByEmail(String email);
     @Query("select u from MyUser u where u.name like %?1%"
             + "or u.address like %?1%"
-    +"or u.role.role like %?1%")
-    List<MyUser> findByNameOrAddressOrRole_RoleLike(String keyword);
+    +"or u.role.role like %?1%"
+    +"or u.username like %?1%")
+    List<MyUser> findByNameOrUsernameOrAddressOrRole_RoleLike(String keyword);
 }
