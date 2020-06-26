@@ -18,6 +18,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -43,6 +44,9 @@ public class AdminController {
 
     @Autowired
     IRoleService roleService;
+
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
     IAccountService accountService;
@@ -107,10 +111,12 @@ public class AdminController {
         String accountNumber = new SimpleDateFormat("yyyyMMddHHmmss", Locale.ENGLISH).format(now);
 
         account.setId(Long.parseLong(accountNumber));
-        account.setBalance(0F);
+        account.setBalance(50000F);
 
         user.setAccount(account);
         accountService.save(account);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setConfirmPassword(passwordEncoder.encode(user.getConfirmPassword()));
         myUserService.save(user);
 
         ModelAndView modelAndView = new ModelAndView("admin/createCustomer");
