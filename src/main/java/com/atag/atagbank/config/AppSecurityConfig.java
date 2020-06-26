@@ -29,7 +29,7 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
     BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
-    private MyUserService userService;
+    MyUserService userService;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
