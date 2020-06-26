@@ -25,25 +25,16 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @Configuration
 public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
 
-//    @Autowired
-//    private BCryptPasswordEncoder bCryptPasswordEncoder;
-
     @Autowired
-    private PasswordEncoder passwordEncoder;
-
-//    @Autowired
-//    private MyUserDetailsService userDetailsService;
+    BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
     private MyUserService userService;
 
-
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService((UserDetailsService) userService)
-            .passwordEncoder(passwordEncoder);
-//            .passwordEncoder(NoOpPasswordEncoder.getInstance());
-
+                .passwordEncoder(bCryptPasswordEncoder);
     }
 
     @Bean
@@ -52,7 +43,7 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public DaoAuthenticationProvider authenticationProvider(){
+    public DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider auth = new DaoAuthenticationProvider();
         auth.setUserDetailsService(userService);
         auth.setPasswordEncoder(passwordEncoder());
@@ -74,8 +65,7 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin().loginPage("/login")
                 .and()
                 .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-        .and().exceptionHandling().accessDeniedPage("/accessDenied");
+                .and().exceptionHandling().accessDeniedPage("/accessDenied");
     }
-
 }
 

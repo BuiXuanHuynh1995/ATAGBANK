@@ -38,11 +38,9 @@ import java.util.Set;
 @Service
 @SessionAttributes("username")
 public class MyUserServiceImpl implements MyUserService {
-//    @Autowired
-//    MyUserRepository myUserRepository;
 
     @ModelAttribute("username")
-    String getUsername(){
+    String getUsername() {
         return "";
     }
 
@@ -91,7 +89,7 @@ public class MyUserServiceImpl implements MyUserService {
 
     @Override
     public List<MyUser> findByNameOrUsernameOrAddressOrRole_RoleLike(String keyword) {
-        return myUserRepository.findByNameOrUsernameOrAddressOrRole_RoleLike("%"+keyword+"%");
+        return myUserRepository.findByNameOrUsernameOrAddressOrRole_RoleLike("%" + keyword + "%");
     }
 
     @Override
@@ -137,7 +135,7 @@ public class MyUserServiceImpl implements MyUserService {
             myUser.setRole(new Role(2L, "ROLE_USER"));
         }
 
-        if (!myUser.isEnabled()){
+        if (!myUser.isEnabled()) {
             return null;
         }
 
@@ -146,46 +144,5 @@ public class MyUserServiceImpl implements MyUserService {
 
         return new User(myUser.getUsername(), myUser.getPassword(), authors);
     }
-
-
-
-//    @Override
-//    @Transactional
-//    public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
-//        MyUser user = myUserRepository.findByName(userName);
-//        List<GrantedAuthority> authorities = getUserAuthority((Set<Role>) user.getRole());
-//        return buildUserForAuthentication(user, authorities);
-//    }
-//
-//    private List<GrantedAuthority> getUserAuthority(Set<Role> userRoles) {
-//        Set<GrantedAuthority> roles = new HashSet<GrantedAuthority>();
-//        for (Role role : userRoles) {
-//            roles.add(new SimpleGrantedAuthority(role.getRole()));
-//        }
-//        List<GrantedAuthority> authors = new ArrayList<>();
-//        authors.add(new SimpleGrantedAuthority(myUser.getRole().getRole()));
-//        return new User(myUser.getUsername(), myUser.getPassword(), authors);
 }
-  
-//    @Override
-//    @Transactional
-//    public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
-//        MyUser user = myUserRepository.findByName(userName);
-//        List<GrantedAuthority> authorities = getUserAuthority((Set<Role>) user.getRole());
-//        return buildUserForAuthentication(user, authorities);
-//    }
-//
-//    private List<GrantedAuthority> getUserAuthority(Set<Role> userRoles) {
-//        Set<GrantedAuthority> roles = new HashSet<GrantedAuthority>();
-//        for (Role role : userRoles) {
-//            roles.add(new SimpleGrantedAuthority(role.getRole()));
-//        }
-//        List<GrantedAuthority> grantedAuthorities = new ArrayList<>(roles);
-//        return grantedAuthorities;
-//    }
-//
-//    private UserDetails buildUserForAuthentication(MyUser user, List<GrantedAuthority> authorities) {
-//        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(),
-//                user.isEnabled(), true, true, true, authorities);
-//    }
 
