@@ -23,7 +23,7 @@ public interface MyUserService extends UserDetailsService {
 
     MyUser findByEmail(String email);
 
-    List<MyUser> findByNameOrAddressOrRole_RoleLike(String keyword);
+    List<MyUser> findByNameOrUsernameOrAddressOrRole_RoleLike(String keyword);
 
     boolean isRegister(MyUser user);
 

@@ -228,14 +228,17 @@ public class MainController {
         return new ModelAndView("error");
     }
 
-    @RequestMapping(value = "/newPassword", method = {RequestMethod.GET, RequestMethod.POST})
-    public ModelAndView editUser(@ModelAttribute MyUser user) {
+    @RequestMapping(value = "/newPassword",method = {RequestMethod.GET, RequestMethod.POST})
+    public ModelAndView editUser(@ModelAttribute MyUser user,BindingResult bindingResult) {
+        ConfirmationToken token = new ConfirmationToken(user);
         ModelAndView modelAndView = new ModelAndView("newPassword");
-        if (user.getPassword().length() < 6) {
-            modelAndView.addObject("message", "Passowrd length must be between 6 and 15");
+        if (user.getPassword().length()<6){
+            modelAndView.addObject("message","Password length must be between 6 and 15");
+            return modelAndView;
         }
         if (!myUserService.isCorrectConfirmPassword(user)) {
             modelAndView.addObject("message", "Your confirm password is incorrect");
+            return modelAndView;
         } else {
             String newPassword = passwordEncoder.encode(user.getPassword());
             user = myUserService.findById(user.getId());
