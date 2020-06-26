@@ -178,4 +178,26 @@ public class AdminController {
         modelAndView.addObject("customer", currentUser);
         return modelAndView;
     }
+
+    @GetMapping("/admin/deactive/{id}")
+    public ModelAndView deactiveUser(@PathVariable Long id,@PageableDefault(10) Pageable pageable){
+        MyUser user = myUserService.findById(id);
+        user.setEnabled(false);
+        myUserService.save(user);
+        Page<MyUser> userList = myUserService.findAll(pageable);
+        ModelAndView modelAndView = new ModelAndView("admin/customerManagement");
+        modelAndView.addObject("userList",userList);
+        return modelAndView;
+    }
+
+    @GetMapping("/admin/active/{id}")
+    public ModelAndView activeUser(@PathVariable Long id,@PageableDefault(10) Pageable pageable){
+        MyUser user = myUserService.findById(id);
+        user.setEnabled(true);
+        myUserService.save(user);
+        Page<MyUser> userList = myUserService.findAll(pageable);
+        ModelAndView modelAndView = new ModelAndView("admin/customerManagement");
+        modelAndView.addObject("userList",userList);
+        return modelAndView;
+    }
 }
